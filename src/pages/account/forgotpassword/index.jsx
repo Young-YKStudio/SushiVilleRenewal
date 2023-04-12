@@ -42,11 +42,11 @@ const ForgotPassword = () => {
   }
 
   return (
-    <section className='w-screen h-screen bg-indigo-100 flex items-center justify-center text-indigo-900'>
+    <section className='w-screen h-screen bg-yellow-500 flex items-center justify-center text-lime-800'>
       { success ?
         <div className='w-96 p-8 rounded-lg bg-white/40 shadow-lg flex flex-col'>
 
-          <div className='flex justify-center border-b border-indigo-300 pb-4 mb-4'>
+          <div className='flex justify-center border-b border-lime-800 pb-4 mb-4'>
             <h1 className='font-bold text-2xl'>Password Reset</h1>
           </div>
 
@@ -70,7 +70,7 @@ const ForgotPassword = () => {
 
           <div className='flex flex-col items-center'>
             <button 
-              className='bg-indigo-500 text-white rounded-md hover:bg-indigo-700 py-2 w-full'
+              className='bg-lime-800 text-white rounded-md hover:bg-lime-600 py-2 w-full'
               onClick={() => redirectTo('/account/login')}
             >
               Go Back
@@ -80,7 +80,7 @@ const ForgotPassword = () => {
         </div>
       :
         <div className='w-96 p-8 rounded-lg bg-white/40 shadow-lg flex flex-col'>
-          <div className='flex justify-center border-b border-indigo-300 pb-4 mb-4'>
+          <div className='flex justify-center border-b border-lime-800 pb-4 mb-4'>
             <h1 className='font-bold text-2xl'>Password Reset</h1>
           </div>
 
@@ -100,8 +100,8 @@ const ForgotPassword = () => {
           </div>
 
           <div className='flex flex-col items-center gap-4'>
-            <button className='bg-indigo-500 text-white rounded-md hover:bg-indigo-700 py-2 w-full' onClick={submitHandler}>Send Email</button>
-            <p className='text-xs'>back to <button onClick={() => redirectTo('/account/login')} className='font-bold hover:text-indigo-500'>login</button></p>
+            <button className='bg-lime-800 text-white rounded-md hover:bg-lime-600 py-2 w-full' onClick={submitHandler}>Send Email</button>
+            <p className='text-xs'>back to <button onClick={() => redirectTo('/account/login')} className='font-bold hover:text-lime-600'>login</button></p>
           </div>
         </div>
       }

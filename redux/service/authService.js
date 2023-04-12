@@ -7,7 +7,7 @@ const checkSession = async (userData) => {
   if(foundaccount.data) {
     let savingData = {
       id: foundaccount.data.user._id,
-      name: foundaccount.data.user.name,
+      name: foundaccount.data.user.username,
       role: foundaccount.data.user.role,
     }
     await localStorage.setItem('userId', savingData.id)

@@ -106,3 +106,37 @@
     transform: rotate(360deg);
   }
 }
+
+.uploadcare--widget__button_type_open {
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  background-color: #312E81;
+  width: 100%;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top: .75em;
+  padding-bottom: .75em;
+  transition: none;
+}
+
+.uploadcare--widget__button_type_open:hover {
+  background-color: #818CF8;
+}
+
+.uploadcare--widget__button_type_open:focus {
+  background-color: #818CF8;
+}
+
+.uploadcare--widget__dragndrop-area {
+  line-height: 3.4;
+  margin-top: -1.8em;
+}
+
+.uploadcare--button_size_big {
+  color: #157CFC;
+}
+
+.uploadcare--preview__done {
+  color: #157CFC
+}

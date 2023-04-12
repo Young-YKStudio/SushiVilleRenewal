@@ -52,14 +52,14 @@ export default async function registerAccount(req, res) {
   const hashedPasword = await bcrypt.hash(password, 12)
 
   try {
-    const userRegister = await new User({
-      name: name,
+    const userRegister = await User.create({
+      username: name,
       email: email,
       password: hashedPasword
     })
 
-    await userRegister.save()
-
+    // await userRegister.save()
+    
     res.status(200).json({
       success: true,
       message: 'User has been registered',

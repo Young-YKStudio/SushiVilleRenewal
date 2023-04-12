@@ -16,9 +16,9 @@ const HorizontalHeader = ({path}) => {
 
   const buttonStyles = (href) => {
     if (path === href) {
-      return 'bg-indigo-400/50 px-4 py-2 rounded-md flex items-center truncate'
+      return 'bg-white/40 px-4 py-2 rounded-md flex items-center truncate'
     } else {
-      return 'hover:bg-indigo-400/50 px-4 py-2 rounded-md flex items-center truncate'
+      return 'hover:bg-white/40 px-4 py-2 rounded-md flex items-center truncate'
     }
   }
 
@@ -28,9 +28,9 @@ const HorizontalHeader = ({path}) => {
 
   const ImageDistributor = (user) => {
     return <div
-      className='w-7 h-7 rounded-full flex justify-center items-center bg-indigo-400 text-white text-md'
+      className='w-7 h-7 rounded-full flex justify-center items-center bg-lime-800 text-white text-md'
     >
-      {user.name.substring(0, 1).toUpperCase()}
+      {user.email.substring(0, 1).toUpperCase()}
     </div>
   }
 
@@ -40,9 +40,9 @@ const HorizontalHeader = ({path}) => {
 
   return (
     <>
-      <nav className="fixed top-0 z-40 bg-indigo-900 w-full text-indigo-100 p-4 flex justify-between">
+      <nav className="fixed top-0 z-40 w-full text-lime-800 p-4 flex justify-between">
         <div className='flex items-center w-full justify-center md:justify-start'>
-          <NextLink href='/' className='font-bold text-2xl'>Logo</NextLink>
+          <NextLink href='/' className='font-bold text-2xl'><img src='https://ucarecdn.com/74efa9c4-1383-4281-97ab-71f436baa2cd/' alt='logo' className='max-w-[8em]' /></NextLink>
         </div>
         {/* full menu */}
         <div className='hidden md:flex flex-row items-center gap-4'>
@@ -55,24 +55,17 @@ const HorizontalHeader = ({path}) => {
               {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
             </NextLink>
           })}
-          <NextLink
-            href='/cart'
-            className='flex items-center gap-2 px-4 py-2 rounded-md hover:bg-indigo-400/50'
-          >
-            <MdShoppingCart className='w-5 h-5'/> Cart {cartItems.length > 0 && <span className='absolute top-[0.85em] ml-[4.5em] px-[8px] py-[3px] bg-red-600/80 rounded-full text-white text-xs'>{cartItems.length}</span>}
-          </NextLink>
           { session ? 
-            <div className='flex flex-row flex-nowrap items-center gap-2 p-2 px-3 hover:bg-indigo-400/50 rounded-md hover:cursor-pointer'
+            <div className='flex flex-row flex-nowrap items-center gap-2 p-2 px-3 hover:bg-white/40 rounded-md hover:cursor-pointer'
               onClick={AccountClickHandler}
             >
               {ImageDistributor(session.user)}
-              <p className='text-md truncate'>{session.user.name}</p>
+              <p className='text-md truncate'>{session.user.email}</p>
             </div>
-            // <RdxLogOutButton1 />
             :
             <NextLink 
               href='/account/login'
-              className="hover:bg-indigo-400/50 px-4 py-2 rounded-md flex items-center"
+              className="hover:bg-white/40 px-4 py-2 rounded-md flex items-center"
             >
               <MdLogin className='mr-2 w-5 h-5' />Login
             </NextLink>
@@ -81,7 +74,7 @@ const HorizontalHeader = ({path}) => {
         {/* hamburger */}
         <div className='flex items-center md:hidden'>
           <button 
-            className='fixed top-[0.85em] right-2 px-4 py-2 rounded-md flex items-center hover:bg-indigo-400/50'
+            className='fixed top-[0.85em] right-2 px-4 py-2 rounded-md flex items-center hover:bg-white/40'
             onClick={menuButtonHandler}
           >
             {isMenuOpen ?
@@ -96,7 +89,7 @@ const HorizontalHeader = ({path}) => {
       {isMenuOpen &&
         <AnimatePresence>
           <motion.section 
-            className='text-indigo-900 bg-indigo-200 fixed top-[4.25em] right-2 w-72 z-40 p-4 rounded-md shadow-md flex flex-col gap-2 md:hidden'
+            className='text-lime-800 bg-white/40 fixed top-[4.25em] right-2 w-72 z-40 p-4 rounded-md shadow-md flex flex-col gap-2 md:hidden'
             initial={{ opacity: 0, x: 400}}
             animate={{ opacity: 1, x: 0}}
             exit={{ opacity: 0 }}
@@ -104,9 +97,9 @@ const HorizontalHeader = ({path}) => {
           >
             { session ?
               <div className='flex flex-col'>
-                <div className='flex flex-row flex-nowrap items-center gap-2 p-2 px-3 border-b border-indigo-400 mb-2'>
+                <div className='flex flex-row flex-nowrap items-center gap-2 p-2 px-3 border-b border-lime-800 mb-2'>
                   {ImageDistributor(session.user)}
-                  <p className='truncate'>{session.user.name}</p>
+                  <p className='truncate'>{session.user.email}</p>
                 </div>
                 {
                   links && links.map((link) => {
@@ -138,7 +131,7 @@ const HorizontalHeader = ({path}) => {
                 }
                 <NextLink
                   href='/account/login'
-                  className='hover:bg-indigo-400/50 px-4 py-2 rounded-md flex items-center truncate'
+                  className='hover:bg-white/40 px-4 py-2 rounded-md flex items-center truncate'
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <MdLogin className='mr-2 w-5 h-5'/>Login
@@ -153,7 +146,7 @@ const HorizontalHeader = ({path}) => {
         isAccountOpen &&
         <AnimatePresence>
           <motion.section
-            className='fixed top-[5em] right-2 bg-indigo-200 w-72 z-40 p-4 rounded-md shadow-md hidden md:flex flex-col text-indigo-900 gap-2'
+            className='fixed top-[5em] right-2 bg-white/40 w-72 z-40 p-4 rounded-md shadow-md hidden md:flex flex-col text-lime-800 gap-2'
             initial={{ opacity: 0, x: 400}}
             animate={{ opacity: 1, x: 0}}
             exit={{ opacity: 0 }}

@@ -66,20 +66,20 @@ const Login = ({providers}) => {
   
 
   return (
-    <div className='bg-indigo-100 w-screen h-screen flex justify-center items-center text-indigo-900'>
+    <div className='bg-yellow-500 w-screen h-screen flex justify-center items-center text-lime-800'>
       <div className='w-96 p-8 rounded-lg bg-white/40 shadow-lg flex flex-col'>
-        <div className='flex justify-center border-b border-indigo-300 pb-4 mb-4'>
+        <div className='flex justify-center border-b border-lime-800 pb-4 mb-4'>
           <h1 className='font-bold text-2xl'>Login</h1>
         </div>
         {/* AUTH LINK GOES HERE */}
         <AuthLinks providers={providers} />
         {/* divider */}
         <div className='flex w-full justify-center items-center gap-2 my-2'>
-          <div className='w-full border-b border-indigo-300'/>
+          <div className='w-full border-b border-lime-800'/>
           <div className=''>
             <h1 className='text-xs'>or</h1>
           </div>
-          <div className='w-full border-b border-indigo-300'/>
+          <div className='w-full border-b border-lime-800'/>
         </div>
         {/* Form Input */}
         <div className='flex flex-col gap-1 text-sm mb-2' >
@@ -98,9 +98,9 @@ const Login = ({providers}) => {
         </div>
         {/* buttons and links */}
         <div className='flex flex-col items-center gap-2 mt-2'>
-          <button className='bg-indigo-500 text-white rounded-md hover:bg-indigo-700 py-2 w-full mb-2' onClick={submitHandler}>Login</button>
-          <p className='text-xs'>Don't have an account? <button onClick={() => redirectToRegister()} className='font-bold hover:text-indigo-500'>Register</button></p>
-          <p className='text-xs'>Forgot password?<a href='/account/forgotpassword' className='hover:text-indigo-500 font-bold'> Password Reset</a></p>
+          <button className='bg-lime-800 text-white rounded-md hover:bg-lime-600 py-2 w-full mb-2' onClick={submitHandler}>Login</button>
+          <p className='text-xs'>Don't have an account? <button onClick={() => redirectToRegister()} className='font-bold hover:text-lime-600'>Register</button></p>
+          <p className='text-xs'>Forgot password?<a href='/account/forgotpassword' className='hover:text-lime-600 font-bold'> Password Reset</a></p>
         </div>
       </div>
     </div>

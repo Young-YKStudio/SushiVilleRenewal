@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { register } from '../../../../redux/cartSlice'
+import Router from 'next/router'
 
 const Register = () => {
 
@@ -32,9 +33,9 @@ const Register = () => {
 
 
   return (
-    <section className='w-screen h-screen bg-indigo-100 flex items-center justify-center text-indigo-900'>
+    <section className='w-screen h-screen bg-yellow-500 flex items-center justify-center text-lime-800'>
       <div className='w-96 p-8 rounded-lg bg-white/40 shadow-lg flex flex-col'>
-        <div className='flex justify-center border-b border-indigo-300 pb-4 mb-4'>
+        <div className='flex justify-center border-b border-lime-800 pb-4 mb-4'>
           <h1 className='font-bold text-2xl'>Register</h1>
         </div>
         <div className='flex flex-col gap-1 text-sm mb-2' >
@@ -64,8 +65,8 @@ const Register = () => {
           </div>
         </div>
         <div className='flex flex-col items-center gap-4'>
-          <button className='bg-indigo-500 text-white rounded-md hover:bg-indigo-700 py-2 w-full' onClick={submitHandler}>Register</button>
-          <p className='text-xs'>back to <button onClick={() => redirectTo('/account/login')} className='font-bold hover:text-indigo-500'>login</button></p>
+          <button className='bg-lime-800 text-white rounded-md hover:bg-lime-600 py-2 w-full' onClick={submitHandler}>Register</button>
+          <p className='text-xs'>back to <button onClick={() => Router.push('/account/login')} className='font-bold hover:text-lime-600'>login</button></p>
         </div>
       </div>
     </section>
