@@ -6,13 +6,13 @@ export const sendEmail = async (options) => {
     host: 'smtp.gmail.com',
     port: 587,
     auth: {
-      user: `${process.env.EMAIL_ACCT}`,
-      pass: `${process.env.EMAIL_PW}`
+      user: 'sushivilledev@gmail.com',
+      pass: "ugbsyjyeaexjausw"
     }
   })
 
   const mailOptions ={
-    from: options.from,
+    from: 'Sushiville <service@sushivilleny.com>',
     to: options.to,
     subject: options.subject,
     html: options.html

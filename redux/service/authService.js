@@ -31,7 +31,7 @@ const checkSessionAgain = async (userData) => {
     await localStorage.setItem('userRole', savingData.role)
     await localStorage.setItem('userImage', savingData.image)
   }
-
+  
   return foundaccount.data
 }
 
@@ -39,7 +39,10 @@ const checkSessionAgain = async (userData) => {
 // Logout
 const logout = async () => {
   await signOut()
-  await localStorage.clear()
+  await localStorage.setItem('userId', null)
+  await localStorage.setItem('userName', null)
+  await localStorage.setItem('userRole', null)
+  await localStorage.setItem('userImage', null)
 }
 
 // Register

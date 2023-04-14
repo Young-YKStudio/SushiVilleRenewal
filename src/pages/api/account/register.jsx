@@ -1,6 +1,8 @@
 import dbConnect from "../../../../util/DBConnect";
 import User from '../../../../model/User'
 import bcrypt from 'bcrypt'
+import { RegisterEmail } from "./emails";
+import { sendEmail } from "../../../../util/sendEmail";
 
 const validateForm = async (username, email, password, passwordConfirm) => {
   if (password !== passwordConfirm) {
@@ -51,6 +53,13 @@ export default async function registerAccount(req, res) {
 
   const hashedPasword = await bcrypt.hash(password, 12)
 
+  let emailOptions = {
+    from: 'service@sushivilleny.com',
+    to: email,
+    subject: 'Thank you for registering with Sushiville',
+    html: RegisterEmail(name, email)
+  }
+
   try {
     const userRegister = await User.create({
       username: name,
@@ -58,8 +67,15 @@ export default async function registerAccount(req, res) {
       password: hashedPasword
     })
 
-    // await userRegister.save()
-    
+    try {
+      await sendEmail(emailOptions)
+    } catch (error) {
+      return res.status(503).json({
+        success: false,
+        message: 'Error found at sending email out.'
+      })
+    }
+
     res.status(200).json({
       success: true,
       message: 'User has been registered',

@@ -7,6 +7,7 @@ import { store } from '../../redux/store'
 import Spinner from '@/components/spinner/spinner'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
+import Footer from '@/components/footer/Footer'
 
 export default function App({ Component, pageProps: {session, ...pageProps} }) {
 
@@ -40,6 +41,7 @@ export default function App({ Component, pageProps: {session, ...pageProps} }) {
           pauseOnHover
           theme="light"
         />
+        <Footer path={pathname} />
       </div>
     </Provider>
   </SessionProvider>

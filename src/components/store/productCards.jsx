@@ -15,7 +15,7 @@ const ProductCards = ({item, id}) => {
       className='w-full h-72 flex flex-col gap-2 text-indigo-900'
     >
       <div 
-        style={{backgroundImage: `url("${item.imagePath}")`}} 
+        style={{backgroundImage: `url("${item.image}")`}} 
         className="bg-center bg-cover rounded-md w-full h-5/6 hover:bg-black/30 bg-blend-multiply hover:cursor-pointer"
         onClick={() => navigateTo(item.id)}
       />

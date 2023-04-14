@@ -15,11 +15,11 @@ export const links = [
 
 export const dashboardLinks = [
   // examples below
-  // {
-  //   name: 'Dashboard',
-  //   href: '/dashboard',
-  //   icon: <MdSpaceDashboard className='w-5 h-5'/>
-  // },
+  {
+    name: 'Temp: Image',
+    href: '/dashboard/temp_image',
+    icon: <MdSpaceDashboard className='w-5 h-5'/>
+  },
   // {
   //   name: 'Login',
   //   href: '/account/login',

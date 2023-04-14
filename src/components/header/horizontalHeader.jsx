@@ -40,7 +40,7 @@ const HorizontalHeader = ({path}) => {
 
   return (
     <>
-      <nav className="fixed top-0 z-40 w-full text-lime-800 p-4 flex justify-between">
+      <nav className="fixed top-0 z-40 w-full text-lime-800 p-4 flex justify-between bg-white/80 shadow-md">
         <div className='flex items-center w-full justify-center md:justify-start'>
           <NextLink href='/' className='font-bold text-2xl'><img src='https://ucarecdn.com/74efa9c4-1383-4281-97ab-71f436baa2cd/' alt='logo' className='max-w-[8em]' /></NextLink>
         </div>
@@ -89,7 +89,7 @@ const HorizontalHeader = ({path}) => {
       {isMenuOpen &&
         <AnimatePresence>
           <motion.section 
-            className='text-lime-800 bg-white/40 fixed top-[4.25em] right-2 w-72 z-40 p-4 rounded-md shadow-md flex flex-col gap-2 md:hidden'
+            className='text-lime-800 bg-white/80 fixed top-[4.75em] right-2 w-72 z-40 p-4 rounded-md shadow-md flex flex-col gap-2 md:hidden'
             initial={{ opacity: 0, x: 400}}
             animate={{ opacity: 1, x: 0}}
             exit={{ opacity: 0 }}
@@ -146,7 +146,7 @@ const HorizontalHeader = ({path}) => {
         isAccountOpen &&
         <AnimatePresence>
           <motion.section
-            className='fixed top-[5em] right-2 bg-white/40 w-72 z-40 p-4 rounded-md shadow-md hidden md:flex flex-col text-lime-800 gap-2'
+            className='fixed top-[5em] right-2 bg-white/80 w-72 z-40 p-4 rounded-md shadow-md hidden md:flex flex-col text-lime-800 gap-2'
             initial={{ opacity: 0, x: 400}}
             animate={{ opacity: 1, x: 0}}
             exit={{ opacity: 0 }}

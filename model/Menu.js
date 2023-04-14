@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 const menuSchema = new mongoose.Schema({
   name: String,
-  description: String,
   caption: String,
+  description: String,
   price: Number,
   category: String,
   Sub_Category: String,
@@ -12,8 +12,12 @@ const menuSchema = new mongoose.Schema({
     default: true
   },
   image: String,
+  ordered: {
+    type: Number,
+    default: 0,
+  },
 }, {timestamps: true})
 
-const Menu = mongoose.models.Category || mongoose.model("NewMenu", menuSchema)
+const Menu = mongoose.models.Menu || mongoose.model("Menu", menuSchema)
 
 export default Menu
