@@ -15,10 +15,13 @@ const Cart = () => {
   const [ shipping, setShipping ] = useState(5)
   const [ tax, setTax ] = useState(0)
   const [ orderTotal, setOrderTotal ] = useState(0)
+  const [ addOnTotal, setAddOnTotal ] = useState(0)
+  const [ onlineProcessing, setOnlineProcessing ] = useState(0)
 
   useEffect(() => {
     let isMounted = true
 
+    // rewrite the logic
     if (isMounted) {
       const calcTotal = async () => {
         let arry = cartItems
@@ -43,12 +46,45 @@ const Cart = () => {
     }
     return () => {
       isMounted = false
+      console.log(cartItems)
     }
   }, [cartItems])
 
+  const addOnDistributor = (addOn) => {
+    if(addOn.brownRice || addOn.crunch || addOn.eelSauce || addOn.soyPaper || addOn.spicyMayo) {
+      return <div className="text-xs flex flex-col">
+        {addOn.brownRice && <div className="flex flex-row gap-2 ml-2">
+            <p>Brown Rice</p>
+            <p>$1.00</p>
+          </div>
+        }
+        {addOn.soyPaper && <div className="flex flex-row gap-2 ml-2">
+            <p>Soy Paper</p>
+            <p>$1.00</p>
+          </div>
+        }
+        {addOn.crunch && <div className="flex flex-row gap-2 ml-2">
+            <p>Crunch Topping</p>
+            <p>$0.50</p>
+          </div>
+        }
+        {addOn.eelSauce && <div className="flex flex-row gap-2 ml-2">
+            <p>Eel Sauce</p>
+            <p>$0.50</p>
+          </div>
+        }
+        {addOn.spicyMayo && <div className="flex flex-row gap-2 ml-2">
+            <p>Spicy Mayo</p>
+            <p>$0.50</p>
+          </div>
+        }
+      </div>
+    }
+  }
+
   return (
-    <section className="pt-16 flex flex-col px-8 text-indigo-900">
-      <div className="py-8 border-b ">
+    <section className="pt-20 flex flex-col px-8 text-lime-800 bg-yellow-500 min-h-[85vh]">
+      <div className="py-8 border-b border-lime-800 mb-8">
         <p className="font-bold text-2xl md:text-3xl md:text-center">Shopping Cart</p>
       </div>
       {/* items */}
@@ -59,28 +95,40 @@ const Cart = () => {
               {cartItems.map((item, i) => {
                 return <div
                   key={i}
-                  className='flex flex-row gap-4 text-sm py-4 border-b relative'
+                  className='flex flex-row gap-4 text-sm py-4 border-b relative border-lime-800'
                 >
                   {/* image */}
-                  <div 
-                    style={{backgroundImage: `url("${item.product.images[0].src}")`}}
-                    className='w-16 h-16 sm:w-24 sm:h-24 bg-center bg-cover'
-                  />
+                  {item.product.image &&
+                    <div 
+                      style={{backgroundImage: `url("${item.product.image}")`}}
+                      className='w-16 h-16 sm:w-20 sm:h-20 bg-center bg-cover rounded-md'
+                    />
+                  }
                   {/* description */}
                   <div>
+
                     <div>
-                      <p>{item.product.name}</p>
+                      <p className='uppercase tracking-wide font-bold'>{item.product.name}</p>
                       <p className="font-bold">${item.product.price}</p>
                     </div>
+
+                    {/* addon */}
+                    {addOnDistributor(item.addOns)}
+                    {/* 1. Addons display */}
+                    {/* 2. Addons total */}
+                    {/* message */}
+                    
                     <div className="flex items-center gap-2">
                       <p>Qty:</p>
                       <div className="flex items-center gap-1">
-                        <div className='py-1 pr-3 text-indigo-900 text-md'>{item.qty}</div>
+                        <div className='py-1 pr-3 text-lime-800 text-md font-bold'>{item.qty}</div>
                         <RdxDecreaseQtyButton item={item} />
                         <RdxQtyAddButton item={item} />
 
                       </div>
                     </div>
+
+
                   </div>
                   {/* close button */}
                   <div className="absolute top-4 right-2">
@@ -94,7 +142,7 @@ const Cart = () => {
               <p>Oops! No saved items in the cart</p>
               <NextLink 
                 href='/products'
-                className="flex items-center px-4 py-2 bg-indigo-800 max-w-sm text-white rounded-md mt-8 justify-center truncate"
+                className="flex items-center px-4 py-2 bg-lime-800 max-w-sm text-white rounded-md mt-8 justify-center truncate hover:bg-lime-600"
               >
                 <MdShoppingCart className="w-5 h-5 mr-2"/>Go to Shopping
               </NextLink>

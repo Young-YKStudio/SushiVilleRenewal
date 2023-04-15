@@ -28,3 +28,31 @@ export const MenuSelections = [
   {category: 'LUNCH SPECIALS'},
   {category: 'PARTY PLATTER'},
 ]
+
+export const Options = [
+  {
+    name: 'Brown Rice',
+    text: 'BrownRice',
+    price: 1
+  },
+  {
+    name: 'Soy Paper',
+    text: 'SoyPaper',
+    price: 1
+  },
+  {
+    name: 'Crunch Topping',
+    text: 'Crunch',
+    price: 0.5
+  },
+  {
+    name: 'Spicy Mayo Topping',
+    text: 'SpicyMayo',
+    price: 0.5
+  },
+  {
+    name: 'Eel Sauce Topping',
+    text: 'EelSauce',
+    price: 0.5
+  },
+]

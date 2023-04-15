@@ -92,7 +92,7 @@ export const cartSlice = createSlice({
       state.cartItems = [...state.cartItems, action.payload]
     },
     removeFromCart: (state, action) => {
-      let foundItem = state.cartItems.find((item) => (item.product.id === action.payload.product.id))
+      let foundItem = state.cartItems.find((item) => (item.product._id === action.payload.product._id))
       let filteredCart = state.cartItems.filter((item) => item !== foundItem)
       if (!!foundItem) {
         state.cartItems = filteredCart
@@ -101,7 +101,7 @@ export const cartSlice = createSlice({
     // increase qty
     qtyIncrease: (state, action) => {
       state.cartItems.forEach((item) => {
-        if (item.product.id === action.payload.product.id) {
+        if (item.product._id === action.payload.product._id) {
           item.qty += 1
         }
       })
@@ -110,7 +110,7 @@ export const cartSlice = createSlice({
     qtyDecrease: (state, action) => {
       console.log(action, 'decrease')
       state.cartItems.forEach((item) => {
-        if(item.product.id === action.payload.product.id) {
+        if(item.product._id === action.payload.product._id) {
           if(item.qty > 1) {
             item.qty -= 1
           } else {

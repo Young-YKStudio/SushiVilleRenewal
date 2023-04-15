@@ -13,7 +13,7 @@ const RdxRemoveFromCartButton = ({item}) => {
   return (
     <button
       onClick={() => RmButton(item)}
-      className='text-indigo-900 hover:text-indigo-500 flex items-center text-sm'
+      className='text-lime-800 hover:text-lime-600 flex items-center text-sm'
     >
       <MdDeleteOutline className="w-5 h-5 mr-1" /> Remove
     </button>

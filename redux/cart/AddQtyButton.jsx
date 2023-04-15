@@ -11,7 +11,7 @@ const RdxQtyAddButton = ({item}) => {
 
   return (
     <button
-    className='p-1 border border-gray-300 rounded-md hover:border-indigo-400'
+    className='p-1 border border-lime-800 rounded-md hover:border-lime-600'
     onClick={() => qtyAddButton(item)}
     >
       <MdOutlineAdd />
