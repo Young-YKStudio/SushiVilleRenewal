@@ -16,9 +16,9 @@ const HorizontalHeader = ({path}) => {
 
   const buttonStyles = (href) => {
     if (path === href) {
-      return 'bg-white/40 px-4 py-2 rounded-md flex items-center truncate'
+      return 'bg-white/90 px-4 py-2 rounded-md flex items-center truncate'
     } else {
-      return 'hover:bg-white/40 px-4 py-2 rounded-md flex items-center truncate'
+      return 'hover:bg-white/90 px-4 py-2 rounded-md flex items-center truncate'
     }
   }
 
@@ -47,13 +47,24 @@ const HorizontalHeader = ({path}) => {
         {/* full menu */}
         <div className='hidden md:flex flex-row items-center gap-4'>
           {links && links.map((link, i) => {
-            return <NextLink
-              key={i}
-              href={link.href}
-              className={buttonStyles(link.href)}
-            >
-              {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
-            </NextLink>
+            if (link.name === 'Cart') {
+              return <NextLink
+                key={i}
+                href={link.href}
+                className={buttonStyles(link.href)}
+              >
+                {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
+                {cartItems && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
+              </NextLink>
+            } else {
+              return <NextLink
+                key={i}
+                href={link.href}
+                className={buttonStyles(link.href)}
+              >
+                {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
+              </NextLink>
+            }
           })}
           { session ? 
             <div className='flex flex-row flex-nowrap items-center gap-2 p-2 px-3 hover:bg-white/40 rounded-md hover:cursor-pointer'
@@ -65,7 +76,7 @@ const HorizontalHeader = ({path}) => {
             :
             <NextLink 
               href='/account/login'
-              className="hover:bg-white/40 px-4 py-2 rounded-md flex items-center"
+              className="hover:bg-white/90 px-4 py-2 rounded-md flex items-center"
             >
               <MdLogin className='mr-2 w-5 h-5' />Login
             </NextLink>
@@ -101,34 +112,50 @@ const HorizontalHeader = ({path}) => {
                   {ImageDistributor(session.user)}
                   <p className='truncate'>{session.user.email}</p>
                 </div>
-                {
-                  links && links.map((link) => {
+                {links && links.map((link, i) => {
+                  if (link.name === 'Cart') {
                     return <NextLink
-                      key={link.name}
+                      key={i}
                       href={link.href}
                       className={buttonStyles(link.href)}
-                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
+                      {cartItems && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
+                    </NextLink>
+                  } else {
+                    return <NextLink
+                      key={i}
+                      href={link.href}
+                      className={buttonStyles(link.href)}
                     >
                       {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
                     </NextLink>
-                  })
-                }
+                  }
+                })}
                 <RdxLogOutButton1 />
               </div>
               :
               <div className='flex flex-col gap-2'>
-                {
-                  links && links.map((link) => {
+                {links && links.map((link, i) => {
+                  if (link.name === 'Cart') {
                     return <NextLink
-                      key={link.name}
+                      key={i}
                       href={link.href}
                       className={buttonStyles(link.href)}
-                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
+                      {cartItems && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
+                    </NextLink>
+                  } else {
+                    return <NextLink
+                      key={i}
+                      href={link.href}
+                      className={buttonStyles(link.href)}
                     >
                       {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
                     </NextLink>
-                  })
-                }
+                  }
+                })}
                 <NextLink
                   href='/account/login'
                   className='hover:bg-white/40 px-4 py-2 rounded-md flex items-center truncate'

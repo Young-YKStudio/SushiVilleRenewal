@@ -2,13 +2,10 @@ import axios from 'axios'
 import { useState } from 'react'
 import { MdOutlineAdd, MdOutlineRemove, MdAddShoppingCart } from 'react-icons/md'
 import RdxAddToCartButton from '../../../redux/cart/AddCartButton';
-import { Disclosure, Switch, Swtich } from '@headlessui/react';
-import { Options } from '../../../data/menu';
-
+import { Disclosure, Switch } from '@headlessui/react';
+import { Options, lunchRollSelections } from '../../../data/menu';
 
 const ProductPage = (props) => {
-
-  console.log(props, 'at item page')
 
   const [ qty, setQty ] = useState(1)
   const [ BrownRice, setBrownRice ] = useState(false)
@@ -18,6 +15,15 @@ const ProductPage = (props) => {
   const [ EelSauce, setEelSauce ] = useState(false)
   const [ specialInstructions, setSpecialInstructions ] = useState('')
   const [ tunaOrSalmon, setTunaOrSalmon ] = useState(null)
+  const [ spicyOrSweet, setSpicyOrSweet ] = useState(null)
+  const [ porkOrVeg, setPorkOrVeg ] = useState(null)
+  const [ spicyTunaOrCali, setSpicyTunaOrCali ] = useState(null)
+  const [ salGoneWildRainbow, setSalGoneWildRainbow ] = useState(null)
+  const [ lunchPicks, setLunchPicks ] = useState({
+    roll1: '',
+    roll2: '',
+    roll3: '',
+  })
 
   const qtySetter = (type) => {
     if (type === 'minus') {
@@ -33,10 +39,6 @@ const ProductPage = (props) => {
     setSpecialInstructions(e.target.value)
   }
 
-  const tunaSalmonChangeHandler = (e) => {
-    setTunaOrSalmon(e.target.value)
-  }
-
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
@@ -49,15 +51,284 @@ const ProductPage = (props) => {
     eelSauce: EelSauce,
     message: specialInstructions,
     tunaOrSalmon: tunaOrSalmon,
+    spicyOrSweet: spicyOrSweet,
+    porkOrVeg: porkOrVeg,
+    spicyTunaOrCali: spicyTunaOrCali,
+    salGoneWildRainbow: salGoneWildRainbow,
+    lunchPicks: lunchPicks,
   }
 
-  const tunaSalmonButton = () => {
-    if (!tunaOrSalmon) {
+  const disabledButton = (caption, name) => {
+    if (caption === 'Tuna or Salmon' && !tunaOrSalmon) {
       return <button disabled
-        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center'
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
       >Pick your choice</button>
-    } else {
-      return <RdxAddToCartButton item={props.product} qty={qty} addOn={buttonData} />
+    } 
+    if (caption === 'Spicy or Sweet' && !spicyOrSweet) {
+      return <button disabled
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
+      >Pick your choice</button>
+    } 
+    if (caption === 'Pork or Vegetable' && !porkOrVeg) {
+      return <button disabled
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
+      >Pick your choice</button>
+    } 
+    if (name === 'Sushi Lunch' && !spicyTunaOrCali) {
+      return <button disabled
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
+      >Pick your choice</button>
+    } 
+    if (name === 'Sushi Regular' && !spicyTunaOrCali) {
+      return <button disabled
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
+      >Pick your choice</button>
+    } 
+    if (name === 'Sushi & Sashimi Regular Sets' && !spicyTunaOrCali) {
+      return <button disabled
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
+      >Pick your choice</button>
+    } 
+    if (name === 'Sushi Deluxe' && !salGoneWildRainbow) {
+      return <button disabled
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
+      >Pick your choice</button>
+    } 
+    if (name === 'Sushi & Sashimi Deluxe Sets' && !salGoneWildRainbow) {
+      return <button disabled
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
+      >Pick your choice</button>
+    } 
+    if (name === 'Pick 2 Rolls Lunch') {
+      if(lunchPicks.roll1 === '' || lunchPicks.roll2 === ''){
+        return <button disabled
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
+      >Pick your choice</button>
+      }
+    }
+    if (name === 'Pick 3 Rolls Lunch') {
+      if(lunchPicks.roll1 === '' || lunchPicks.roll2 === '' || lunchPicks.roll3 === '') {
+        return <button disabled
+        className='px-4 py-2 bg-slate-400 text-white rounded-md flex justify-center items-center mt-2'
+      >Pick your choice</button>
+      }
+    }
+
+    return <div className='mt-2 flex flex-col'>
+        <RdxAddToCartButton item={props.product} qty={qty} addOn={buttonData} />
+      </div>
+
+  }
+
+  const optionChangeHandler = (e, caption, name) => {
+    if(caption === 'Tuna or Salmon') {
+      setTunaOrSalmon(e.target.value)
+    }
+    if(caption === 'Pork or Vegetable') {
+      setPorkOrVeg(e.target.value)
+    }
+    if(caption === 'Spicy or Sweet') {
+      setSpicyOrSweet(e.target.value)
+    }
+    if(name === 'Sushi Lunch') {
+      setSpicyTunaOrCali(e.target.value)
+    }
+    if(name === 'Sushi Regular') {
+      setSpicyTunaOrCali(e.target.value)
+    }
+    if(name === 'Sushi & Sashimi Regular Sets') {
+      setSpicyTunaOrCali(e.target.value)
+    }
+    if(name === 'Sushi Deluxe') {
+      setSalGoneWildRainbow(e.target.value)
+    }
+    if(name === 'Sushi & Sashimi Deluxe Sets') {
+      setSalGoneWildRainbow(e.target.value)
+    }
+  }
+
+  const selectChangeHandler = (e) => {
+    setLunchPicks((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+
+  } 
+
+  const selectOptions = (caption, name) => {
+    if (caption === 'Tuna or Salmon') {
+      return <div className='flex gap-4 text-lime-800 items-center'>
+        <label className=''>
+          <input type='radio' id='tuna' name='tunasalmon' value='Tuna' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Tuna
+        </label>
+        <label>
+          <input type='radio' id='salmon' name='tunasalmon' value='Salmon' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Salmon
+        </label>
+      </div>
+    }
+    if (caption === 'Pork or Vegetable') {
+      return <div className='flex gap-4 text-lime-800 items-center'>
+        <label>
+          <input type='radio' id='pork' name='porkVeg' value='Pork' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Pork
+        </label>
+        <label>
+          <input type='radio' id='vegetable' name='porkVeg' value='Vegetable' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Vegetable
+        </label>
+      </div>
+    }
+    if (caption === 'Spicy or Sweet') {
+      return <div className='flex gap-4 text-lime-800 items-center'>
+        <label>
+          <input type='radio' id='spicy' name='spicysweet' value='Spicy' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Spicy
+        </label>
+        <label>
+          <input type='radio' id='sweet' name='spicysweet' value='Sweet' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Sweet
+        </label>
+      </div>
+    }
+    if (name === 'Sushi Lunch') {
+      return <div className='flex gap-4 text-lime-800 items-center'>
+        <label>
+          <input type='radio' id='california' name='caliSptuna' value='California Roll' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          California Roll
+        </label>
+        <label>
+          <input type='radio' id='spicyTuna' name='caliSptuna' value='Spicy Tuna Roll' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Spicy Tuna Roll
+        </label>
+      </div>
+    }
+    if (name === 'Sushi Regular') {
+      return <div className='flex gap-4 text-lime-800 items-center'>
+        <label>
+          <input type='radio' id='california' name='caliSptuna' value='California Roll' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          California Roll
+        </label>
+        <label>
+          <input type='radio' id='spicyTuna' name='caliSptuna' value='Spicy Tuna Roll' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Spicy Tuna Roll
+        </label>
+      </div>
+    }
+    if (name === 'Sushi & Sashimi Regular Sets') {
+      return <div className='flex gap-4 text-lime-800 items-center'>
+        <label>
+          <input type='radio' id='california' name='caliSptuna' value='California Roll' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          California Roll
+        </label>
+        <label>
+          <input type='radio' id='spicyTuna' name='caliSptuna' value='Spicy Tuna Roll' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Spicy Tuna Roll
+        </label>
+      </div>
+    }
+    if (name === 'Sushi Deluxe') {
+      return <div className='flex gap-4 text-lime-800 items-center'>
+        <label>
+          <input type='radio' id='salGoneWild' name='salRain' value='Salmon Gone Wild Roll' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Salmon Gone Wild Roll
+        </label>
+        <label>
+          <input type='radio' id='rainbow' name='salRain' value='Rainbow Roll' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Rainbow Roll
+        </label>
+      </div>
+    }
+    if (name === 'Sushi & Sashimi Deluxe Sets') {
+      return <div className='flex gap-4 text-lime-800 items-center'>
+        <label>
+          <input type='radio' id='salGoneWild' name='salRain' value='Salmon Gone Wild Roll' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Salmon Gone Wild Roll
+        </label>
+        <label>
+          <input type='radio' id='rainbow' name='salRain' value='raiRainbow Rollnbow' onChange={(e) => optionChangeHandler(e, caption, name)} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
+          Rainbow Roll
+        </label>
+      </div>
+    }
+    if (name === 'Pick 2 Rolls Lunch') {
+      return <div className='flex flex-col md:flex-row flex-nowrap text-lime-800 gap-4 mb-8'>
+        <div>
+          <p className='text-xs'>Roll 1</p>
+          <select 
+            className='rounded-md bg-white/40 focus:ring-lime-800 border-none shadow-md text-sm'
+            name='roll1'
+            onChange={(e) => selectChangeHandler(e)}
+            value={lunchPicks.roll1}
+          >
+            <option disabled defaultValue='' value='' hidden>Select First Roll</option>
+            {lunchRollSelections.map((menu, i) => {
+              return <option key={i + 100} value={menu}>{menu}</option>
+            })}
+          </select>
+        </div>
+        <div>
+          <p className='text-xs'>Roll 2</p>
+          <select 
+            className='rounded-md bg-white/40 focus:ring-lime-800 border-none shadow-md text-sm'
+            name='roll2'
+            onChange={(e) => selectChangeHandler(e)}
+            value={lunchPicks.roll2}
+          >
+            <option disabled defaultValue='' value='' hidden>Select Second Roll</option>
+            {lunchRollSelections.map((menu, i) => {
+              return <option key={i} value={menu}>{menu}</option>
+            })}
+          </select>
+        </div>
+      </div>
+    }
+    if (name === 'Pick 3 Rolls Lunch') {
+      return <div className='flex flex-col md:flex-row flex-nowrap text-lime-800 gap-4 mb-8'>
+        <div>
+          <p className='text-xs'>Roll 1</p>
+          <select 
+            className='rounded-md bg-white/40 focus:ring-lime-800 border-none shadow-md text-sm'
+            name='roll1'
+            onChange={(e) => selectChangeHandler(e)}
+            value={lunchPicks.roll1}
+          >
+            <option disabled defaultValue='' value='' hidden>Select First Roll</option>
+            {lunchRollSelections.map((menu, i) => {
+              return <option key={i + 100} value={menu}>{menu}</option>
+            })}
+          </select>
+        </div>
+        <div>
+          <p className='text-xs'>Roll 2</p>
+          <select 
+            className='rounded-md bg-white/40 focus:ring-lime-800 border-none shadow-md text-sm'
+            name='roll2'
+            onChange={(e) => selectChangeHandler(e)}
+            value={lunchPicks.roll2}
+          >
+            <option disabled defaultValue='' value='' hidden>Select Second Roll</option>
+            {lunchRollSelections.map((menu, i) => {
+              return <option key={i} value={menu}>{menu}</option>
+            })}
+          </select>
+        </div>
+        <div>
+          <p className='text-xs'>Roll 3</p>
+          <select 
+            className='rounded-md bg-white/40 focus:ring-lime-800 border-none shadow-md text-sm'
+            name='roll3'
+            onChange={(e) => selectChangeHandler(e)}
+            value={lunchPicks.roll3}
+          >
+            <option disabled defaultValue='' value='' hidden>Select Third Roll</option>
+            {lunchRollSelections.map((menu, i) => {
+              return <option key={i + 200} value={menu}>{menu}</option>
+            })}
+          </select>
+        </div>
+      </div>
     }
   }
 
@@ -260,19 +531,24 @@ const ProductPage = (props) => {
           {/* title */}
           <div className='pt-8 flex flex-col gap-4'>
             <p className='text-3xl font-bold uppercase tracking-wide text-lime-800 border-b border-lime-800'>{props.product.name}</p>
-            {props.product.caption && <p>{props.product.caption}</p>}
+            {props.product.caption && <p className='text-lime-800'>{props.product.caption}</p>}
             <p className='text-slate-700'>{props.product.description}</p>
-            {props.product.caption === 'Tuna or Salmon' && <div className='flex gap-4'>
-                <label>
-                  <input type='radio' id='tuna' name='tunasalmon' value='tuna' onChange={tunaSalmonChangeHandler} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
-                  Tuna
-                </label>
-                <label>
-                  <input type='radio' id='salmon' name='tunasalmon' value='salmon' onChange={tunaSalmonChangeHandler} className='focus:ring-lime-800 ring-offset-lime-800 text-lime-800 mr-1'/>
-                  Salmon
-                </label>
+            {/* options */}
+            {props.product.Sub_Category === 'Lunch Roll Combo' &&
+              <div 
+              className='grid grid-cols-2 sm:grid-cols-3 gap-2 p-4 bg-white/40 rounded-lg shadow-lg text-lime-800 text-sm mb-8'
+              >
+                {lunchRollSelections.map((menu, i) => {
+                  return <div
+                  key={i}
+                  >
+                    <p className='truncate'>• {menu}</p>
+                  </div>
+                })}
               </div>
             }
+            {selectOptions(props.product.caption, props.product.name)}
+
           </div>
         </div>
 
@@ -377,7 +653,7 @@ const ProductPage = (props) => {
                           value={specialInstructions}
                           onChange={instructionChangeHandler}
                           rows={4}
-                          className='text-sm text-slate-700 rounded-md border-none'
+                          className='text-sm text-slate-700 rounded-md border-none mb-6'
                         />
                       </Disclosure.Panel>
                     </>
@@ -387,18 +663,7 @@ const ProductPage = (props) => {
             </div>
 
             {/* buttons */}
-            {props.product.caption === 'Tuna or Salmon' ? 
-              tunaSalmonButton()
-
-            :
-            <div className='flex flex-row flex-nowrap items-center py-4 gap-4'>
-              <div className='max-w-sm w-full'>
-                <RdxAddToCartButton item={props.product} qty={qty} addOn={buttonData} />
-              </div>
-            </div>
-
-            }
-
+            {disabledButton(props.product.caption, props.product.name)}
           </div>
         </div>
 
@@ -427,10 +692,3 @@ export async function getServerSideProps(context) {
 }
 
 export default ProductPage ;
-
-// Add to cart button
-// addon model
-// order model
-// option choices - Brown Rice + $1.00, Soy Paper + $1.00, Crunch Topping + $0.50, Spicy Mayo Topping + $0.50, Eel Sauce Topping + $0.50
-// special instructions - string
-// use white space! i have ton of space to use.

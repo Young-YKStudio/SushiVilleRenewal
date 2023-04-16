@@ -4,52 +4,19 @@ import { MdShoppingCart } from "react-icons/md";
 import RdxRemoveFromCartButton from "../../../redux/cart/RemoveCartButton";
 import RdxQtyAddButton from "../../../redux/cart/AddQtyButton";
 import RdxDecreaseQtyButton from "../../../redux/cart/DecreaseQtyButton";
-import { useState, useEffect } from 'react'
-import CartResetButton from "../../../redux/cart/CartResetButton";
+import { useState } from 'react'
+import axios from "axios";
+import Supplements from "./supplements";
+import CheckOutSection from "./checkOut";
 
-const Cart = () => {
+
+const Cart = (props) => {
 
   const { cartItems } = useSelector((state) => state.cart)
 
-  const [ subtotal, setSubTotal ] = useState(0)
-  const [ shipping, setShipping ] = useState(5)
-  const [ tax, setTax ] = useState(0)
-  const [ orderTotal, setOrderTotal ] = useState(0)
-  const [ addOnTotal, setAddOnTotal ] = useState(0)
-  const [ onlineProcessing, setOnlineProcessing ] = useState(0)
-
-  useEffect(() => {
-    let isMounted = true
-
-    // rewrite the logic
-    if (isMounted) {
-      const calcTotal = async () => {
-        let arry = cartItems
-        let total = 0
-        await arry.forEach((item) => {
-          let calNum = item.qty * item.product.price
-          total += calNum
-        })
-
-        let taxRate = 8.875
-        let TaxTotal = total * (taxRate/100)
-        await setSubTotal(total)
-        await setTax(TaxTotal)
-      }
-
-      const orderTotalSum = () => {
-        let sum = subtotal + shipping + tax
-        setOrderTotal(sum)
-      }
-      calcTotal()
-      orderTotalSum()
-    }
-    return () => {
-      isMounted = false
-      console.log(cartItems)
-    }
-  }, [cartItems])
-
+  const [ extra, setExtra ] = useState([]);
+  const [ isReadyToPay, setIsReadyToPay ] = useState(false)
+  
   const addOnDistributor = (addOn) => {
     if(addOn.brownRice || addOn.crunch || addOn.eelSauce || addOn.soyPaper || addOn.spicyMayo) {
       return <div className="text-xs flex flex-col">
@@ -82,10 +49,153 @@ const Cart = () => {
     }
   }
 
+  const selectDistributor = (addOn, name) => {
+    if(name === 'Pick 2 Rolls Lunch') {
+      return <div className="flex flex-row gap-2 ml-2 text-xs">
+        <p>Selections:</p>
+        <p>{addOn.lunchPicks.roll1},</p>
+        <p>{addOn.lunchPicks.roll2}</p>
+      </div>
+    }
+    if(name === 'Pick 3 Rolls Lunch') {
+      return <div className="flex flex-row gap-2 ml-2 text-xs">
+        <p>Selections:</p>
+        <p>{addOn.lunchPicks.roll1},</p>
+        <p>{addOn.lunchPicks.roll2}</p>
+        <p>{addOn.lunchPicks.roll3}</p>
+      </div>
+    }
+    if(addOn.porkOrVeg) {
+      return <div className="flex flex-row gap-2 ml-2 text-xs">
+        <p>Selection:</p>
+        <p>{addOn.porkOrVeg}</p>
+      </div>
+    }
+    if(addOn.spicyOrSweet) {
+      return <div className="flex flex-row gap-2 ml-2 text-xs">
+        <p>Selection:</p>
+        <p>{addOn.spicyOrSweet}</p>
+      </div>
+    }
+    if(addOn.spicyTunaOrCali) {
+      return <div className="flex flex-row gap-2 ml-2 text-xs">
+        <p>Selection:</p>
+        <p>{addOn.spicyTunaOrCali}</p>
+      </div>
+    }
+    if(addOn.tunaOrSalmon) {
+      return <div className="flex flex-row gap-2 ml-2 text-xs">
+        <p>Selection:</p>
+        <p>{addOn.tunaOrSalmon}</p>
+      </div>
+    }
+    if(addOn.salGoneWildRainbow) {
+      return <div className="flex flex-row gap-2 ml-2 text-xs">
+        <p>Selection:</p>
+        <p>{addOn.salGoneWildRainbow}</p>
+      </div>
+    }
+  }
+
+  let subTotal = 0
+  let addOnTotal = 0
+  let extraTotal = 0
+  let taxRate = 0.08875
+  let taxEstimate = 0
+  let onlineProcessing = 0
+  let grandTotal = 0
+
+  const subTotalCalc = (array) => {
+    if(array.length > 0) {
+      array.forEach((item) => {
+        
+        let itemTotal = (item.product.price) * item.qty
+        if(item.product.category === 'Bowl Rice') {
+          return extraTotal += itemTotal
+        }
+        if(item.product.category === 'Drink') {
+          return extraTotal += itemTotal
+        }
+        if(item.product.category === 'Sauce') {
+          return extraTotal += itemTotal
+        }
+        return subTotal += itemTotal
+      })
+    }
+  }
+
+  const AddOnCalc = (array) => {
+    if(array.length > 0 ) {
+      let itemAddon = 0
+
+      array.forEach((item) => {
+        if(item.addOns.brownRice) {
+          itemAddon += (1 * item.qty)
+        }
+        if(item.addOns.crunch) {
+          itemAddon += (0.5 * item.qty)
+        }
+        if(item.addOns.eelSauce) {
+          itemAddon += (0.5 * item.qty)
+        }
+        if(item.addOns.soyPaper) {
+          itemAddon += (1 * item.qty)
+        }
+        if(item.addOns.spicyMayo) {
+          itemAddon += (0.5 * item.qty)
+        }
+      })
+
+      let addedNum = addOnTotal + itemAddon
+      return addOnTotal += addedNum
+    }
+  }
+
+  const taxEstimateCalc = () => {
+    let beforeTaxRate = subTotal + addOnTotal + extraTotal
+    let returnNum = beforeTaxRate * taxRate
+    return taxEstimate = returnNum
+  }
+
+  const onlineProcessingCalc = () => {
+    let beforeRate = subTotal + addOnTotal + extraTotal + taxEstimate
+    let afterRate = beforeRate * 0.03
+    let final = afterRate + 0.3
+    return onlineProcessing = final
+  }
+
+  const grandTotalCalc = () => {
+    let final = subTotal + addOnTotal + extraTotal + taxEstimate + onlineProcessing
+    return grandTotal = final
+  }
+
+
+  subTotalCalc(cartItems)
+  AddOnCalc(cartItems)
+  taxEstimateCalc()
+  onlineProcessingCalc()
+  grandTotalCalc()
+
+  const rightSideDistributor = () => {
+    if(isReadyToPay) {
+      return <CheckOutSection />
+    } else {
+      return <Supplements supplements={props.supplements} />
+    }
+  }
+
+  const readyToPayHandler = () => {
+    // Loading On
+    // validate user??
+    // if success change state
+    setIsReadyToPay(!isReadyToPay)
+  }
+
+  // console.log(cartItems, props, 'from cart page')
   return (
-    <section className="pt-20 flex flex-col px-8 text-lime-800 bg-yellow-500 min-h-[85vh]">
+    <section className="pt-20 flex flex-col px-8 pb-8 text-lime-800 bg-yellow-500 min-h-[85vh]">
       <div className="py-8 border-b border-lime-800 mb-8">
-        <p className="font-bold text-2xl md:text-3xl md:text-center">Shopping Cart</p>
+        <p className="font-bold text-2xl md:text-3xl md:text-center">{isReadyToPay ? 'Check Out' : 'Shopping Cart'}</p>
       </div>
       {/* items */}
       <div className="flex flex-col md:flex-row flex-nowrap md:mx-auto md:gap-8">
@@ -108,15 +218,18 @@ const Cart = () => {
                   <div>
 
                     <div>
-                      <p className='uppercase tracking-wide font-bold'>{item.product.name}</p>
-                      <p className="font-bold">${item.product.price}</p>
+                      <NextLink href={`/products/${item.product._id}`} className='uppercase tracking-wide font-bold hover:text-lime-600'>{item.product.name}</NextLink>
+                      {item.product.name === 'Soy Sauce' ? <p className="font-normal italic text-xs">Max number of sauce will be determined at preparing.</p> : <p className="font-bold">${item.product.price.toFixed(2)}</p>}
                     </div>
 
                     {/* addon */}
                     {addOnDistributor(item.addOns)}
-                    {/* 1. Addons display */}
-                    {/* 2. Addons total */}
-                    {/* message */}
+                    {selectDistributor(item.addOns, item.product.name)}
+                    {item.addOns.message && <div className="flex flex-row gap-2 ml-2 text-xs">
+                        <p>message:</p>
+                        <p>{item.addOns.message}</p>
+                      </div>
+                    }
                     
                     <div className="flex items-center gap-2">
                       <p>Qty:</p>
@@ -136,6 +249,45 @@ const Cart = () => {
                   </div>
                 </div>
               })}
+            {cartItems.length > 0 &&
+            <div className="w-full bg-white/40 rounded-md p-8 flex flex-col text-sm justify-between my-8">
+              <div>
+                <p className="text-lg py-2">Order summary</p>
+                <div className="flex items-center justify-between py-3 border-b border-lime-800">
+                  <p>Subtotal</p>
+                  <p className="font-bold">$ {subTotal.toFixed(2)}</p>
+                </div>
+                <div className="flex items-center justify-between py-3 border-b border-lime-800">
+                  <p>Add-on total</p>
+                  <p className="font-bold">${addOnTotal.toFixed(2)}</p>
+                </div>
+                <div className="flex items-center justify-between py-3 border-b border-lime-800">
+                  <p>Supplements total</p>
+                  <p className="font-bold">${extraTotal.toFixed(2)}</p>
+                </div>
+                <div className="flex items-center justify-between py-3 border-b border-lime-800">
+                  <p>Tax estimate</p>
+                  <p className="font-bold">${taxEstimate.toFixed(2)}</p>
+                </div>
+                <div className="flex items-center justify-between py-3 border-b border-lime-800">
+                  <p>Online processing fee</p>
+                  <p className="font-bold">${onlineProcessing.toFixed(2)}</p>
+                </div>
+                <div className="flex items-center justify-between py-3">
+                  <p className="text-lg">Grand total</p>
+                  <p className="font-bold">${grandTotal.toFixed(2)}</p>
+                </div>
+              </div>
+              <div>
+                <button
+                  className='mt-4 w-full py-3 bg-lime-800 text-white rounded-md hover:bg-lime-600'
+                  onClick={(e) => readyToPayHandler(e)}
+                >
+                  Check Out
+                </button>
+              </div>
+            </div>
+          }
             </div>
           :
             <div className="py-8">
@@ -149,31 +301,27 @@ const Cart = () => {
             </div>
           }
         </div>
-        {/* summary */}
-        {cartItems.length > 0 &&
-          <div className="w-full sm:mx-auto md:w-[20em] lg:mx-0 md:my-4 lg:w-[25em] bg-indigo-50 rounded-md p-8 flex flex-col text-sm">
-            <p className="text-lg py-2">Order summary</p>
-            <div className="flex items-center justify-between py-3 border-b border-indigo-200">
-              <p className="text-indigo-400">Subtotal</p>
-              <p className="font-bold">${subtotal.toFixed(2)}</p>
-            </div>
-            <div className="flex items-center justify-between py-3 border-b border-indigo-200">
-              <p className="text-indigo-400">Shipping estimate</p>
-              <p className="font-bold">${shipping.toFixed(2)}</p>
-            </div>
-            <div className="flex items-center justify-between py-3 border-b border-indigo-200">
-              <p className="text-indigo-400">Tax estimate</p>
-              <p className="font-bold">${tax.toFixed(2)}</p>
-            </div>
-            <div className="flex items-center justify-between py-3">
-              <p className="text-lg">Order total</p>
-              <p className="font-bold">${orderTotal.toFixed(2)}</p>
-            </div>
-            <CartResetButton text='Checkout' />
-          </div>
-        }
+        {/* Rigt side */}
+        <div className="w-full sm:mx-auto md:w-[20em] lg:mx-0 md:my-4 lg:w-[25em]">
+          {/* suppliments */}
+          {props.supplements && rightSideDistributor()
+          }
+        </div>
       </div>
     </section>
   );
 }
 export default Cart;
+
+export async function getServerSideProps() {
+    
+  let data = null
+
+  const request = await axios.get(`${process.env.APP_URL}/api/menu/getSupplements`)
+  if(request.data.success) {
+    data = request.data.data
+  }
+  if(data) {
+    return {props: {supplements: data}}
+  }
+}

@@ -108,7 +108,6 @@ export const cartSlice = createSlice({
     },
     // decrease qty
     qtyDecrease: (state, action) => {
-      console.log(action, 'decrease')
       state.cartItems.forEach((item) => {
         if(item.product._id === action.payload.product._id) {
           if(item.qty > 1) {
