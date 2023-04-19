@@ -54,7 +54,7 @@ const HorizontalHeader = ({path}) => {
                 className={buttonStyles(link.href)}
               >
                 {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
-                {cartItems && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
+                {cartItems && cartItems.length > 0 && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
               </NextLink>
             } else {
               return <NextLink
@@ -120,7 +120,7 @@ const HorizontalHeader = ({path}) => {
                       className={buttonStyles(link.href)}
                     >
                       {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
-                      {cartItems && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
+                      {cartItems && cartItems.length > 0 && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
                     </NextLink>
                   } else {
                     return <NextLink
@@ -144,7 +144,7 @@ const HorizontalHeader = ({path}) => {
                       className={buttonStyles(link.href)}
                     >
                       {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
-                      {cartItems && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
+                      {cartItems && cartItems.length > 0 && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
                     </NextLink>
                   } else {
                     return <NextLink

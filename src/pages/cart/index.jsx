@@ -8,14 +8,21 @@ import { useState } from 'react'
 import axios from "axios";
 import Supplements from "./supplements";
 import CheckOutSection from "./checkOut";
+import { useDispatch } from "react-redux";
+import { setLoadingOn, setLoadingOff } from "../../../redux/cartSlice";
+import { useSession } from 'next-auth/react'
+import Router from 'next/router'
 
 
 const Cart = (props) => {
 
   const { cartItems } = useSelector((state) => state.cart)
+  const dispatch = useDispatch()
+  const { data: session } = useSession()
 
   const [ extra, setExtra ] = useState([]);
   const [ isReadyToPay, setIsReadyToPay ] = useState(false)
+  const [ isPayAtRestaurant, setIsPayAtRestaurant ] = useState(false)
   
   const addOnDistributor = (addOn) => {
     if(addOn.brownRice || addOn.crunch || addOn.eelSauce || addOn.soyPaper || addOn.spicyMayo) {
@@ -104,6 +111,7 @@ const Cart = (props) => {
   let taxEstimate = 0
   let onlineProcessing = 0
   let grandTotal = 0
+  let grandTotalWithoutOnline = 0
 
   const subTotalCalc = (array) => {
     if(array.length > 0) {
@@ -169,29 +177,38 @@ const Cart = (props) => {
     return grandTotal = final
   }
 
+  const grandTotalWithoutOnlineCalc = () => {
+    let final = subTotal + addOnTotal + extraTotal + taxEstimate
+    return grandTotalWithoutOnline = final
+  }
+
 
   subTotalCalc(cartItems)
   AddOnCalc(cartItems)
   taxEstimateCalc()
   onlineProcessingCalc()
   grandTotalCalc()
+  grandTotalWithoutOnlineCalc()
 
   const rightSideDistributor = () => {
     if(isReadyToPay) {
-      return <CheckOutSection />
+      return <CheckOutSection grandTotal={grandTotal} isPayAtRestaurant={isPayAtRestaurant} setIsPayAtRestaurant={setIsPayAtRestaurant} />
     } else {
       return <Supplements supplements={props.supplements} />
     }
   }
 
   const readyToPayHandler = () => {
-    // Loading On
-    // validate user??
-    // if success change state
-    setIsReadyToPay(!isReadyToPay)
+    dispatch(setLoadingOn())
+    if(!session) {
+      dispatch(setLoadingOff())
+      Router.push('/account/login')
+    } else {
+      dispatch(setLoadingOff())
+      setIsReadyToPay(!isReadyToPay)
+    }
   }
 
-  // console.log(cartItems, props, 'from cart page')
   return (
     <section className="pt-20 flex flex-col px-8 pb-8 text-lime-800 bg-yellow-500 min-h-[85vh]">
       <div className="py-8 border-b border-lime-800 mb-8">
@@ -237,11 +254,8 @@ const Cart = (props) => {
                         <div className='py-1 pr-3 text-lime-800 text-md font-bold'>{item.qty}</div>
                         <RdxDecreaseQtyButton item={item} />
                         <RdxQtyAddButton item={item} />
-
                       </div>
                     </div>
-
-
                   </div>
                   {/* close button */}
                   <div className="absolute top-4 right-2">
@@ -269,14 +283,23 @@ const Cart = (props) => {
                   <p>Tax estimate</p>
                   <p className="font-bold">${taxEstimate.toFixed(2)}</p>
                 </div>
-                <div className="flex items-center justify-between py-3 border-b border-lime-800">
-                  <p>Online processing fee</p>
-                  <p className="font-bold">${onlineProcessing.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center justify-between py-3">
-                  <p className="text-lg">Grand total</p>
-                  <p className="font-bold">${grandTotal.toFixed(2)}</p>
-                </div>
+                { !isPayAtRestaurant &&
+                  <div className="flex items-center justify-between py-3 border-b border-lime-800">
+                    <p>Online processing fee</p>
+                    <p className="font-bold">${onlineProcessing.toFixed(2)}</p>
+                  </div>
+                }
+                {!isPayAtRestaurant ?
+                  <div className="flex items-center justify-between py-3">
+                    <p className="text-lg">Grand total</p>
+                    <p className="font-bold">${grandTotal.toFixed(2)}</p>
+                  </div>
+                  :
+                  <div className="flex items-center justify-between py-3">
+                    <p className="text-lg">Grand total</p>
+                    <p className="font-bold">${grandTotalWithoutOnline.toFixed(2)}</p>
+                  </div>
+                }
               </div>
               <div>
                 <button

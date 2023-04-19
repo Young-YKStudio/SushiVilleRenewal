@@ -36,13 +36,13 @@ const userSchema = new Schema(
     id: String,
     address: String,
     contact: String,
-    orders: [
+    Orders: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order'
       }
     ],
-    reservations: [
+    Reservations: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Reservation'
