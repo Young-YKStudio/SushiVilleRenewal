@@ -184,7 +184,6 @@ const CheckOutSection = ({grandTotal, addOnTotal, extraTotal, taxRate, subTotal,
         toast.error('Error found on placing your order. Please try again.')
       }
     }
-
     requestToCreateOrder()
   }
 

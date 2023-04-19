@@ -26,7 +26,7 @@ const orderSchema = new mongoose.Schema({
           type: String,
           default: null
         },
-        salgoneWildRainbow: {
+        salGoneWildRainbow: {
           type: String,
           default: null
         },

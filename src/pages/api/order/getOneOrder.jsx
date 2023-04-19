@@ -1,14 +1,15 @@
 import dbConnect from "../../../../util/DBConnect";
 import NewOrder from "../../../../model/Order";
+import User from "../../../../model/User";
+import Menu from "../../../../model/Menu";
 
 export default async function GetOneOrder(req, res) {
   if(req.method !== 'PUT') {
     return res.status(303).json({ error: 'reqeust is not PUT' })
   }
 
-  console.log(req.body)
-
   let foundOrder = null
+  let tries = 0
 
   const { id } = req.body
 
@@ -30,7 +31,7 @@ export default async function GetOneOrder(req, res) {
 
   const findOrder = async () => {
     try {
-      foundOrder = await NewOrder.findById({_id: id})
+      foundOrder = await NewOrder.findById({_id: id}).populate({path: 'customer', model: User})
       return foundOrder
     } catch (error) {
       return res.status(400).json({
@@ -40,11 +41,38 @@ export default async function GetOneOrder(req, res) {
     }
   }
 
-  await findOrder()
+  const getOrderedItems = async () => {
 
-  return res.status(200).json({
-    success: true,
-    message: 'success',
-    order: foundOrder
-  })
+    let tempArry = []
+    await foundOrder.orderedItems.map(async (item) => {
+      try {
+        let foundItem = await Menu.find({_id: item.product})
+        if(foundItem) {
+          let template = {
+            addOns: item.addOns,
+            product: foundItem,
+            qty: item.qty
+          }
+          tempArry.push(template)
+          tries += 1
+          if(foundOrder.orderedItems.length === tries && tempArry.length > 0) {
+            return res.status(200).json({
+              success: true,
+              message: 'success',
+              order: foundOrder,
+              items: tempArry
+            })
+          }
+        }
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          message: 'Error at finding Menu from DB'
+        })
+      }
+    })
+  }
+  
+  await findOrder()
+  await getOrderedItems()
 }
