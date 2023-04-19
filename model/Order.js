@@ -85,6 +85,7 @@ const orderSchema = new mongoose.Schema({
   orderNum: Number,
   grandTotal: Number,
   addOnTotal: Number,
+  orderTotal: Number,
   supplementTotal: Number,
   taxRate: Number,
   orderCount: Number,

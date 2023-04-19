@@ -269,7 +269,7 @@ const Cart = (props) => {
                 <p className="text-lg py-2">Order summary</p>
                 <div className="flex items-center justify-between py-3 border-b border-lime-800">
                   <p>Subtotal</p>
-                  <p className="font-bold">$ {subTotal.toFixed(2)}</p>
+                  <p className="font-bold">${subTotal.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center justify-between py-3 border-b border-lime-800">
                   <p>Add-on total</p>
