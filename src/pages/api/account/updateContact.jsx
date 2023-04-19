@@ -28,7 +28,6 @@ export default async function UpdateContact(req, res) {
     try {
       let updatedAccount = await User.findByIdAndUpdate({_id: id}, {contact: contact})
       if (updatedAccount) {
-        console.log(updatedAccount, 'success!')
         return res.status(200).json({
           success: true,
           message: 'Accout Updated'

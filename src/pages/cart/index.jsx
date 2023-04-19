@@ -192,7 +192,7 @@ const Cart = (props) => {
 
   const rightSideDistributor = () => {
     if(isReadyToPay) {
-      return <CheckOutSection grandTotal={grandTotal} isPayAtRestaurant={isPayAtRestaurant} setIsPayAtRestaurant={setIsPayAtRestaurant} />
+      return <CheckOutSection grandTotal={grandTotal} addOnTotal={addOnTotal} extraTotal={extraTotal} taxRate={taxRate} subTotal={subTotal} isPayAtRestaurant={isPayAtRestaurant} setIsPayAtRestaurant={setIsPayAtRestaurant} cartItems={cartItems} />
     } else {
       return <Supplements supplements={props.supplements} />
     }
@@ -302,12 +302,21 @@ const Cart = (props) => {
                 }
               </div>
               <div>
-                <button
-                  className='mt-4 w-full py-3 bg-lime-800 text-white rounded-md hover:bg-lime-600'
-                  onClick={(e) => readyToPayHandler(e)}
-                >
-                  Check Out
-                </button>
+                {isReadyToPay ?
+                  <button
+                    className='mt-4 w-full py-3 text-lime-800 rounded-md hover:text-lime-600'
+                    onClick={(e) => readyToPayHandler(e)}
+                  >
+                    Modify Supplements
+                  </button>
+                :
+                  <button
+                    className='mt-4 w-full py-3 bg-lime-800 text-white rounded-md hover:bg-lime-600'
+                    onClick={(e) => readyToPayHandler(e)}
+                  >
+                    Check Out
+                  </button>
+                }
               </div>
             </div>
           }
