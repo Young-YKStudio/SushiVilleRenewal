@@ -56,6 +56,8 @@ const HorizontalHeader = ({path}) => {
                 {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
                 {cartItems && cartItems.length > 0 && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
               </NextLink>
+            } else if (link.name === 'Reservations') {
+              return
             } else {
               return <NextLink
                 key={i}

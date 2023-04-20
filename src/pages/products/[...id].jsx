@@ -1,11 +1,18 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MdOutlineAdd, MdOutlineRemove, MdAddShoppingCart } from 'react-icons/md'
 import RdxAddToCartButton from '../../../redux/cart/AddCartButton';
 import { Disclosure, Switch } from '@headlessui/react';
 import { Options, lunchRollSelections } from '../../../data/menu';
+import { useDispatch } from 'react-redux';
+import { setLoadingOn, setLoadingOff } from '../../../redux/cartSlice';
+import { toast } from 'react-toastify'
+import { FaRegHeart, FaHeart} from 'react-icons/fa'
+import Router from 'next/router';
 
 const ProductPage = (props) => {
+
+  // console.log(props, 'at produce page')
 
   const [ qty, setQty ] = useState(1)
   const [ BrownRice, setBrownRice ] = useState(false)
@@ -24,6 +31,46 @@ const ProductPage = (props) => {
     roll2: '',
     roll3: '',
   })
+  const [ isFavorited, setIsFavorited ] = useState(false)
+  const [ callUseEffect, setCallUseEffect ] = useState(false)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    let isMounted = true
+
+    if (!localStorage.userId || localStorage.userId === 'null' || localStorage.userId === null) {
+      return
+    }
+
+    const getUser = async () => {
+
+      let sendingData = {
+        id: localStorage.userId
+      }
+
+      try {
+        dispatch(setLoadingOn())
+        const foundUser = await axios.put(`/api/account/findAccountId`, sendingData)
+        if(foundUser.data.success) {
+          foundUser.data.user.favorieItems && await foundUser.data.user.favorieItems.forEach((items) => {
+            if(items._id === props.product._id) {
+              setIsFavorited(true)
+            }
+          })
+          dispatch(setLoadingOff())
+        }
+      } catch (error) {
+        dispatch(setLoadingOff())
+        return toast.error('Error at getting user data')
+      }
+    }
+
+    getUser()
+    return () => {
+      isMounted = false
+    }
+  },[])
 
   const qtySetter = (type) => {
     if (type === 'minus') {
@@ -512,6 +559,48 @@ const ProductPage = (props) => {
     }
   }
 
+  const favButtonHandler = (e) => {
+    
+    // login Validation
+    if(!localStorage.userId || localStorage.userId === 'null' || localStorage.userId === null) {
+      return Router.push('/account/login')
+    }
+    
+    let sendingData = {
+      id: localStorage.userId,
+      isFavorited: !isFavorited,
+      product: props.product._id,
+    }
+
+    console.log(sendingData)
+    
+    const requestToAPI = async () => {
+      try {
+        // Loading..
+        const favorite = await axios.put('/api/account/modifyFavoriteItem', sendingData)
+        if(favorite.data.success) {
+          console.log(favorite.data)
+          // loading off
+          let favoritedItem = favorite.data.user.FavoriteItems.find((item) => item === sendingData.product)
+          if(favoritedItem) {
+            setIsFavorited(true)
+          } else {
+            setIsFavorited(false)
+          }
+        }
+      } catch (error) {
+        // Loading off
+        toast.error('Error found when updating favorite. Please try again.')
+        console.log(error)
+      }
+    }
+  
+    requestToAPI()
+    
+  }
+
+
+
   return (
     <section className='pt-24 pb-8 flex flex-row justify-center w-full lg:gap-8 px-8 bg-yellow-500 min-h-[90vh]'>
 
@@ -530,7 +619,10 @@ const ProductPage = (props) => {
           }
           {/* title */}
           <div className='pt-8 flex flex-col gap-4'>
-            <p className='text-3xl font-bold uppercase tracking-wide text-lime-800 border-b border-lime-800'>{props.product.name}</p>
+            <div className='border-b border-lime-800 flex items-center gap-4'>
+              <p className='text-3xl font-bold uppercase tracking-wide text-lime-800 '>{props.product.name}</p>
+              {isFavorited ? <button className='text-lime-800'><FaHeart className='w-6 h-7' onClick={(e) => favButtonHandler(e)} /></button> : <button className='text-lime-800 hover:text-lime-600' onClick={(e) => favButtonHandler(e)}><FaRegHeart className='w-6 h-7'/></button>}
+            </div>
             {props.product.caption && <p className='text-lime-800'>{props.product.caption}</p>}
             <p className='text-slate-700'>{props.product.description}</p>
             {/* options */}

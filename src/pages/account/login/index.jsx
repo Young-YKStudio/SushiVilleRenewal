@@ -66,7 +66,7 @@ const Login = ({providers}) => {
   
 
   return (
-    <div className='bg-yellow-500 w-screen h-screen flex justify-center items-center text-lime-800'>
+    <div className='bg-yellow-500 w-full h-screen flex justify-center items-center text-lime-800'>
       <div className='w-96 p-8 rounded-lg bg-white/40 shadow-lg flex flex-col'>
         <div className='flex justify-center border-b border-lime-800 pb-4 mb-4'>
           <h1 className='font-bold text-2xl'>Login</h1>

@@ -23,7 +23,11 @@ export default async function FindAccount(req, res) {
     try {
       foundAccount = await User.findOne({_id: id})
       if(foundAccount) {
-        return foundAccount
+        return res.status(200).json({
+          success: true,
+          message: 'user found',
+          user: foundAccount
+        })
       } else {
         return res.status(400).json({
           success: false,
@@ -38,16 +42,5 @@ export default async function FindAccount(req, res) {
     }
   }
 
-  const run = async () => {
-    await findAccount()
-    if(foundAccount) {
-      return res.status(200).json({
-        success: true,
-        message: 'user found',
-        user: foundAccount
-      })
-    }
-  }
-
-  run()
+  await findAccount()
 }

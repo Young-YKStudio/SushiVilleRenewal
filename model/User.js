@@ -47,7 +47,13 @@ const userSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Reservation'
       }
-    ]
+    ],
+    FavoriteItems: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Menu'
+      }
+    ],
   },{timestamps: true}
 )
 

@@ -47,4 +47,14 @@ export const accountLinks = [
     href: '#',
     icon: <MdAccountCircle className="w-5 h-5" />
   },
+  {
+    name: 'Contact',
+    href: '/contact',
+    icon: <MdLocationOn className="w-5 h-5" />
+  },
+  {
+    name: 'Reservations',
+    href: '/reservation',
+    icon: <MdCalendarMonth className="w-5 h-5" />
+  },
 ]
