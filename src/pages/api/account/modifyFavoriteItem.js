@@ -7,8 +7,6 @@ export default async function ModifyFavorteItem(req, res) {
     return res.status(303).json({ error: 'request is not PUT'})
   }
 
-  console.log(req.body)
-
   const { id, isFavorited, product } = req.body
 
   if(!id) {

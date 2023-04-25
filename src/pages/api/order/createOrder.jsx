@@ -104,7 +104,7 @@ export default async function RegisterOrder(req, res) {
         comments: comments,
         isAgreed: isAgreed,
         isScheduled: isScheduled,
-        isPayAtRestaurant: isPayAtRestaurant,
+        isPaidAtRestaurant: isPayAtRestaurant,
         grandTotal: grandTotal,
         addOnTotal: addOnTotal,
         supplementTotal: supplementTotal,

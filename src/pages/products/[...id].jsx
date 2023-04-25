@@ -32,7 +32,6 @@ const ProductPage = (props) => {
     roll3: '',
   })
   const [ isFavorited, setIsFavorited ] = useState(false)
-  const [ callUseEffect, setCallUseEffect ] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -579,7 +578,6 @@ const ProductPage = (props) => {
         // Loading..
         const favorite = await axios.put('/api/account/modifyFavoriteItem', sendingData)
         if(favorite.data.success) {
-          console.log(favorite.data)
           // loading off
           let favoritedItem = favorite.data.user.FavoriteItems.find((item) => item === sendingData.product)
           if(favoritedItem) {

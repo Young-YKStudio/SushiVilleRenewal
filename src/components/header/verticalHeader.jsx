@@ -1,16 +1,20 @@
 import { dashboardLinks } from '../../../data/navigations'
 import NextLink from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, spring } from 'framer-motion'
 import { signOut, useSession } from 'next-auth/react'
 import { MdLastPage, MdFirstPage, MdSettings, MdOutlineHelp, MdClose, MdLogout, MdAccountCircle } from 'react-icons/md'
 import { RdxLogOutButton1 } from '../../../redux/auth/logOutButtons'
+import { setIsVerticalMenuNarrow, setIsVerticalMenuWide } from '../../../redux/cartSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const VerticalHeader = ({path}) => {
 
-  const [ isNarrow, setIsNarrow ] = useState(false)
+  const { isVerticalMenuNarrow } = useSelector((state) => state.cart)
+
   const [ isPopOpen, setIsPopOpen ] = useState(false)
   const { data: session } = useSession()
+  const dispatch = useDispatch()
 
   const styleChange = (state) => {
     if (state) {
@@ -22,9 +26,9 @@ const VerticalHeader = ({path}) => {
 
   const buttonStylesNarrow = (href) => {
     if(path === href) {
-      return 'flex justify-center p-3 bg-white/40 rounded-md'
+      return 'min-h-[2.75em] flex justify-center p-3 bg-white/40 rounded-md'
     } else {
-      return "flex justify-center p-3 hover:bg-white/40 rounded-md"
+      return "min-h-[2.75em] flex justify-center p-3 hover:bg-white/40 rounded-md"
     }
   }
 
@@ -44,27 +48,35 @@ const VerticalHeader = ({path}) => {
     }
   }
 
+  const toggleReduxState = () => {
+    if(isVerticalMenuNarrow) {
+      dispatch(setIsVerticalMenuNarrow())
+    } else {
+      dispatch(setIsVerticalMenuWide())
+    }
+  }
+
   return (
     <motion.nav
       layout
       style={{ originX: 0 }}
       transition={{duration: 0.25, spring}}
       animate={{
-        width: isNarrow ? '5em' : '10em',
+        width: isVerticalMenuNarrow ? '5em' : '10em',
       }}
       className='bg-yellow-500 text-lime-800 shadow-md sticky top-0 h-screen flex flex-col flex-nowrap p-4'
     >
       {/* Logo */}
       <div className='flex justify-center py-4 border-b border-lime-800'>
-        <a className='font-bold text-2xl' href='/'>{isNarrow ? 'L' : 'Logo'}</a>
+        <a className='font-bold text-2xl' href='/'>{isVerticalMenuNarrow ? 'L' : 'Logo'}</a>
       </div>  
       {/* ToggleButton */}
       <motion.div
         layout
-        className={styleChange(isNarrow)}
+        className={styleChange(isVerticalMenuNarrow)}
         transition={{duration: 0.25, spring}}
       >
-        <button onClick={() => setIsNarrow(!isNarrow)}>{isNarrow ? <MdLastPage className='w-5 h-5' /> : <MdFirstPage className='w-5 h-5' />}</button>
+        <button onClick={toggleReduxState}>{isVerticalMenuNarrow ? <MdLastPage className='w-5 h-5' /> : <MdFirstPage className='w-5 h-5' />}</button>
       </motion.div>
       <div className='mt-4 flex flex-col w-full h-full flex-nowrap justify-between'>
         {/* Links */}
@@ -73,9 +85,9 @@ const VerticalHeader = ({path}) => {
             return <NextLink
               key={i}
               href={link.href}
-              className={isNarrow ? buttonStylesNarrow(link.href) : buttonStyles(link.href)}
+              className={isVerticalMenuNarrow ? buttonStylesNarrow(link.href) : buttonStyles(link.href)}
             >
-              {link.icon && link.icon}{!isNarrow && link.name}
+              {link.icon && link.icon}<span className='pl-7'>{!isVerticalMenuNarrow && link.name}</span>
             </NextLink>
           })}
         </div>
@@ -84,16 +96,16 @@ const VerticalHeader = ({path}) => {
             {/* Settings */}
             <NextLink
               href='/dashboard/settings'
-              className={isNarrow ? buttonStylesNarrow('/dashboard/settings') : buttonStyles('/dashboard/settings')}
+              className={isVerticalMenuNarrow ? buttonStylesNarrow('/dashboard/settings') : buttonStyles('/dashboard/settings')}
             >
-              <MdSettings className='w-5 h-5'/>{!isNarrow && 'Settings'}
+              <MdSettings className='w-5 h-5'/>{!isVerticalMenuNarrow && 'Settings'}
             </NextLink>
             {/* Help */}
             <NextLink
               href='/dashboard/help'
-              className={isNarrow ? buttonStylesNarrow('/dashboard/help') : buttonStyles('/dashboard/help')}
+              className={isVerticalMenuNarrow ? buttonStylesNarrow('/dashboard/help') : buttonStyles('/dashboard/help')}
             >
-              <MdOutlineHelp className='w-5 h-5'/>{!isNarrow && 'Help'}
+              <MdOutlineHelp className='w-5 h-5'/>{!isVerticalMenuNarrow && 'Help'}
             </NextLink>
           </div>
 
@@ -102,10 +114,10 @@ const VerticalHeader = ({path}) => {
               className='flex flex-col flex-nowrap gap-2 border-t border-lime-800 mt-2 pt-2'
             >
               <div 
-                className={isNarrow ? 'flex flex-row flex-nowrap items-center justify-center px-2 py-3 hover:bg-white/40 rounded-md' : 'flex flex-row flex-nowrap justify-center items-center px-2 py-3 hover:bg-white/40 rounded-md hover:cursor-pointer'}
+                className={isVerticalMenuNarrow ? 'flex flex-row flex-nowrap items-center justify-center px-2 py-3 hover:bg-white/40 rounded-md' : 'flex flex-row flex-nowrap justify-center items-center px-2 py-3 hover:bg-white/40 rounded-md hover:cursor-pointer'}
                 onClick={() => setIsPopOpen(!isPopOpen)}
                 >
-                {isNarrow ?
+                {isVerticalMenuNarrow ?
                   <div 
                     style={{backgroundImage: `url("${session.user.image}")`}}
                     className='w-7 h-7 rounded-full flex justify-center items-center bg-lime-800 text-white text-md'
@@ -120,7 +132,7 @@ const VerticalHeader = ({path}) => {
           }
           {/* POP */}
           {session && <motion.div
-              className={isPopOpen ? popStyles(isNarrow) : 'hidden'}
+              className={isPopOpen ? popStyles(isVerticalMenuNarrow) : 'hidden'}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}

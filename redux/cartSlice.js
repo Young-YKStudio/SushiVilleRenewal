@@ -10,7 +10,8 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   isError: false,
-  message: ''
+  message: '',
+  isVerticalMenuNarrow: false,
 }
 
 // Thunks
@@ -134,11 +135,17 @@ export const cartSlice = createSlice({
     },
     setLoadingOff: (state) => {
       state.isLoading = false
+    },
+    setIsVerticalMenuNarrow: (state) => {
+      state.isVerticalMenuNarrow = false
+    },
+    setIsVerticalMenuWide: (state) => {
+      state.isVerticalMenuNarrow = true
     }
-  }
+  },
 })
 
-export const { addToCart, removeFromCart, cartReset, qtyIncrease, qtyDecrease, resetStatus, setLoadingOn, setLoadingOff } = cartSlice.actions
+export const { addToCart, removeFromCart, cartReset, qtyIncrease, qtyDecrease, resetStatus, setLoadingOn, setLoadingOff, setIsVerticalMenuNarrow, setIsVerticalMenuWide } = cartSlice.actions
 
 export const selectItems = (state) => state.cart.cartItems
 

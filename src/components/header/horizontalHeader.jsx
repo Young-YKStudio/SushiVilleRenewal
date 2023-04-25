@@ -42,7 +42,7 @@ const HorizontalHeader = ({path}) => {
     <>
       <nav className="fixed top-0 z-40 w-full text-lime-800 p-4 flex justify-between bg-white/80 shadow-md">
         <div className='flex items-center w-full justify-center md:justify-start'>
-          <NextLink href='/' className='font-bold text-2xl'><img src='https://ucarecdn.com/74efa9c4-1383-4281-97ab-71f436baa2cd/' alt='logo' className='max-w-[8em]' /></NextLink>
+          <NextLink href='/' className='font-bold text-2xl'><img src='https://ucarecdn.com/1a966f1f-4eec-487f-9e2d-8b4d38455b41/logo_sushivill.png' alt='logo' className='max-w-[8em]' /></NextLink>
         </div>
         {/* full menu */}
         <div className='hidden md:flex flex-row items-center gap-4'>
