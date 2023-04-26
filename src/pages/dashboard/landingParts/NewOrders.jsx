@@ -36,12 +36,12 @@ const NewOrders = ({orders}) => {
 
   return (
     <section
-      className="pl-6"
+      className="pl-20"
     >
       <div
-        className="pb-4 border-b border-lime-800 mb-4 flex flex-row gap-2 items-center text-lime-800 font-bold text-2xl"
+        className="pl-6 pb-4 border-b border-lime-800 mb-4 flex flex-row gap-2 items-center text-lime-800 font-bold text-3xl"
       >
-        <h1 className="text-lime-800 font-bold text-2xl">New Orders</h1>
+        <h1 className="text-lime-800 font-bold text-3xl">New Orders</h1>
         {newOrders ? <p className="">{`(${newOrders.length})`}</p> : <p>{`(0)`}</p>}
       </div>
       <div

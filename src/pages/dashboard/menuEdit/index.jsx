@@ -1,15 +1,37 @@
 import axios from 'axios'
 import { useSelector } from 'react-redux';
 import Router from 'next/router';
+import { MdOutlineAdd } from 'react-icons/md'
+import { useState, useEffect } from 'react'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 const MenuEditDashboard = (props) => {
-  console.log(props)
 
   const { isVerticalMenuNarrow } = useSelector((state) => state.cart)
+  const [ menuList, setMenuList ] = useState(null)
+  const [ searchedText, setSearchedText ] = useState('')
+
+  useEffect(() => {
+    let isMounted = true
+    const setMenu = () => {
+      if(isMounted && searchedText === '') {
+        setMenuList(props.menu)
+      }
+      if(isMounted && searchedText !== '') {
+        let tempArry = null
+        tempArry = props.menu.filter(menuItem => menuItem.name.toLowerCase().includes(searchedText.toLocaleLowerCase()))
+        setMenuList(tempArry)
+      }
+    }
+    setMenu()
+    return () => {
+      isMounted = false
+    }
+
+  },[props.menu, searchedText])
 
   const styleDistributor = (state) => {
     if(!state) {
@@ -26,6 +48,30 @@ const MenuEditDashboard = (props) => {
         <h1 className='font-bold text-3xl pl-6'>Menu Edit Page</h1>
       </div>
       <div className="px-4 sm:px-6 lg:px-8 h-[85vh] overflow-auto">
+      <div className="sm:flex sm:items-center pt-8">
+        <div className="sm:flex-auto">
+          <h1 className="text-base font-semibold leading-6 text-lime-800">Menu Edit</h1>
+          <p className="pt-2 text-sm text-gray-700">
+            Editing Categories and Sub Categories will effect all menu in the website.
+          </p>
+          <input 
+            type='text' 
+            className='text-sm px-4 py-1 border border-lime-800 rounded-xl focus:ring-0 w-full max-w-[25em] !outline-none focus:border-lime-500 mt-4' 
+            placeholder='Search Menu...'
+            value={searchedText}
+            onChange={(e) => setSearchedText(e.target.value)}
+          />
+        </div>
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+          <button
+            type="button"
+            className="rounded-md bg-lime-800 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500 flex items-center"
+            onClick={() => {Router.push(`/dashboard/menuEdit/addMenu`)}}
+          >
+            <MdOutlineAdd className='w-5 h-5 mr-2'/> Add Menu
+          </button>
+        </div>
+      </div>
       <div className="pt-8 flow-root">
           <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle">
@@ -84,11 +130,11 @@ const MenuEditDashboard = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {props.menu && props.menu.map((menu, personIdx) => (
+                  {menuList && menuList.map((menu, personIdx) => (
                     <tr key={menu._id}>
                       <td
                         className={classNames(
-                          personIdx !== props.menu.length - 1 ? 'border-b border-gray-200' : '',
+                          personIdx !== menuList.length - 1 ? 'border-b border-gray-200' : '',
                           'whitespace-nowrap px-3 py-4 text-sm text-gray-500'
                         )}
                       >
@@ -96,7 +142,7 @@ const MenuEditDashboard = (props) => {
                       </td>
                       <td
                         className={classNames(
-                          personIdx !== props.menu.length - 1 ? 'border-b border-gray-200' : '',
+                          personIdx !== menuList.length - 1 ? 'border-b border-gray-200' : '',
                           'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
                         )}
                       >
@@ -104,7 +150,7 @@ const MenuEditDashboard = (props) => {
                       </td>
                       <td
                         className={classNames(
-                          personIdx !== props.menu.length - 1 ? 'border-b border-gray-200' : '',
+                          personIdx !== menuList.length - 1 ? 'border-b border-gray-200' : '',
                           'whitespace-nowrap px-3 py-4 text-sm text-gray-500'
                         )}
                       >
@@ -112,7 +158,7 @@ const MenuEditDashboard = (props) => {
                       </td>
                       <td
                         className={classNames(
-                          personIdx !== props.menu.length - 1 ? 'border-b border-gray-200' : '',
+                          personIdx !== menuList.length - 1 ? 'border-b border-gray-200' : '',
                           'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
                         )}
                       >
@@ -120,7 +166,7 @@ const MenuEditDashboard = (props) => {
                       </td>
                       <td
                         className={classNames(
-                          personIdx !== props.menu.length - 1 ? 'border-b border-gray-200' : '',
+                          personIdx !== menuList.length - 1 ? 'border-b border-gray-200' : '',
                           'whitespace-nowrap px-3 py-4 text-sm text-gray-500'
                         )}
                       >
@@ -129,7 +175,7 @@ const MenuEditDashboard = (props) => {
 
                       <td
                         className={classNames(
-                          personIdx !== props.menu.length - 1 ? 'border-b border-gray-200' : '',
+                          personIdx !== menuList.length - 1 ? 'border-b border-gray-200' : '',
                           'whitespace-nowrap px-3 py-4 text-sm text-gray-500'
                         )}
                       >
@@ -137,7 +183,7 @@ const MenuEditDashboard = (props) => {
                       </td>
                       <td
                         className={classNames(
-                          personIdx !== props.menu.length - 1 ? 'border-b border-gray-200' : '',
+                          personIdx !== menuList.length - 1 ? 'border-b border-gray-200' : '',
                           'whitespace-nowrap px-3 py-4 text-sm text-gray-500'
                         )}
                       >
@@ -145,13 +191,13 @@ const MenuEditDashboard = (props) => {
                       </td>
                       <td
                         className={classNames(
-                          personIdx !== props.menu.length - 1 ? 'border-b border-gray-200' : '',
+                          personIdx !== menuList.length - 1 ? 'border-b border-gray-200' : '',
                           'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8'
                         )}
                       >
                         <button
                           className='text-lime-800 hover:text-yellow-600'
-                          onClick={(e) => buttonHandler(e, reservation._id)}
+                          onClick={(e) => Router.push(`/dashboard/menu/${menu._id}`)}
                         >
                           View / Edit
                         </button>

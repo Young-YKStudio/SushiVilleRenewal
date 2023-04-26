@@ -8,7 +8,7 @@ const ImageUpload = () => {
   }])
 
   return (
-    <section className="flex justify-center items-center w-full">
+    <section>
       <Widget
         publicKey={process.env.UPLOADCARE_PUB}
         id='file'

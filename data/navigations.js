@@ -32,11 +32,11 @@ export const dashboardLinks = [
   // menu edit -- options
   // stats
   // store open/close -- options
-  {
-    name: 'Temp: Image',
-    href: '/dashboard/temp_image',
-    icon: <MdSpaceDashboard className='fixed w-5 h-5'/>
-  },
+  // {
+  //   name: 'Temp: Image',
+  //   href: '/dashboard/temp_image',
+  //   icon: <MdSpaceDashboard className='fixed w-5 h-5'/>
+  // },
   {
     name: 'Dashboard',
     href: '/dashboard',

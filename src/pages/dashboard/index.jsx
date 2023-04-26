@@ -39,9 +39,9 @@ const Dashboard = () => {
 
   const styleDistributor = (state) => {
     if(!state) {
-      return 'px-4 py-8  w-full'
+      return 'py-8 w-full'
     } else {
-      return 'p-4 w-full'
+      return 'w-full'
     }
   }
 
