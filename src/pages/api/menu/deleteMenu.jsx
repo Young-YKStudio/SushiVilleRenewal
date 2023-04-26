@@ -6,8 +6,6 @@ export default async function DeleteMenu(req, res) {
     return res.status(303).json({ error: 'request is not PUT'})
   }
 
-  console.log(req.body, 'at api')
-
   const { id } = req.body
 
   try {

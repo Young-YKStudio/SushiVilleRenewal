@@ -41,7 +41,6 @@ const MenuEditDashboard = (props) => {
     }
   }
 
-
   return (
     <section className={styleDistributor(isVerticalMenuNarrow)}>
       <div className='border-b border-lime-800 w-full pb-4 text-lime-800'>
@@ -226,12 +225,3 @@ export async function getServerSideProps() {
     return {props: {menu: data}}
   }
 }
-
-// name
-// category
-// subcategory
-// caption
-// image
-// price
-// ordered
-// stock

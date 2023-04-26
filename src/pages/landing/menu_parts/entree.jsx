@@ -23,7 +23,7 @@ const EntreeMenu = ({menu}) => {
                 <div>
                   <div 
                     style={menus.image && {backgroundImage: `url("${menus.image}")`}}
-                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg hover:bg-[length:110%]"
+                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg "
                   >
                     <div className="flex flex-row flex-nowrap justify-between items-center py-4 bg-black/50 px-4 rounded-b-lg">
                       <div className="text-white">
@@ -85,7 +85,7 @@ const EntreeMenu = ({menu}) => {
                 <div>
                   <div 
                     style={menus.image && {backgroundImage: `url("${menus.image}")`}}
-                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg hover:bg-[length:110%]"
+                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg "
                   >
                     <div className="flex flex-row flex-nowrap justify-between items-center py-4 bg-black/50 px-4 rounded-b-lg">
                       <div className="text-white">
@@ -147,7 +147,7 @@ const EntreeMenu = ({menu}) => {
                 <div>
                   <div 
                     style={menus.image && {backgroundImage: `url("${menus.image}")`}}
-                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg hover:bg-[length:110%]"
+                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg "
                   >
                     <div className="flex flex-row flex-nowrap justify-between items-center py-4 bg-black/50 px-4 rounded-b-lg">
                       <div className="text-white">
@@ -209,7 +209,7 @@ const EntreeMenu = ({menu}) => {
                 <div>
                   <div 
                     style={menus.image && {backgroundImage: `url("${menus.image}")`}}
-                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg hover:bg-[length:110%]"
+                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg "
                   >
                     <div className="flex flex-row flex-nowrap justify-between items-center py-4 bg-black/50 px-4 rounded-b-lg">
                       <div className="text-white">
@@ -271,7 +271,7 @@ const EntreeMenu = ({menu}) => {
                 <div>
                   <div 
                     style={menus.image && {backgroundImage: `url("${menus.image}")`}}
-                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg hover:bg-[length:110%]"
+                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg "
                   >
                     <div className="flex flex-row flex-nowrap justify-between items-center py-4 bg-black/50 px-4 rounded-b-lg">
                       <div className="text-white">
@@ -332,7 +332,7 @@ const EntreeMenu = ({menu}) => {
                 <div>
                   <div 
                     style={menus.image && {backgroundImage: `url("${menus.image}")`}}
-                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg hover:bg-[length:110%]"
+                    className="flex flex-col flex-nowrap justify-end bg-cover bg-center min-h-[15em] sm:min-h-[17em] hover:bg-black/0 rounded-lg "
                   >
                     <div className="flex flex-row flex-nowrap justify-between items-center py-4 bg-black/50 px-4 rounded-b-lg">
                       <div className="text-white">

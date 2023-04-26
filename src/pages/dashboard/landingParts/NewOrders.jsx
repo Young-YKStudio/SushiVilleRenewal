@@ -36,7 +36,7 @@ const NewOrders = ({orders}) => {
 
   return (
     <section
-      className="pl-20"
+      className="pl-20 pr-6"
     >
       <div
         className="pl-6 pb-4 border-b border-lime-800 mb-4 flex flex-row gap-2 items-center text-lime-800 font-bold text-3xl"

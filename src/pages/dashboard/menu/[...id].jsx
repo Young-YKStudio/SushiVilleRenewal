@@ -53,8 +53,6 @@ const ViewAndEditMenuDashboard = (props) => {
     }
   },[props])
 
-  console.log(props, 'at menu edit dashboard')
-
   const styleDistributor = (state) => {
     if(!state) {
       return 'p-8 pl-20 max-w-[65vw] md:max-w-[80vw] lg:max-w-[86vw] w-full'
