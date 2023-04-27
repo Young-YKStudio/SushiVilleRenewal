@@ -74,9 +74,7 @@ const NewOrders = ({orders}) => {
           </motion.div>
         })
         : 
-        <div>
-          <p>Waiting for new orders... </p>
-        </div>
+          null
         }
       </div>
     </section>

@@ -36,7 +36,7 @@ export default async function DashboardLanding(req, res) {
 
   const findAllReservations = async () => {
     try {
-      foundReservation = await Reservation.find().populate({'path': 'customer', model: User})
+      foundReservation = await Reservation.find().populate({'path': 'customer', model: User}).sort({createdAt: -1})
       return foundReservation
     } catch (error) {
       return res.status(400).json({
@@ -60,7 +60,7 @@ export default async function DashboardLanding(req, res) {
 
   const filteredReservation = (foundReservation) => {
     if(foundReservation.length > 0) {
-      let filteredReservations = foundReservation.filter(reservation => !reservation.isShowedUp)
+      let filteredReservations = foundReservation.filter(reservation => !reservation.isShowedUp && !reservation.isDenied)
       return filteredReservations
     } else {
       return []
