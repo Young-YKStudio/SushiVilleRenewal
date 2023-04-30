@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { useSelector } from 'react-redux';
 import Router from 'next/router';
-import { MdOutlineAdd } from 'react-icons/md'
 import { useState, useEffect } from 'react'
 import { AppetiZerSub, ALaCartSub, KitchenEntreeSub, LunchSpSub, PartyPlatterSub, SpecialRollSub, SushiSashimiSub, CategoriesList } from '../../../../data/menu';
 import { Switch } from '@headlessui/react';

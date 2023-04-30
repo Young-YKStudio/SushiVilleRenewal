@@ -13,9 +13,9 @@ const OrderHistoryDashboard = (props) => {
 
   const styleDistributor = (state) => {
     if(!state) {
-      return 'p-8 pl-20 max-w-[65vw] md:max-w-[80%] lg:max-w-[100%]'
+      return 'p-8 pl-20 max-w-[65vw] md:max-w-[84%] w-full'
     } else {
-      return 'p-8 pl-20 max-w-[85vw] md:max-w-[90%] lg:max-w-[100%]'
+      return 'p-8 pl-20 max-w-[85vw] md:max-w-[90%] w-full'
     }
   }
 
@@ -60,7 +60,7 @@ const OrderHistoryDashboard = (props) => {
     <section
       className={styleDistributor(isVerticalMenuNarrow)}
     >
-      <div className='border-b border-lime-800 w-full pb-4 text-lime-800'>
+      <div className='border-b border-lime-800 pb-4 text-lime-800'>
         <h1 className='font-bold text-3xl pl-6'>Order History</h1>
       </div>
       <div className="px-4 sm:px-6 lg:px-8 h-[92%] overflow-auto">

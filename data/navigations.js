@@ -57,6 +57,11 @@ export const dashboardLinks = [
     href: '/dashboard/menuEdit',
     icon: <MdEditSquare className='fixed w-5 h-5'/>
   },
+  {
+    name: 'Accounts',
+    href: '/dashboard/account',
+    icon: <MdAccountCircle className='fixed w-5 h-5'/>
+  },
 
 ]
 

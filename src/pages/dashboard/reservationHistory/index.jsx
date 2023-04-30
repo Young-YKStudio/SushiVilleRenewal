@@ -13,9 +13,9 @@ const ReservationHistoryDashboard = (props) => {
 
   const styleDistributor = (state) => {
     if(!state) {
-      return 'p-8 pl-20 max-w-[65vw] md:max-w-[80%] lg:max-w-[86%]'
+      return 'p-8 pl-20 max-w-[65vw] md:max-w-[84%] w-full'
     } else {
-      return 'p-8 pl-20 max-w-[85vw] md:max-w-[80%] lg:max-w-[90%]'
+      return 'p-8 pl-20 max-w-[85vw] md:max-w-[90%] w-full'
     }
   }
 
