@@ -29,6 +29,13 @@ export const timeStringFormat = (string) => {
   return String(retrunString)
 }
 
+export const timeStringFormat2 = (string) => {
+  let firstTwo = string.substring(0, 2)
+  let lastTwo = string.substring(2, 4)
+  let retrunString = (Number(firstTwo) * 60) + Number(lastTwo)
+  return retrunString
+}
+
 // 12pm ~ 9pm
 
 // 12pm ~ 9:30pm on Friday and Saturday
