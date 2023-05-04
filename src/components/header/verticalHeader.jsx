@@ -92,7 +92,7 @@ const VerticalHeader = ({path}) => {
           })}
         </div>
         <div>
-          <div className='flex flex-col flex-nowrap gap-2 border-t border-lime-800 pt-4'>
+          <div className='flex flex-col flex-nowrap border-t border-lime-800 pt-2'>
             {/* Settings */}
             <NextLink
               href='/dashboard/settings'
@@ -101,12 +101,12 @@ const VerticalHeader = ({path}) => {
               <MdSettings className='w-5 h-5'/>{!isVerticalMenuNarrow && 'Settings'}
             </NextLink>
             {/* Help */}
-            <NextLink
+            {/* <NextLink
               href='/dashboard/help'
               className={isVerticalMenuNarrow ? buttonStylesNarrow('/dashboard/help') : buttonStyles('/dashboard/help')}
             >
               <MdOutlineHelp className='w-5 h-5'/>{!isVerticalMenuNarrow && 'Help'}
-            </NextLink>
+            </NextLink> */}
           </div>
 
           {/* Account */}

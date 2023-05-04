@@ -18,21 +18,22 @@ export default async function DeleteOrder(req, res) {
     })
   }
 
-  
+  // ????
   const findUserAndUpdate = async () => {
     let foundUser = null
     let loopCount = 0
     try {
-      foundUser = await User.findById({_id: userId})
-      foundUser && foundUser.Orders.forEach((order, i) => {
-        if(order = orderId) {
-          foundUser.Orders.splice(i, 1)
+      foundUser = await User.findById({_id: userId}).populate({'path': 'Orders', model: NewOrder})
+      let foundOrder = await NewOrder.findById({_id: orderId})
+      if(foundUser && foundOrder) {
+        await foundUser.Orders.forEach( async (order, index) => {
           loopCount += 1
-          if(loopCount === i) {
-            foundUser.save()
+          if(order.orderCount == foundOrder.orderCount) {
+            foundUser.Orders.splice(index, 1)
+            await foundUser.save()
           }
-        }
-      })
+        })
+      }
     } catch (error) {
       return res.status(400).json({
         success: false,

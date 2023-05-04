@@ -1,7 +1,7 @@
 import { links, accountLinks } from '../../../data/navigations'
 import { useSession } from 'next-auth/react'
 import NextLink from 'next/link'
-import { MdLogin, MdMenu, MdClose, MdShoppingCart } from 'react-icons/md'
+import { MdLogin, MdMenu, MdClose, MdAccountCircle } from 'react-icons/md'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector } from 'react-redux'
@@ -191,6 +191,15 @@ const HorizontalHeader = ({path}) => {
                 {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
               </NextLink>
             })}
+            {localStorage.userId && 
+              <NextLink
+                href={`/account/user/${localStorage.userId}`}
+                className='hover:bg-white/90 px-4 py-2 rounded-md flex items-center truncate'
+                onClick={() => setIsAccountOpen(false)}
+              >
+                <MdAccountCircle className='w-5 h-5 mr-2'/> Account
+              </NextLink>
+            }
             <RdxLogOutButton1 />
           </motion.section>
         </AnimatePresence>

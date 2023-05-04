@@ -41,7 +41,7 @@ const Dashboard = () => {
     if(!state) {
       return 'py-8 w-full'
     } else {
-      return 'w-full'
+      return 'py-8 w-full'
     }
   }
 

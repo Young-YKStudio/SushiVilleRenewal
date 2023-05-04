@@ -1,5 +1,8 @@
 import dbConnect from "../../../../util/DBConnect";
 import User from '../../../../model/User'
+import NewOrder from "../../../../model/Order";
+import Reservation from "../../../../model/Reservation";
+import Menu from "../../../../model/Menu";
 
 export default async function FindAccount(req, res) {
   if (req.method !== 'PUT') {
@@ -21,7 +24,7 @@ export default async function FindAccount(req, res) {
 
   const findAccount = async () => {
     try {
-      foundAccount = await User.findOne({_id: id})
+      foundAccount = await User.findOne({_id: id}).populate({"path": 'Orders', model: NewOrder}).populate({'path': 'Reservations', model: Reservation}).populate({'path': 'FavoriteItems', model: Menu})
       if(foundAccount) {
         return res.status(200).json({
           success: true,

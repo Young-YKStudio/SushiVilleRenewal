@@ -7,7 +7,6 @@ import { toast } from 'react-toastify'
 import moment from 'moment-timezone'
 
 const DashboardReservationView = (props) => {
-  console.log(props, 'at order id page')
 
   const [ reservationStatus, setReservationStatus ] = useState(null)
   const { isVerticalMenuNarrow } = useSelector((state) => state.cart)
@@ -142,7 +141,8 @@ const DashboardReservationView = (props) => {
   const deletReservationHandler = async (e) => {
     e.preventDefault()
     let sendingData = {
-      reservationId: props.reservations._id
+      reservationId: props.reservations._id,
+      userId: props.reservations.customer._id
     }
     const requestToAPI = async () => {
       try {

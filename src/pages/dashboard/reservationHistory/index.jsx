@@ -147,7 +147,7 @@ const ReservationHistoryDashboard = (props) => {
                           'whitespace-nowrap px-3 py-4 text-sm text-gray-500'
                         )}
                       >
-                        {moment(reservation.reservedDate).tz('America/New_York').format('LLL')}
+                        {moment(reservation.reserveDate).tz('America/New_York').format('LLL')}
                       </td>
 
                       <td

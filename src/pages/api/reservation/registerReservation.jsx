@@ -1,8 +1,9 @@
 import dbConnect from "../../../../util/DBConnect";
 import Reservation from "../../../../model/Reservation";
+import User from "../../../../model/User";
 
 export default async function RegisterReservation(req, res) {
-  if(req.method !== 'POST') {
+  if(req.method !== 'PUT') {
     return res.status(303).json({ error: 'reqeust is not POST' })
   }
 
@@ -39,6 +40,16 @@ export default async function RegisterReservation(req, res) {
       })
 
       if(createdReservation) {
+        try {
+          let foundAccount = await User.findOne({_id: customer})
+          foundAccount.Reservations.push(createdReservation)
+          await foundAccount.save()
+        } catch (error) {
+          return res.status(400).json({
+            success: false,
+            message: 'Error found at updating user'
+          })
+        }
         return res.status(200).json({
           success: true,
           message: 'Registered reservation',

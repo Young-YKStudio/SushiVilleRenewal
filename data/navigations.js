@@ -71,11 +71,11 @@ export const accountLinks = [
     href: '/dashboard',
     icon: <MdSpaceDashboard className="w-5 h-5" />
   },
-  {
-    name: 'Account',
-    href: '#',
-    icon: <MdAccountCircle className="w-5 h-5" />
-  },
+  // {
+  //   name: 'Account',
+  //   href: '#',
+  //   icon: <MdAccountCircle className="w-5 h-5" />
+  // },
   {
     name: 'Contact',
     href: '/contact',

@@ -121,7 +121,7 @@ const Reservation = () => {
     const requestToAPI = async () => {
       try {
         dispatch(setLoadingOn())
-        const reservation = await axios.post('/api/reservation/registerReservation', sendingData)
+        const reservation = await axios.put('/api/reservation/registerReservation', sendingData)
         if(reservation.data.success) {
           dispatch(setLoadingOff())
           Router.push(`/reservation/success/${reservation.data.reservation._id}`)
