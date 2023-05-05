@@ -54,6 +54,12 @@ const userSchema = new Schema(
         ref: 'Menu'
       }
     ],
+    Coupons: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Coupon'
+      }
+    ]
   },{timestamps: true}
 )
 
