@@ -55,8 +55,12 @@ const PromoCodeDashboard = () => {
         }
       } catch (error) {
         dispatch(setLoadingOff())
-        console.log(error)
-        toast.error('Error at generating coupon. Please contact support or try again later.')
+        if(error.response.data.message === 'Coupon Code already exist') {
+          toast.warn('Provide coupon already exist. Try again with different code.')
+          setCouponCode('')
+        } else {
+          toast.error('Error at generating coupon. Please contact support or try again later.')
+        }
       }
     }
 

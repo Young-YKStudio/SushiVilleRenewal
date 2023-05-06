@@ -25,6 +25,23 @@ export default async function GenerateAccountCoupon(req, res) {
   }
 
   let CreatedCoupon
+  let duplicateCoupon
+
+  try {
+    let allCoupon = await Coupon.find({})
+    duplicateCoupon = allCoupon.find(coupon => coupon.couponCode == couponCode)
+    if(duplicateCoupon) {
+      return res.status(300).json({
+        success: false,
+        message: 'Coupon Code already exist'
+      })
+    }
+  } catch (error) {
+    return res.staus(400).json({
+      success: false,
+      message: 'Error at finding duplicate'
+    })
+  }
 
   try {
     CreatedCoupon = await Coupon.create({
@@ -48,7 +65,7 @@ export default async function GenerateAccountCoupon(req, res) {
       await updatingAccount.save()
 
       // TODO: send email to customer
-      
+
       return res.status(200).json({
         success: true,
       })

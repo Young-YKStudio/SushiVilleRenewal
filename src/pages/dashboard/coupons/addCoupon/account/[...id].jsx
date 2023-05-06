@@ -55,6 +55,7 @@ const AddCouponAccountDashboard = (props) => {
         const request = await axios.put('/api/coupon/generateAccountCoupon', submitForm)
         if(request.data.success) {
           dispatch(setLoadingOff())
+
           toast.success(`Coupon has been assigned to ${props.account.username}`)
           setTimeout(() => {
             Router.push('/dashboard/coupons')
@@ -62,8 +63,12 @@ const AddCouponAccountDashboard = (props) => {
         }
       } catch (error) {
         dispatch(setLoadingOff())
-        console.log(error)
-        toast.error('Error at generating coupon. Please contact support or try again later.')
+        if(error.response.data.message === 'Coupon Code already exist') {
+          toast.warn('Provide coupon already exist. Try again with different code.')
+          setCouponCode('')
+        } else {
+          toast.error('Error at generating coupon. Please contact support or try again later.')
+        }
       }
     }
 
