@@ -62,7 +62,7 @@ const VerticalHeader = ({path}) => {
       style={{ originX: 0 }}
       transition={{duration: 0.25, spring}}
       animate={{
-        width: isVerticalMenuNarrow ? '5em' : '10em',
+        width: isVerticalMenuNarrow ? '5em' : '10.5em',
       }}
       className='bg-yellow-500 text-lime-800 shadow-md sticky top-0 h-screen flex flex-col flex-nowrap p-4'
     >

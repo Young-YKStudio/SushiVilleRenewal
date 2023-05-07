@@ -11,7 +11,7 @@ const initialState = {
   isSuccess: false,
   isError: false,
   message: '',
-  isVerticalMenuNarrow: false,
+  isVerticalMenuNarrow: true,
   isStoreOpen: false,
 }
 

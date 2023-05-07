@@ -2,6 +2,7 @@ import dbConnect from "../../../../util/DBConnect";
 import NewOrder from "../../../../model/Order";
 import User from "../../../../model/User";
 import Menu from "../../../../model/Menu";
+import Coupon from '../../../../model/Coupon'
 
 export default async function GetOneOrder(req, res) {
   if(req.method !== 'PUT') {
@@ -31,7 +32,7 @@ export default async function GetOneOrder(req, res) {
 
   const findOrder = async () => {
     try {
-      foundOrder = await NewOrder.findById({_id: id}).populate({path: 'customer', model: User})
+      foundOrder = await NewOrder.findById({_id: id}).populate({path: 'customer', model: User}).populate({'path': 'coupon', model: Coupon})
       return foundOrder
     } catch (error) {
       return res.status(400).json({

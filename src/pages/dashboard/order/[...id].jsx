@@ -99,7 +99,7 @@ const DashboardOrderView = (props) => {
           dispatch(setLoadingOff())
           toast.success('Order has been Confirmed')
           setTimeout(() => {
-            Router.reload()
+            Router.push('/dashboard')
           }, 1000)
         }
       } catch (error) {
@@ -124,7 +124,7 @@ const DashboardOrderView = (props) => {
           dispatch(setLoadingOff())
           toast.success('Order has been set to Ready.')
           setTimeout(() => {
-            Router.reload()
+            Router.push('/dashboard')
           }, 1000)
         }
       } catch (error) {

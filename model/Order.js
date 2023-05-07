@@ -89,6 +89,10 @@ const orderSchema = new mongoose.Schema({
   supplementTotal: Number,
   taxRate: Number,
   orderCount: Number,
+  coupon: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Coupon'
+  },
   isPlaced: {
     type: Boolean,
     default: false,

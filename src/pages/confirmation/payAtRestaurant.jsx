@@ -10,8 +10,9 @@ const PayAtRestaurantSection = ({orderData}) => {
   let addOnTotal = orderData.order.addOnTotal
   let taxRate = orderData.order.taxRate
   let extraTotal = orderData.order.supplementTotal
-  let taxEstimate = (subtotal + addOnTotal + extraTotal) * taxRate
-  let grandTotal = orderData.order.grandTotal
+  let coupon = orderData.order.coupon ? orderData.order.coupon.amount : 0
+  let taxEstimate = (subtotal + addOnTotal + extraTotal - coupon) * taxRate
+  let grandTotal = (((subtotal + addOnTotal + extraTotal) - coupon) + (((subtotal + addOnTotal + extraTotal) - coupon) * taxRate))
 
   const dispatch = useDispatch()
 
@@ -43,12 +44,12 @@ const PayAtRestaurantSection = ({orderData}) => {
     <section
       className="pt-20 flex flex-col px-8 pb-8 text-lime-800 bg-yellow-500 min-h-[85vh]"
     >
-      <div className="py-8 border-b border-lime-800 mb-8">
+      <div className="py-8 border-b border-lime-800">
         <p className="font-bold text-2xl md:text-3xl md:text-center">Order Confirmation</p>
       </div>
 
       <div className='mx-auto w-full max-w-3xl'>
-        <div className='max-w-3xl mb-8'>
+        <div className='max-w-3xl my-16'>
           <p className='text-3xl mb-2'>Thank you for placing your order.</p>
           <p className='flex items-center text-lg'>Please confirm your order before we start cooking!</p>
         </div>
@@ -222,6 +223,14 @@ const PayAtRestaurantSection = ({orderData}) => {
                 <p>Supplements total</p>
                 <p className='font-bold'>${extraTotal.toFixed(2)}</p>
               </div>
+              {
+                orderData.order.coupon &&
+                <div className='flex items-center justify-between border-b border-lime-800 pb-4 text-sm'>
+                  <p>Coupon</p>
+                  <p className='font-bold'>- ${coupon.toFixed(2)}</p>
+                </div>
+
+              }
               <div className='flex items-center justify-between border-b border-lime-800 pb-4 text-sm'>
                 <p>Tax estimate</p>
                 <p className='font-bold'>${taxEstimate.toFixed(2)}</p>

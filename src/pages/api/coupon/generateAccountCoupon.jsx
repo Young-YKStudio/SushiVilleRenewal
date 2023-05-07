@@ -2,6 +2,8 @@ import Coupon from "../../../../model/Coupon";
 import User from "../../../../model/User";
 import dbConnect from "../../../../util/DBConnect";
 import moment from 'moment-timezone'
+import { PromoCouponEmail } from "./emails";
+import { sendEmail } from "../../../../util/sendEmail";
 
 export default async function GenerateAccountCoupon(req, res) {
   if(req.method !== 'PUT') {
@@ -26,6 +28,7 @@ export default async function GenerateAccountCoupon(req, res) {
 
   let CreatedCoupon
   let duplicateCoupon
+  let updatingAccount
 
   try {
     let allCoupon = await Coupon.find({})
@@ -59,16 +62,10 @@ export default async function GenerateAccountCoupon(req, res) {
   }
 
   try {
-    let updatingAccount = await User.findById({_id: userId})
+    updatingAccount = await User.findById({_id: userId})
     if(CreatedCoupon && updatingAccount) {
       updatingAccount.Coupons.push(CreatedCoupon)
       await updatingAccount.save()
-
-      // TODO: send email to customer
-
-      return res.status(200).json({
-        success: true,
-      })
     }
   } catch (error) {
     return res.status(400).json({
@@ -76,4 +73,24 @@ export default async function GenerateAccountCoupon(req, res) {
       message: 'Error at updating user from DB'
     })
   }
+
+  try {
+    let emailOptions = {
+      from: 'service@sushivilleny.com',
+      to: updatingAccount.email,
+      subject: 'You have received a coupon from Sushiville.',
+      html: PromoCouponEmail(CreatedCoupon.couponCode, CreatedCoupon.amount)
+    }
+
+    await sendEmail(emailOptions)
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Error at sending out an email'
+    })
+  }
+  
+  return res.status(200).json({
+    success: true,
+  })
 }

@@ -24,6 +24,7 @@ const reservationSchema = new mongoose.Schema({
     default: false,
   },
   reserveDate: Date,
+  denyReason: String,
 }, {timestamps: true})
 
 const Reservation = mongoose.models.Reservation || mongoose.model('Reservation', reservationSchema)

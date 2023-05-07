@@ -12,8 +12,6 @@ import Router from 'next/router';
 
 const ProductPage = (props) => {
 
-  // console.log(props, 'at produce page')
-
   const [ qty, setQty ] = useState(1)
   const [ BrownRice, setBrownRice ] = useState(false)
   const [ SoyPaper, setSoyPaper ] = useState(false)
@@ -408,7 +406,7 @@ const ProductPage = (props) => {
               )}
             />
           </Switch>
-          <div className='text-xs'>+ $1.00</div>
+          <div className={BrownRice ? 'font-bold text-xs text-lime-800' : 'text-xs'}>+ $1.00</div>
         </div>
       </div>
     }
@@ -444,7 +442,7 @@ const ProductPage = (props) => {
             )}
           />
         </Switch>
-        <div className='text-xs'>+ $1.00</div>
+        <div className={SoyPaper ? 'font-bold text-xs text-lime-800' : 'text-xs'}>+ $1.00</div>
       </div>
     </div>
     }
@@ -480,7 +478,7 @@ const ProductPage = (props) => {
               )}
             />
           </Switch>
-          <div className='text-xs'>+ $0.50</div>
+          <div className={Crunch ? 'font-bold text-xs text-lime-800' : 'text-xs'}>+ $0.50</div>
         </div>
       </div>
     }
@@ -516,7 +514,7 @@ const ProductPage = (props) => {
               )}
             />
           </Switch>
-          <div className='text-xs'>+ $0.50</div>
+          <div className={SpicyMayo ? 'font-bold text-xs text-lime-800' : 'text-xs'}>+ $0.50</div>
         </div>
       </div>
     }
@@ -552,7 +550,7 @@ const ProductPage = (props) => {
               )}
             />
           </Switch>
-          <div className='text-xs'>+ $0.50</div>
+          <div className={EelSauce ? 'font-bold text-xs text-lime-800' : 'text-xs'}>+ $0.50</div>
         </div>
       </div>
     }
@@ -570,8 +568,6 @@ const ProductPage = (props) => {
       isFavorited: !isFavorited,
       product: props.product._id,
     }
-
-    console.log(sendingData)
     
     const requestToAPI = async () => {
       try {
@@ -589,7 +585,6 @@ const ProductPage = (props) => {
       } catch (error) {
         // Loading off
         toast.error('Error found when updating favorite. Please try again.')
-        console.log(error)
       }
     }
   

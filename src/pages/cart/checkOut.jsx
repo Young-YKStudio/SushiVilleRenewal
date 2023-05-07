@@ -1,17 +1,15 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setLoadingOn, setLoadingOff } from '../../../redux/cartSlice'
+import { setLoadingOn, setLoadingOff, cartReset } from '../../../redux/cartSlice'
 import { toast } from 'react-toastify'
 import { Disclosure, Switch } from '@headlessui/react'
 import NextLink from 'next/link'
-import { MdOutlineAdd, MdOutlineRemove } from 'react-icons/md'
+import { MdOutlineAdd, MdOutlineRemove, MdCheck } from 'react-icons/md'
 import moment from 'moment-timezone'
 import Router from 'next/router'
 
-const CheckOutSection = ({grandTotal, addOnTotal, extraTotal, taxRate, subTotal, isPayAtRestaurant, setIsPayAtRestaurant, cartItems}) => {
-
-  console.log(localStorage, grandTotal, 'from checkout section')
+const CheckOutSection = ({grandTotal, grandTotalWithoutOnline, addOnTotal, extraTotal, taxRate, subTotal, isPayAtRestaurant, setIsPayAtRestaurant, cartItems, couponCode, setCouponCode, couponAmount, setCouponAmount}) => {
 
   const dispatch = useDispatch()
   const [ receivedUser, setReceivedUser ] = useState(null)
@@ -26,7 +24,6 @@ const CheckOutSection = ({grandTotal, addOnTotal, extraTotal, taxRate, subTotal,
 
   useEffect(() => {
 
-    // console.log(localStorage.userId)
     let isMounted = true
     const getUser = async () => {
       if(isMounted && localStorage.userId) {
@@ -37,7 +34,6 @@ const CheckOutSection = ({grandTotal, addOnTotal, extraTotal, taxRate, subTotal,
           dispatch(setLoadingOn())
           const foundUser = await axios.put(`/api/account/findAccountId`, sendingData)
           if(foundUser.data.success) {
-            console.log(foundUser.data, 'at app')
             await setReceivedUser(foundUser.data.user)
             if(foundUser.data.user.contact) {
               setIsContactPresent(true)
@@ -97,7 +93,6 @@ const CheckOutSection = ({grandTotal, addOnTotal, extraTotal, taxRate, subTotal,
           }
         } catch (error) {
           dispatch(setLoadingOff())
-          console.log(error)
           if(error.response) {
             toast.error(error.response.data.message)
           } else {
@@ -110,7 +105,6 @@ const CheckOutSection = ({grandTotal, addOnTotal, extraTotal, taxRate, subTotal,
     }
 
     updateContact()
-    // console.log(submitForm, 'button clicked')
   }
 
 
@@ -163,28 +157,66 @@ const CheckOutSection = ({grandTotal, addOnTotal, extraTotal, taxRate, subTotal,
       isAgreed: isAgreed,
       isScheduled: combinedDate,
       isPayAtRestaurant: isPayAtRestaurant,
-      grandTotal: grandTotal,
+      grandTotal: isPayAtRestaurant ? grandTotalWithoutOnline : grandTotal,
       addOnTotal: addOnTotal,
       supplementTotal: extraTotal,
       taxRate: taxRate,
       orderTotal: subTotal,
+      coupon: {
+        couponCode: couponCode,
+        couponAmount: couponAmount
+      }
     }
 
     const requestToCreateOrder = async () => {
       try {
         dispatch(setLoadingOn())
-        const orderRequest = await axios.post('/api/order/createOrder', submitForm)
+        const orderRequest = await axios.post('/api/order/createPayAtResOrder', submitForm)
         if(orderRequest.data.success) {
           dispatch(setLoadingOff())
+          dispatch(cartReset())
           Router.push(`/confirmation/${orderRequest.data.order._id}`)
         }
-        console.log(orderRequest)
       } catch (error) {
         dispatch(setLoadingOff())
         toast.error('Error found on placing your order. Please try again.')
       }
     }
-    requestToCreateOrder()
+    if(isPayAtRestaurant) {
+      requestToCreateOrder()
+    } else {
+      // TODO: start from here 
+      console.log('stripe order')
+    }
+  }
+
+  const checkCouponCode = async (e) => {
+    if(!couponCode) {
+      return toast.warn('Please enter coupon code')
+    }
+
+    let submitingCouponCode = {
+      coupon: couponCode,
+      account: receivedUser
+    }
+
+    try {
+      dispatch(setLoadingOn())
+      let request = await axios.put('/api/coupon/checkCoupon', submitingCouponCode)
+      if(request.data.success) {
+        dispatch(setLoadingOff())
+        setCouponAmount(request.data.coupon.amount)
+        // setcouponamount
+      }
+    } catch (error) {
+      dispatch(setLoadingOff())
+      toast.warn(`${error.response.data.message}`)
+    }
+  }
+
+  const clearCouponAmount = (e) => {
+    setCouponAmount(0)
+    setCouponCode('')
   }
 
   return (
@@ -392,6 +424,69 @@ const CheckOutSection = ({grandTotal, addOnTotal, extraTotal, taxRate, subTotal,
                           <p className='text-xs col-span-3'>Pay at pickup is not available for sheduled orders.</p>
                         </div>
                       </div>
+                    </Disclosure.Panel>
+                  </>
+                )}
+              </Disclosure>
+            </div>
+
+            {/* coupons */}
+            <div className="divide-y divide-lime-800 border-b border-lime-800">
+              <Disclosure as="div" key='options'>
+                {({ open }) => (
+                  <>
+                    <h3>
+                      <Disclosure.Button className="group relative flex w-full items-center justify-between py-6 text-left">
+                        <span
+                          className={classNames(open ? 'text-lime-600' : 'text-lime-800 group-hover:text-lime-600', 'text-sm font-medium')}
+                        >
+                          Coupons
+                        </span>
+                        <span className="ml-6 flex items-center">
+                          {open ? (
+                            <MdOutlineRemove
+                              className="block h-6 w-6 text-lime-600 group-hover:text-lime-600"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <MdOutlineAdd
+                              className="block h-6 w-6 text-lime-800 group-hover:text-lime-600"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </span>
+                      </Disclosure.Button>
+                    </h3>
+                    <Disclosure.Panel as="div" className="group relative flex flex-col w-full items-center pb-6 text-left gap-2">
+                      <div className='flex flex-row w-full'>
+                        <input type='text' className='px-4 py-2 border-none focus:ring-0 rounded-l-md w-full'
+                          value={couponCode}
+                          onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                        />
+                        {couponAmount > 0 ?
+                          <button 
+                            className='px-6 py-2 bg-yellow-500 text-white rounded-r-md'
+                            disabled
+                          >
+                            <MdCheck className='w-5 h-5' />
+                          </button>
+                        :
+                          <button 
+                            className='px-6 py-2 bg-lime-800 hover:bg-yellow-500 text-white rounded-r-md'
+                            onClick={checkCouponCode}
+                          >
+                            Apply
+                          </button>
+                        }
+                      </div>
+                      <div>
+                        <p className='text-xs'>Only one coupon can be applied to an order.</p>
+                      </div>
+                      { couponAmount > 0 &&
+                        <div>
+                          <p className='text-xs font-bold hover:cursor-pointer hover:text-white' onClick={clearCouponAmount}>clear coupon</p>
+                        </div>
+                      }
                     </Disclosure.Panel>
                   </>
                 )}

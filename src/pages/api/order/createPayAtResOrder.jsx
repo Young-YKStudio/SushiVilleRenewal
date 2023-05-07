@@ -2,17 +2,21 @@ import dbConnect from "../../../../util/DBConnect";
 import NewOrder from "../../../../model/Order";
 import User from "../../../../model/User";
 import Menu from "../../../../model/Menu";
+import Coupon from "../../../../model/Coupon";
+import { sendEmail } from "../../../../util/sendEmail";
+import { NewOrderPayAtResEmail } from "./emails";
 
 export default async function RegisterOrder(req, res) {
   if(req.method !== 'POST') {
     return res.status(303).json({ error: 'reqeust is not POST' })
   }
 
-  const { orderedItems, customer, comments, isAgreed, isScheduled, isPayAtRestaurant, grandTotal, addOnTotal, supplementTotal, taxRate, orderTotal } = req.body
+  const { orderedItems, customer, comments, isAgreed, isScheduled, isPayAtRestaurant, grandTotal, addOnTotal, supplementTotal, taxRate, orderTotal, coupon } = req.body
 
   let foundUser = null
   let createdOrder = null
   let lastOrderCount = null
+  let foundCoupon = null
 
   try {
     dbConnect()
@@ -33,7 +37,7 @@ export default async function RegisterOrder(req, res) {
     }
 
     // customer
-    foundUser = await User.findOne({_id: customer._id})
+    foundUser = await User.findOne({_id: customer._id}).populate({'path': 'Coupons', model: Coupon})
 
     if(!foundUser) {
       return {
@@ -77,6 +81,45 @@ export default async function RegisterOrder(req, res) {
     })
   }
 
+  if(coupon.couponCode !== '') {
+    try {
+      foundCoupon = await Coupon.find({couponCode: coupon.couponCode})
+      foundCoupon = foundCoupon[0]
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: 'Error at finding coupon'
+      })
+    }
+  }
+
+  if(coupon.couponCode !== '' && foundCoupon) {
+    if(foundCoupon.isPromo) {
+      try {
+        foundCoupon.couponUsedAccts.push(foundUser._id)
+        await foundCoupon.save()
+      } catch (error) {
+
+        return res.status(400).json({
+          success: false,
+          message: 'Error at updating coupon'
+        })
+      }
+    }
+    if(!foundCoupon.isPromo) {
+      try {
+        foundCoupon.isActive = false
+        foundCoupon.isUsed = true
+        await foundCoupon.save()
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          message: 'Error at updating coupon'
+        })
+      }
+    }
+  }
+
   const findLastOrder = async () => {
     try {
       let lastOrder = await NewOrder.find().sort({createdAt: -1}).limit(1)
@@ -96,46 +139,43 @@ export default async function RegisterOrder(req, res) {
     }
   }
 
-  const createOrder = async () => {
-    try {
-      createdOrder = await NewOrder.create({
-        orderedItems: orderedItems,
-        customer: customer._id,
-        comments: comments,
-        isAgreed: isAgreed,
-        isScheduled: isScheduled,
-        isPaidAtRestaurant: isPayAtRestaurant,
-        grandTotal: grandTotal,
-        addOnTotal: addOnTotal,
-        supplementTotal: supplementTotal,
-        taxRate: taxRate,
-        orderTotal: orderTotal,
-        orderCount: lastOrderCount + 1
-      })
+  await findLastOrder()
 
-      return createdOrder
-    } catch (error) {
-      return res.status(400).json({
-        success: false,
-        message: 'Error at creating order on DB'
-      })
-    }
+  try {
+    createdOrder = await NewOrder.create({
+      orderedItems: orderedItems,
+      customer: customer._id,
+      comments: comments,
+      isAgreed: isAgreed,
+      isScheduled: isScheduled,
+      isPaidAtRestaurant: isPayAtRestaurant,
+      grandTotal: grandTotal,
+      addOnTotal: addOnTotal,
+      supplementTotal: supplementTotal,
+      taxRate: taxRate,
+      orderTotal: orderTotal,
+      orderCount: lastOrderCount + 1,
+      coupon: foundCoupon ? foundCoupon._id : null
+    })
+
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Error at creating order on DB'
+    })
+  }
+  
+  try {
+    await foundUser.Orders.push(createdOrder._id)
+    await foundUser.save()
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Error at updating user date on DB'
+    })
   }
 
-  const addOrderToUser = async () => {
-    try {
-      await foundUser.Orders.push(createdOrder._id)
-      await foundUser.save()
-      return foundUser
-    } catch (error) {
-      return res.status(400).json({
-        success: false,
-        message: 'Error at updating user date on DB'
-      })
-    }
-  }
-
-  const addNumberOnMenu = async () => {
+  if(createdOrder) {
     createdOrder.orderedItems.map(async (orderItem) => {
       try {
         let foundMenu = await Menu.find({_id: orderItem.product})
@@ -152,10 +192,23 @@ export default async function RegisterOrder(req, res) {
     })
   }
 
-  await findLastOrder()
-  await createOrder()
-  await addOrderToUser()
-  await addNumberOnMenu()
+  // send Email
+
+  try {
+    let tempName = foundUser.username ? foundUser.username : foundUser.name
+    let emailOptions = {
+      from: 'service@sushivilleny.com',
+      to: foundUser.email,
+      subject: `Sushiville order confirmation, #${createdOrder.orderCount}`,
+      html: NewOrderPayAtResEmail(tempName, createdOrder.orderCount, createdOrder.createdAt, createdOrder.grandTotal, foundUser.email)
+    }
+    await sendEmail(emailOptions)
+  } catch (error) {
+    return res.status(400).json({
+      success: false, 
+      message: 'Error at sending out email'
+    })
+  }
 
   return res.status(200).json({
     success: true,

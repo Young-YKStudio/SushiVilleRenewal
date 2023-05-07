@@ -9,6 +9,8 @@ import moment from 'moment-timezone'
 const DashboardReservationView = (props) => {
 
   const [ reservationStatus, setReservationStatus ] = useState(null)
+  const [ denyReason, setDenyReason ] = useState('')
+  const [ isDenyInputOpen, setIsDenyInputOpen ] = useState(false)
   const { isVerticalMenuNarrow } = useSelector((state) => state.cart)
   const dispatch = useDispatch()
 
@@ -115,9 +117,19 @@ const DashboardReservationView = (props) => {
   }
 
   const denyReservationHandler = async (e) => {
+    setIsDenyInputOpen(!isDenyInputOpen)
     e.preventDefault()
+  }
+  
+  const denySubmitHandler = async (e) => {
+    e.preventDefault()
+    if (!denyReason || denyReason === '') {
+      return toast.warn('Please enter reason for deny')
+    }
+
     let sendingData = {
-      reservationId: props.reservations._id
+      reservationId: props.reservations._id,
+      reason: denyReason
     }
     const requestToAPI = async () => {
       try {
@@ -161,19 +173,38 @@ const DashboardReservationView = (props) => {
       }
     }
     requestToAPI()
+    
   }
 
   const buttonDistributor = (state) => {
     if (state === 'New Reservation') {
       return <div className='w-full grid grid-cols-2 max-w-[40em] mx-auto'>
         <button onClick={confirmReservationHandler} className='bg-lime-800 text-white hover:bg-yellow-500 py-2 rounded-md'>Confirm Reservation</button>
-        <button onClick={denyReservationHandler} className='text-red-800 hover:text-lime-800'>Deny Reservation</button>
+        <button onClick={denyReservationHandler} className='text-red-800 hover:text-lime-800'>Deny Reason</button>
+        {isDenyInputOpen &&
+          <div className='mt-4 col-span-2'>
+            <p className='text-xs my-2'>Enter denial reason to customer</p>
+            <div className='flex flex-col gap-2'>
+              <textarea className='rounded-md w-full focus:ring-0' rows={3} type='text' value={denyReason} onChange={(e) => setDenyReason(e.target.value)} />
+              <button onClick={denySubmitHandler} className='bg-lime-800 text-white py-2 rounded-md hover:bg-yellow-500'>Deny Reservation</button>
+            </div>
+          </div>
+        }
       </div>
     }
     if (state === 'Confirmed Reservation') {
       return <div className='w-full grid grid-cols-2 max-w-[40em] mx-auto'>
         <button onClick={finishReservationHandler} className='bg-lime-800 text-white hover:bg-yellow-500 py-2 rounded-md'>Customer showed up</button>
-        <button onClick={denyReservationHandler} className='text-red-800 hover:text-lime-800'>Deny Reservation</button>
+        <button onClick={denyReservationHandler} className='text-red-800 hover:text-lime-800'>Deny Reason</button>
+        {isDenyInputOpen &&
+          <div className='mt-4 col-span-2'>
+            <p className='text-xs my-2'>Enter denial reason to customer</p>
+            <div className='flex flex-col gap-2'>
+              <textarea className='rounded-md w-full focus:ring-0' rows={3} type='text' value={denyReason} onChange={(e) => setDenyReason(e.target.value)} />
+              <button onClick={denySubmitHandler} className='bg-lime-800 text-white py-2 rounded-md hover:bg-yellow-500'>Deny Reservation</button>
+            </div>
+          </div>
+        }
       </div>
     }
     if (state === 'Fulfilled Reservation' || state === 'Denied Reservation') {

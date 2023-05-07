@@ -28,7 +28,7 @@ export const ForgotPasswordEmail = (resetUrl) => {
     <div style="margin-top: 1em;">
       <img
         style="max-width: 125px;"
-        src="https://ucarecdn.com/1a966f1f-4eec-487f-9e2d-8b4d38455b41/"
+        src="https://ucarecdn.com/1a966f1f-4eec-487f-9e2d-8b4d38455b41/logo_sushivill.png"
       />
     </div>
       <h1
@@ -136,7 +136,7 @@ export const ResetPasswordEmail = (homeURL) => {
       <div style="margin-top: 1em;">
         <img
           style="max-width: 125px;"
-          src="https://ucarecdn.com/1a966f1f-4eec-487f-9e2d-8b4d38455b41/"
+          src="https://ucarecdn.com/1a966f1f-4eec-487f-9e2d-8b4d38455b41/logo_sushivill.png"
         />
       </div>
       <h1
@@ -248,7 +248,7 @@ export const RegisterEmail = (username, email) => {
 			<div style="margin-top: 1em;">
 				<img
 					style="max-width: 125px;"
-					src="https://ucarecdn.com/1a966f1f-4eec-487f-9e2d-8b4d38455b41/"
+					src="https://ucarecdn.com/1a966f1f-4eec-487f-9e2d-8b4d38455b41/logo_sushivill.png"
 				/>
 			</div>
         <h1

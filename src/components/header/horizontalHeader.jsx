@@ -1,7 +1,7 @@
 import { links, accountLinks } from '../../../data/navigations'
 import { useSession } from 'next-auth/react'
 import NextLink from 'next/link'
-import { MdLogin, MdMenu, MdClose, MdAccountCircle } from 'react-icons/md'
+import { MdLogin, MdMenu, MdClose, MdAccountCircle, MdSpaceDashboard } from 'react-icons/md'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector } from 'react-redux'
@@ -114,12 +114,22 @@ const HorizontalHeader = ({path}) => {
                   {ImageDistributor(session.user)}
                   <p className='truncate'>{session.user.email}</p>
                 </div>
+                {localStorage.userId && 
+                  <NextLink
+                    href={`/dashboard`}
+                    className='hover:bg-white/90 px-4 py-2 rounded-md flex items-center truncate'
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <MdSpaceDashboard className='w-5 h-5 mr-2'/> Dashboard
+                  </NextLink>
+                }
                 {links && links.map((link, i) => {
                   if (link.name === 'Cart') {
                     return <NextLink
                       key={i}
                       href={link.href}
                       className={buttonStyles(link.href)}
+                      onClick={() => setIsMenuOpen(false)}
                     >
                       {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
                       {cartItems && cartItems.length > 0 && <p className='font-bold bg-red-700 rounded-md flex items-center justify-center text-white px-1 ml-2'>{`${cartItems.length}`}</p>}
@@ -129,6 +139,7 @@ const HorizontalHeader = ({path}) => {
                       key={i}
                       href={link.href}
                       className={buttonStyles(link.href)}
+                      onClick={() => setIsMenuOpen(false)}
                     >
                       {link.icon && <span className='mr-2'>{link.icon}</span>}{link.name}
                     </NextLink>

@@ -23,6 +23,8 @@ const Cart = (props) => {
   const [ extra, setExtra ] = useState([]);
   const [ isReadyToPay, setIsReadyToPay ] = useState(false)
   const [ isPayAtRestaurant, setIsPayAtRestaurant ] = useState(false)
+  const [ couponAmount, setCouponAmount ] = useState(0)
+  const [ couponCode, setCouponCode ] = useState('')
   
   const addOnDistributor = (addOn) => {
     if(addOn.brownRice || addOn.crunch || addOn.eelSauce || addOn.soyPaper || addOn.spicyMayo) {
@@ -114,6 +116,7 @@ const Cart = (props) => {
   let grandTotalWithoutOnline = 0
 
   const subTotalCalc = (array) => {
+    let tempSubTotal = subTotal
     if(array.length > 0) {
       array.forEach((item) => {
         
@@ -127,9 +130,11 @@ const Cart = (props) => {
         if(item.product.category === 'Sauce') {
           return extraTotal += itemTotal
         }
-        return subTotal += itemTotal
+        return tempSubTotal += itemTotal
       })
     }
+
+    return subTotal = tempSubTotal
   }
 
   const AddOnCalc = (array) => {
@@ -160,26 +165,53 @@ const Cart = (props) => {
   }
 
   const taxEstimateCalc = () => {
-    let beforeTaxRate = subTotal + addOnTotal + extraTotal
-    let returnNum = beforeTaxRate * taxRate
-    return taxEstimate = returnNum
+    if(couponAmount === 0) {
+      let beforeTaxRate = subTotal + addOnTotal + extraTotal
+      let returnNum = beforeTaxRate * taxRate
+      return taxEstimate = returnNum
+    }
+    if(couponAmount > 0) {
+      let beforeTaxRate = (subTotal + addOnTotal + extraTotal ) - couponAmount
+      let returnNum = beforeTaxRate * taxRate
+      return taxEstimate = returnNum
+    }
   }
 
   const onlineProcessingCalc = () => {
-    let beforeRate = subTotal + addOnTotal + extraTotal + taxEstimate
-    let afterRate = beforeRate * 0.03
-    let final = afterRate + 0.3
-    return onlineProcessing = final
+    if(couponAmount === 0) {
+      let beforeRate = subTotal + addOnTotal + extraTotal + taxEstimate
+      let afterRate = beforeRate * 0.03
+      let final = afterRate + 0.3
+      return onlineProcessing = final
+    }
+    if(couponAmount > 0) {
+      let beforeRate = (subTotal + addOnTotal + extraTotal) - couponAmount
+      let afterRate = beforeRate * 0.03
+      let final = afterRate + 0.3
+      return onlineProcessing = final
+    }
   }
 
   const grandTotalCalc = () => {
-    let final = subTotal + addOnTotal + extraTotal + taxEstimate + onlineProcessing
-    return grandTotal = final
+    if(couponAmount === 0) {
+      let final = subTotal + addOnTotal + extraTotal + taxEstimate + onlineProcessing
+      return grandTotal = final
+    }
+    if(couponAmount > 0) {
+      let final = ((subTotal + addOnTotal + extraTotal) - couponAmount) + taxEstimate + onlineProcessing
+      return grandTotal = final
+    }
   }
 
   const grandTotalWithoutOnlineCalc = () => {
-    let final = subTotal + addOnTotal + extraTotal + taxEstimate
-    return grandTotalWithoutOnline = final
+    if(couponAmount === 0) {
+      let final = subTotal + addOnTotal + extraTotal + taxEstimate
+      return grandTotalWithoutOnline = final
+    }
+    if(couponAmount > 0) {
+      let final = ((subTotal + addOnTotal + extraTotal) - couponAmount) + taxEstimate
+      return grandTotalWithoutOnline = final
+    }
   }
 
 
@@ -192,7 +224,7 @@ const Cart = (props) => {
 
   const rightSideDistributor = () => {
     if(isReadyToPay) {
-      return <CheckOutSection grandTotal={grandTotal} addOnTotal={addOnTotal} extraTotal={extraTotal} taxRate={taxRate} subTotal={subTotal} isPayAtRestaurant={isPayAtRestaurant} setIsPayAtRestaurant={setIsPayAtRestaurant} cartItems={cartItems} />
+      return <CheckOutSection grandTotal={grandTotal} grandTotalWithoutOnline={grandTotalWithoutOnline} addOnTotal={addOnTotal} extraTotal={extraTotal} taxRate={taxRate} subTotal={subTotal} isPayAtRestaurant={isPayAtRestaurant} setIsPayAtRestaurant={setIsPayAtRestaurant} cartItems={cartItems} couponCode={couponCode} setCouponCode={setCouponCode} couponAmount={couponAmount} setCouponAmount={setCouponAmount} />
     } else {
       return <Supplements supplements={props.supplements} />
     }
@@ -279,6 +311,12 @@ const Cart = (props) => {
                   <p>Supplements total</p>
                   <p className="font-bold">${extraTotal.toFixed(2)}</p>
                 </div>
+                { couponAmount !== 0 &&
+                  <div className="flex items-center justify-between py-3 border-b border-lime-800">
+                    <p>Coupon</p>
+                    <p className="font-bold">- ${couponAmount.toFixed(2)}</p>
+                  </div>
+                }
                 <div className="flex items-center justify-between py-3 border-b border-lime-800">
                   <p>Tax estimate</p>
                   <p className="font-bold">${taxEstimate.toFixed(2)}</p>
