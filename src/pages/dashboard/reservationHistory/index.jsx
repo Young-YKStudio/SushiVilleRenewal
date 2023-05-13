@@ -43,7 +43,7 @@ const ReservationHistoryDashboard = (props) => {
       <div className='border-b border-lime-800 w-full pb-4 text-lime-800'>
         <h1 className='font-bold text-3xl pl-6'>Reservation History</h1>
       </div>
-      <div className="px-4 sm:px-6 lg:px-8 h-[92%] overflow-auto">
+      <div className="px-4 sm:px-6 lg:px-8 h-[85vh] overflow-auto">
       <div className="pt-8 flow-root">
           <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle">

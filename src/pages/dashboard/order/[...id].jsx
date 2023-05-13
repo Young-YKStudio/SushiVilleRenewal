@@ -425,6 +425,15 @@ const DashboardOrderView = (props) => {
               </div>
             })}
           </div>
+          {props.order.coupon &&
+            <div className='flex flex-row justify-end gap-4 text-xs p-4'>
+              <p>Coupon Used:</p>
+              <div className='flex flex-row gap-2 items-center'>
+                <p className='text-xs'>{props.order.coupon.couponCode}</p>
+                <p className='text-xs font-bold'>- ${props.order.coupon.amount.toFixed(2)}</p>
+              </div>
+            </div>
+          }
           <div className='grid md:grid-cols-2 gap-2 text-lg font-bold py-8'>
             {/* Buttons */}
             {buttonDistributor(orderStatus)}

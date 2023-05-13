@@ -1,8 +1,4 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { setLoadingOn, setLoadingOff } from '../../../redux/cartSlice'
-import { useDispatch } from 'react-redux'
-import { toast } from 'react-toastify'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import AppetizerMenu from './menu_parts/appetizer'
 import SpecialRollsMenu from './menu_parts/specialRolls'
@@ -15,35 +11,9 @@ import PartyPlatterMenu from './menu_parts/partyPlatter'
 import LunchSpecialMenu from './menu_parts/lunchSpecial'
 import { MenuSelections } from '../../../data/menu'
 
-const MenuSection = () => {
+const MenuSection = ({menu}) => {
 
-  const dispatch = useDispatch()
-  const [ receivedMenu, setReceivedMenu ] = useState()
   const [ currentSection, setCurrentSection ] = useState('APPETIZER')
-  
-  useEffect(() => {
-    let isMounted = true
-    const getData = async () => {
-      if(isMounted) {
-        try {
-          dispatch(setLoadingOn)
-          let request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
-          if(request.data.success) {
-            await setReceivedMenu(request.data.menu)
-            dispatch(setLoadingOff)
-          }
-        } catch (error) {
-          dispatch(setLoadingOff)
-          toast.error(error.response.message)
-        }
-      }
-    }
-    
-    getData()
-    return () => {
-      isMounted = false
-    }
-  },[])
   
   return (
     <section className='p-8'>
@@ -63,7 +33,7 @@ const MenuSection = () => {
       >
         {MenuSelections && MenuSelections.map((category, i) => {
           return <p
-            key={i}
+            key={i+1000}
             className={currentSection===category.category ? 'text-lime-800 border-b border-lime-800 pb-2 px-4' : 'border-b border-transparent pb-2 px-4 hover:text-lime-800 hover:border-lime-800 hover:cursor-pointer text-lime-800 font-normal'}
             onClick={() => setCurrentSection(category.category)}
           >
@@ -72,15 +42,15 @@ const MenuSection = () => {
         })}
       </motion.div>
       <div>
-        {currentSection==='APPETIZER' && <AppetizerMenu menu={receivedMenu} />}
-        {currentSection==='SPECIAL ROLLS' && <SpecialRollsMenu menu={receivedMenu} />}
-        {currentSection==='REGULAR ROLLS' && <RegularRollsMenu menu={receivedMenu} />}
-        {currentSection==='SOUP & SALAD' && <SoupSaladMenu menu={receivedMenu} />}
-        {currentSection==='ENTRÉES' && <EntreeMenu menu={receivedMenu} />}
-        {currentSection==='SUSHI & SASHIMI' && <SushiSashimiMenu menu={receivedMenu} />}
-        {currentSection==='À LA CARTE' && <ALaCarteMenu menu={receivedMenu} />}
-        {currentSection==='PARTY PLATTER' && <PartyPlatterMenu menu={receivedMenu} />}
-        {currentSection==='LUNCH SPECIALS' && <LunchSpecialMenu menu={receivedMenu} />}
+        {currentSection==='APPETIZER' && <AppetizerMenu menu={menu} />}
+        {currentSection==='SPECIAL ROLLS' && <SpecialRollsMenu menu={menu} />}
+        {currentSection==='REGULAR ROLLS' && <RegularRollsMenu menu={menu} />}
+        {currentSection==='SOUP & SALAD' && <SoupSaladMenu menu={menu} />}
+        {currentSection==='ENTRÉES' && <EntreeMenu menu={menu} />}
+        {currentSection==='SUSHI & SASHIMI' && <SushiSashimiMenu menu={menu} />}
+        {currentSection==='À LA CARTE' && <ALaCarteMenu menu={menu} />}
+        {currentSection==='PARTY PLATTER' && <PartyPlatterMenu menu={menu} />}
+        {currentSection==='LUNCH SPECIALS' && <LunchSpecialMenu menu={menu} />}
       </div>
     </section>
   );

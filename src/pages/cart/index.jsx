@@ -253,7 +253,7 @@ const Cart = (props) => {
             <div className="flex flex-col">
               {cartItems.map((item, i) => {
                 return <div
-                  key={i}
+                  key={item.product._id}
                   className='flex flex-row gap-4 text-sm py-4 border-b relative border-lime-800'
                 >
                   {/* image */}
@@ -263,8 +263,8 @@ const Cart = (props) => {
                       className='w-16 h-16 sm:w-20 sm:h-20 bg-center bg-cover rounded-md'
                     />
                   }
-                  {/* description */}
                   <div>
+                  {/* description */}
 
                     <div>
                       <NextLink href={`/products/${item.product._id}`} className='uppercase tracking-wide font-bold hover:text-lime-600'>{item.product.name}</NextLink>

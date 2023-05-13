@@ -49,7 +49,8 @@ const Login = ({providers}) => {
     </div>
   )
 
-  const submitHandler = async () => {
+  const submitHandler = async (e) => {
+    e.preventDefault()
     const userData = {
       email, password
     }
@@ -82,7 +83,7 @@ const Login = ({providers}) => {
           <div className='w-full border-b border-lime-800'/>
         </div>
         {/* Form Input */}
-        <div className='flex flex-col gap-1 text-sm mb-2' >
+        <form onSubmit={submitHandler} className='flex flex-col gap-1 text-sm mb-2' >
           <div className='flex flex-col gap-1 mb-2'>
             <label htmlFor='email'>
               Email
@@ -95,13 +96,13 @@ const Login = ({providers}) => {
             </label>
             <input type='password' value={password} name='password' className='rounded-md px-4 py-1 border-slate-100' onChange={formChangeHandler}/>
           </div>
-        </div>
-        {/* buttons and links */}
-        <div className='flex flex-col items-center gap-2 mt-2'>
-          <button className='bg-lime-800 text-white rounded-md hover:bg-lime-600 py-2 w-full mb-2' onClick={submitHandler}>Login</button>
-          <p className='text-xs'>Don't have an account? <button onClick={() => redirectToRegister()} className='font-bold hover:text-lime-600'>Register</button></p>
-          <p className='text-xs'>Forgot password?<a href='/account/forgotpassword' className='hover:text-lime-600 font-bold'> Password Reset</a></p>
-        </div>
+          {/* buttons and links */}
+          <div className='flex flex-col items-center gap-2 mt-4'>
+            <button type='submit' className='bg-lime-800 text-white rounded-md hover:bg-lime-600 py-2 w-full mb-2'>Login</button>
+            <p className='text-xs'>Don't have an account? <button onClick={() => redirectToRegister()} className='font-bold hover:text-lime-600'>Register</button></p>
+            <p className='text-xs'>Forgot password?<a href='/account/forgotpassword' className='hover:text-lime-600 font-bold'> Password Reset</a></p>
+          </div>
+        </form>
       </div>
     </div>
   );

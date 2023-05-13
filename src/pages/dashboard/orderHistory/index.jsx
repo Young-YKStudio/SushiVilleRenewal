@@ -63,7 +63,7 @@ const OrderHistoryDashboard = (props) => {
       <div className='border-b border-lime-800 pb-4 text-lime-800'>
         <h1 className='font-bold text-3xl pl-6'>Order History</h1>
       </div>
-      <div className="px-4 sm:px-6 lg:px-8 h-[92%] overflow-auto">
+      <div className="px-4 sm:px-6 lg:px-8 h-[85vh] overflow-auto">
         {/* <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-lime-800">Orders</h1>
@@ -112,13 +112,13 @@ const OrderHistoryDashboard = (props) => {
                       scope="col"
                       className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-lime-800 backdrop-blur backdrop-filter"
                     >
-                      Orderd Status
+                      Orderd Type
                     </th>
                     <th
                       scope="col"
                       className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-lime-800 backdrop-blur backdrop-filter"
                     >
-                      Orderd Type
+                      Orderd Status
                     </th>
                     <th
                       scope="col"

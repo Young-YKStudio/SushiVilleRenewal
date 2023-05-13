@@ -1,20 +1,11 @@
 import axios from 'axios'
 import PayAtRestaurantSection from './payAtRestaurant'
-import StripePaymentSection from './stripePayment'
 
 const ConfirmationPage = (props) => {
-  console.log(props)
 
-  const sectionDistributor = () => {
-    if(props.order.isisPaidAtRestaurant) {
-      return <StripePaymentSection orderData={props} />
-    } else {
-      return <PayAtRestaurantSection orderData={props}/>
-    }
-  }
   return (
     <section>
-      {sectionDistributor()}
+      <PayAtRestaurantSection orderData={props} />
     </section>
   );
 }

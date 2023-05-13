@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setLoadingOn, setLoadingOff, cartReset } from '../../../redux/cartSlice'
+import { setLoadingOn, setLoadingOff } from '../../../redux/cartSlice'
 import { toast } from 'react-toastify'
 import { Disclosure, Switch } from '@headlessui/react'
 import NextLink from 'next/link'
@@ -179,14 +179,28 @@ const CheckOutSection = ({grandTotal, grandTotalWithoutOnline, addOnTotal, extra
         }
       } catch (error) {
         dispatch(setLoadingOff())
-        toast.error('Error found on placing your order. Please try again.')
+        toast.error('Error found on placing your order. Please try again later.')
       }
     }
+
+    const requestToCreateStripeOrder = async () => {
+      try {
+        dispatch(setLoadingOn())
+        const orderRequest = await axios.post('/api/order/createOnlineOrder', submitForm)
+        if(orderRequest.data.success) {
+          dispatch(setLoadingOff())
+          Router.push(`/confirmation/payment/${orderRequest.data.order}`)
+        }
+      } catch (error) {
+        dispatch(setLoadingOff())
+        toast.error('Error found on placing your odrder. Pleas try again later.')
+      }
+    }
+
     if(isPayAtRestaurant) {
       requestToCreateOrder()
     } else {
-      // TODO: start from here 
-      console.log('stripe order')
+      requestToCreateStripeOrder()
     }
   }
 

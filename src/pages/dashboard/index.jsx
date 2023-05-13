@@ -16,6 +16,7 @@ const Dashboard = () => {
   const { isVerticalMenuNarrow } = useSelector((state) => state.cart)
   const [ orders, setOrders ] = useState(null)
   const [ reservations, setReservations ] = useState(null)
+  const [ callUseEffect, setCallUseEffect ] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -35,6 +36,13 @@ const Dashboard = () => {
     return () => {
       isMounted = false
     }
+  },[callUseEffect])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCallUseEffect(!callUseEffect)
+    }, 60000)
+    return () => clearInterval(interval)
   },[])
 
   const styleDistributor = (state) => {
@@ -48,7 +56,7 @@ const Dashboard = () => {
   return (
     <div className={styleDistributor(isVerticalMenuNarrow)}>
       {/* TODO: change background above */}
-      <NewOrders orders={orders} />
+      <NewOrders orders={orders} callUseEffect={callUseEffect} setCallUseEffect={setCallUseEffect} />
       <CurrentOrders orders={orders} />
       <ReadyOrders orders={orders} />
       <NewReservations reservations={reservations} />

@@ -3,20 +3,18 @@ import NewOrder from "../../../../model/Order";
 import User from "../../../../model/User";
 import Menu from "../../../../model/Menu";
 import Coupon from "../../../../model/Coupon";
-import { sendEmail } from "../../../../util/sendEmail";
-import { NewOrderPayAtResEmail, NewOrderPayAtResEmailScheduled } from "./emails";
 
-export default async function RegisterOrder(req, res) {
+export default async function RegisterOnlinePaymentOrder(req, res) {
   if(req.method !== 'POST') {
     return res.status(303).json({ error: 'reqeust is not POST' })
   }
 
   const { orderedItems, customer, comments, isAgreed, isScheduled, isPayAtRestaurant, grandTotal, addOnTotal, supplementTotal, taxRate, orderTotal, coupon } = req.body
 
-  let foundUser = null
-  let createdOrder = null
-  let lastOrderCount = null
-  let foundCoupon = null
+  let foundUser
+  let createdOrder
+  let lastOrderCount
+  let foundCoupon
 
   try {
     await dbConnect()
@@ -192,27 +190,8 @@ export default async function RegisterOrder(req, res) {
     })
   }
 
-  // send Email
-
-  try {
-    let tempName = foundUser.username ? foundUser.username : foundUser.name
-    let emailOptions = {
-      from: 'service@sushivilleny.com',
-      to: foundUser.email,
-      subject: `Sushiville order confirmation, #${createdOrder.orderCount}`,
-      html: createdOrder.isScheduled ? NewOrderPayAtResEmailScheduled(tempName, createdOrder.orderCount, createdOrder.createdAt, createdOrder.grandTotal, foundUser.email, createdOrder.isScheduled) : NewOrderPayAtResEmail(tempName, createdOrder.orderCount, createdOrder.createdAt, createdOrder.grandTotal, foundUser.email)
-    }
-    await sendEmail(emailOptions)
-  } catch (error) {
-    return res.status(400).json({
-      success: false, 
-      message: 'Error at sending out email'
-    })
-  }
-
   return res.status(200).json({
     success: true,
-    message: 'Reqeusted order successfully registered',
-    order: createdOrder
+    order: createdOrder._id
   })
 }

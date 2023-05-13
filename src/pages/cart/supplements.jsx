@@ -41,7 +41,7 @@ const Supplements = ({supplements}) => {
                   {supplements.map((item) => {
                     if(item.category === 'Drink' && item.stock_availability) {
                       // price and add to cart button
-                      return <div className="flex flex-row justify-between border-b border-lime-800 pb-1">
+                      return <div key={item._id} className="flex flex-row justify-between border-b border-lime-800 pb-1">
                         <div>
                           <p>{item.name}</p>
                         </div>
@@ -94,7 +94,7 @@ const Supplements = ({supplements}) => {
                   {supplements.map((item) => {
                     if(item.category === 'Sauce' && item.stock_availability) {
                       // price and add to cart button
-                      return <div className="flex flex-row justify-between border-b border-lime-800 pb-1">
+                      return <div key={item._id} className="flex flex-row justify-between border-b border-lime-800 pb-1">
                         <div>
                           <p>{item.name}</p>
                         </div>
@@ -146,7 +146,7 @@ const Supplements = ({supplements}) => {
                 <div className="bg-white/40 rounded-md p-8 flex flex-col gap-1 text-lime-800 mb-8">
                   {supplements.map((item) => {
                     if(item.category === 'Bowl Rice' && item.stock_availability) {
-                      return <div className="flex flex-row justify-between border-b border-lime-800 pb-1">
+                      return <div key={item._id} className="flex flex-row justify-between border-b border-lime-800 pb-1">
                         <div>
                           <p>{item.name}</p>
                         </div>

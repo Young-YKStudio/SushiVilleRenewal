@@ -17,33 +17,18 @@ export default async function GetAllMenu(req, res) {
     })
   }
 
-  const findAllMenu = async () => {
-    try {
-      fullMenu = await Menu.find()
-      return fullMenu
-    } catch (error) {
-      return res.status(400).json({
-        success: false,
-        message: 'Error found at finding Menus'
-      })
-    }
+  try {
+    fullMenu = await Menu.find()
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Error found at finding Menus'
+    })
   }
-
-  const run = async () => {
-    await findAllMenu()
-    if(fullMenu) {
-      return res.status(200).json({
-        success: true,
-        message: 'sending menu',
-        menu: fullMenu
-      })
-    } else {
-      return res.status(400).json({
-        success: false,
-        message: 'something went wrong'
-      })
-    }
-  }
-
-  run()
+  
+  return res.status(200).json({
+    success: true,
+    message: 'sending menu',
+    menu: fullMenu
+  })
 }
