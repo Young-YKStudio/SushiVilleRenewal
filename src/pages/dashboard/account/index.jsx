@@ -53,11 +53,10 @@ const DashboardAccount = (props) => {
   }
 
   const roleDistributor = (userdata) => {
-    if(userdata.isAdmin) {
-      return `${userdata.isAdmin}`
-    }
     if(userdata.role) {
       return `${userdata.role}`
+    } else {
+      return `${userdata.isAdmin}`
     }
   }
 

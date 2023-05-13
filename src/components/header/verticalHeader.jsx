@@ -2,8 +2,9 @@ import { dashboardLinks } from '../../../data/navigations'
 import NextLink from 'next/link'
 import { useState, useEffect } from 'react'
 import { motion, spring } from 'framer-motion'
-import { signOut, useSession } from 'next-auth/react'
-import { MdLastPage, MdFirstPage, MdSettings, MdOutlineHelp, MdClose, MdLogout, MdAccountCircle } from 'react-icons/md'
+import { useSession } from 'next-auth/react'
+import { MdLastPage, MdFirstPage, MdSettings, MdClose } from 'react-icons/md'
+import { BsStripe } from 'react-icons/bs'
 import { RdxLogOutButton1 } from '../../../redux/auth/logOutButtons'
 import { setIsVerticalMenuNarrow, setIsVerticalMenuWide } from '../../../redux/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,8 +14,15 @@ const VerticalHeader = ({path}) => {
   const { isVerticalMenuNarrow } = useSelector((state) => state.cart)
 
   const [ isPopOpen, setIsPopOpen ] = useState(false)
+  const [ role, setRole ] = useState('')
   const { data: session } = useSession()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(localStorage) {
+      setRole(localStorage.userRole)
+    }
+  },[])
 
   const styleChange = (state) => {
     if (state) {
@@ -42,9 +50,9 @@ const VerticalHeader = ({path}) => {
 
   const popStyles = (state) => {
     if (state) {
-      return 'fixed left-[6em] bottom-[1.5em] bg-yellow-500/70 rounded-md shadow-lg p-4 text-lime-800 min-w-[150px] flex flex-col flex-nowrap gap-2'
+      return 'fixed left-[6em] bottom-[1.5em] bg-yellow-500 rounded-md shadow-lg p-4 text-lime-800 min-w-[150px] flex flex-col flex-nowrap gap-2'
     } else {
-      return 'fixed left-[11em] bottom-[1.5em] bg-yellow-500/70 rounded-md shadow-lg p-4 text-lime-800 min-w-[150px] flex flex-col flex-nowrap gap-2'
+      return 'fixed left-[11em] bottom-[1.5em] bg-yellow-500 rounded-md shadow-lg p-4 text-lime-800 min-w-[150px] flex flex-col flex-nowrap gap-2'
     }
   }
 
@@ -92,7 +100,7 @@ const VerticalHeader = ({path}) => {
           })}
         </div>
         <div>
-          <div className='flex flex-col flex-nowrap border-t border-lime-800 pt-2'>
+          <div className='flex flex-col flex-nowrap border-t border-lime-800 pt-2 gap-2'>
             {/* Settings */}
             <NextLink
               href='/dashboard/settings'
@@ -100,6 +108,25 @@ const VerticalHeader = ({path}) => {
             >
               <MdSettings className='w-5 h-5'/>{!isVerticalMenuNarrow && 'Settings'}
             </NextLink>
+            {/* Settings */}
+              {role === 'admin' ?
+                <a
+                  href='https://dashboard.stripe.com/dashboard'
+                  target='_blank'
+                  className={isVerticalMenuNarrow ? buttonStylesNarrow('stripe') : buttonStyles('stripe')}
+                >
+                  <BsStripe className='w-5 h-5'/>{!isVerticalMenuNarrow && 'Stripe'}
+                </a>
+              :
+                <p
+                  href='https://dashboard.stripe.com/dashboard'
+                  target='_blank'
+                  className={isVerticalMenuNarrow ? buttonStylesNarrow('stripe') : buttonStyles('stripe')}
+                >
+                  <BsStripe className='w-5 h-5'/>{!isVerticalMenuNarrow && 'Stripe'}
+                </p>
+
+              }
             {/* Help */}
             {/* <NextLink
               href='/dashboard/help'
@@ -143,12 +170,6 @@ const VerticalHeader = ({path}) => {
               >
                 <MdClose />
               </button>
-              <NextLink 
-                href='/dashboard/account'
-                className='flex flex-row flex-nowrap items-center gap-2 px-3 py-2 hover:bg-white/40 hover:text-lime-800 rounded-md'
-              >
-                <MdAccountCircle className='w-5 h-5'/>Account
-              </NextLink>
               <RdxLogOutButton1 />
             </motion.div>
           }

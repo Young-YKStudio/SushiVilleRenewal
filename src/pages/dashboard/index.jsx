@@ -16,7 +16,7 @@ const Dashboard = () => {
   const { isVerticalMenuNarrow } = useSelector((state) => state.cart)
   const [ orders, setOrders ] = useState(null)
   const [ reservations, setReservations ] = useState(null)
-  const [ callUseEffect, setCallUseEffect ] = useState(false)
+  const [ now, setNow ] = useState()
 
   useEffect(() => {
     let isMounted = true
@@ -31,16 +31,30 @@ const Dashboard = () => {
         }
       }
     }
-
     callAPI()
     return () => {
       isMounted = false
     }
-  },[callUseEffect])
+  },[])
 
+  const callServer = async () => {
+    dispatch(setLoadingOn())
+
+    try {
+      let request = await axios.get('/api/dashboard/dashboardLanding')
+      if(request.data.success) {
+        setOrders(request.data.orders)
+        setReservations(request.data.reservations)
+        dispatch(setLoadingOff())
+      }
+    } catch (error) {
+      dispatch(setLoadingOff())
+    }
+  }
+  
   useEffect(() => {
     const interval = setInterval(() => {
-      setCallUseEffect(!callUseEffect)
+      callServer()
     }, 60000)
     return () => clearInterval(interval)
   },[])
@@ -56,7 +70,7 @@ const Dashboard = () => {
   return (
     <div className={styleDistributor(isVerticalMenuNarrow)}>
       {/* TODO: change background above */}
-      <NewOrders orders={orders} callUseEffect={callUseEffect} setCallUseEffect={setCallUseEffect} />
+      <NewOrders orders={orders} callServer={callServer} now={now} />
       <CurrentOrders orders={orders} />
       <ReadyOrders orders={orders} />
       <NewReservations reservations={reservations} />

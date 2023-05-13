@@ -3,6 +3,7 @@ import User from '../../../../model/User'
 import NewOrder from "../../../../model/Order";
 import Reservation from "../../../../model/Reservation";
 import Menu from "../../../../model/Menu";
+import Coupon from "../../../../model/Coupon";
 
 export default async function FindAccount(req, res) {
   if (req.method !== 'PUT') {
@@ -24,7 +25,7 @@ export default async function FindAccount(req, res) {
 
   const findAccount = async () => {
     try {
-      foundAccount = await User.findOne({_id: id}).populate({"path": 'Orders', model: NewOrder}).populate({'path': 'Reservations', model: Reservation}).populate({'path': 'FavoriteItems', model: Menu})
+      foundAccount = await User.findOne({_id: id}).populate({"path": 'Orders', model: NewOrder}).populate({'path': 'Reservations', model: Reservation}).populate({'path': 'FavoriteItems', model: Menu}).populate({'path': 'Coupons', model: Coupon})
       if(foundAccount) {
         return res.status(200).json({
           success: true,

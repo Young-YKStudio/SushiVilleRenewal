@@ -21,10 +21,18 @@ const Header = ({path}) => {
   },[session])
 
   useEffect(() => {
-    if(path.startsWith('/dashboard') && !localStorage.userRole) {
-      Router.push('/account/login')
+    if(path.startsWith('/dashboard')) {
+      if(localStorage.userRole === 'employee' || localStorage.userRole === 'admin') {
+      } else {
+        Router.push('/')
+      }
     }
-    
+
+    if(path.startsWith('/reservation')) {
+      if(localStorage.userRole === 'null' || !localStorage.userRole) {
+        Router.push('/account/login')
+      }
+    }    
   }, [path])
 
   const HeaderDistributor = () => {

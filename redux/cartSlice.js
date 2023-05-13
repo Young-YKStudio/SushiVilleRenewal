@@ -75,9 +75,6 @@ export const login = createAsyncThunk('cart/login', async (user) => {
     if(request.error) {
       toast.error(`${request.error}`)
     }
-    if(request.ok) {
-      toast.success('login successful')
-    }
     return request
   } catch (error) {
     return toast.error(`${error.response.data.message}`)

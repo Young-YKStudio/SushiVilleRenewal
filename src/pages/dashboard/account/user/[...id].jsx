@@ -8,7 +8,6 @@ import { setLoadingOn, setLoadingOff } from '../../../../../redux/cartSlice';
 import moment from 'moment-timezone'
 import { Disclosure } from '@headlessui/react'
 import { MdExpandMore, MdExpandLess } from 'react-icons/md'
-import { Switch } from '@headlessui/react';
 
 const roles = [
   {role: 'admin'},
@@ -62,11 +61,10 @@ const DashboardUserEdit = (props) => {
   }
 
   const getRole = (userData) => {
-    if(userData.isAdmin) {
-      return `${userData.isAdmin}`
-    }
     if(userData.role) {
       return `${userData.role}`
+    } else {
+      return `${userData.isAdmin}`
     }
   }
 
@@ -152,6 +150,11 @@ const DashboardUserEdit = (props) => {
 
   const updateAccountHandler = (e) => {
     e.preventDefault()
+
+    if(localStorage.userRole !== 'admin') {
+      return toast.warn('You\'re not authorized to modify an account' )
+    }
+
     let submitData = {
       id: props.user._id,
       name: name,
@@ -169,7 +172,7 @@ const DashboardUserEdit = (props) => {
           dispatch(setLoadingOff())
           toast.success('Successfully updated')
           setTimeout(() => {
-            Router.reload()
+            Router.push('/dashboard/account')
           }, 1000)
         }
       } catch (error) {
@@ -182,6 +185,11 @@ const DashboardUserEdit = (props) => {
 
   const deleteAccountHandler = (e) => {
     e.preventDefault()
+
+    if(localStorage.userRole !== 'admin') {
+      return toast.warn('You\'re not authorized to delete an account' )
+    }
+
     let submitData = {
       id: props.user._id,
     }
@@ -202,7 +210,7 @@ const DashboardUserEdit = (props) => {
         toast.error('Error when deleting account. Please contact support or try again later.')
       }
     }
-    requestToAPI()
+    // requestToAPI()
   }
 
   return (

@@ -4,13 +4,10 @@ import moment from 'moment-timezone'
 import { MdRefresh } from 'react-icons/md'
 import { useEffect } from 'react'
 
-const NewOrders = ({orders, callUseEffect, setCallUseEffect}) => {
+const NewOrders = ({orders, callServer, now}) => {
   
   let newOrders
-  let now = new Date()
-
-  const audio = new Audio()
-  audio.autoplay = true
+  let audio
   let interval
   
   
@@ -37,6 +34,8 @@ const NewOrders = ({orders, callUseEffect, setCallUseEffect}) => {
 
   useEffect(() => {
     if(newOrders) {
+      audio = new Audio()
+      audio.autoplay = true
       if(newOrders.length > 0) {
         musicPlay()
       } else {
@@ -83,7 +82,7 @@ const NewOrders = ({orders, callUseEffect, setCallUseEffect}) => {
         </div>
         <div className="flex flex-row gap-2 text-xs items-center">
           <p>{moment(now).tz('America/New_York').format('LLL')}</p>
-          <button onClick={() => setCallUseEffect(!callUseEffect)} className="flex flex-row gap-2 items-center px-2 py-1 bg-slate-400/40 rounded-md hover:bg-yellow-500"><MdRefresh className="w-5 h-5"/> refresh</button>
+          <button onClick={() => callServer()} className="flex flex-row gap-2 items-center px-2 py-1 bg-slate-400/40 rounded-md hover:bg-yellow-500"><MdRefresh className="w-5 h-5"/> refresh</button>
         </div>
       </div>
       <div

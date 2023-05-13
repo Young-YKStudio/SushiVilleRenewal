@@ -24,22 +24,33 @@ export default async function UpdateAccount(req, res) {
     })
   }
 
+  let updatedUser
+
   try {
-    let updatedUser = await User.findByIdAndUpdate({_id: id}, {
-      username: name,
-      email: email,
-      role: role,
-      address: address,
-      contact: contact
+    updatedUser = await User.findOne({_id: id})
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Error at finding user from DB'
     })
-    return res.status(200).json({
-      success: true,
-      user: updatedUser
-    })
+  }
+
+  try {
+    updatedUser.name ? updatedUser.name = name : updatedUser.username = name
+    updatedUser.email = email
+    updatedUser.role = role
+    updatedUser.address = address
+    updatedUser.contact = contact
+    await updatedUser.save()
   } catch (error) {
     return res.status(400).json({
       success: false,
       message: 'Error at updating user from DB'
     })
   }
+
+  return res.status(200).json({
+    success: true,
+    user: updatedUser
+  })
 }

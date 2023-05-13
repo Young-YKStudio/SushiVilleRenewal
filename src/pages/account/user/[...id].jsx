@@ -100,6 +100,8 @@ const UserInformation = (props) => {
         }
       }
     }
+
+    const setCoupons = 
     setStates()
     return () => {
       isMounted = false
@@ -134,6 +136,21 @@ const UserInformation = (props) => {
     }
     if(isShowedUp) {
       return <p className='font-bold'>Fulfilled</p>
+    }
+  }
+
+  const couponStatusDistributor = (isActive, isPromo, isUsed) => {
+    if(!isPromo && isActive && !isUsed) {
+      return <p className='font-bold text-lime-800'>Active</p>
+    }
+    if(!isPromo && !isActive && !isUsed) {
+      return <p className='font-bold text-slate-800'>Canceled</p>
+    }
+    if(!isPromo && !isActive && isUsed) {
+      return <p className='font-bold text-red-700'>Used</p>
+    }
+    if(isPromo) {
+      return <p className='font-bold text-red-700'>Used</p>
     }
   }
 
@@ -223,10 +240,11 @@ const UserInformation = (props) => {
 
       <div className='mx-auto'>
 
-        <div className='rounded-lg max-w-[40em] flex flex-row justify-evenly gap-2 mb-8'>
+        <div className='rounded-lg w-full sm:w-[40em] max-w-[40em] flex flex-row flex-wrap sm:flex-nowrap justify-start sm:justify-evenly sm:gap-2 mb-8 text-xs sm:text-base'>
           <button onClick={() => setCurrentSection('Orders')} className={currentSection === 'Orders' ? 'px-4 py-1 bg-lime-800 rounded-md text-white' : 'px-4 py-1 hover:bg-lime-800 rounded-md hover:text-white' }>Orders</button>
           <button onClick={() => setCurrentSection('Reservations')}  className={currentSection === 'Reservations' ? 'px-4 py-1 bg-lime-800 rounded-md text-white' : 'px-4 py-1 hover:bg-lime-800 rounded-md hover:text-white' }>Reservations</button>
           <button onClick={() => setCurrentSection('Favorites')}  className={currentSection === 'Favorites' ? 'px-4 py-1 bg-lime-800 rounded-md text-white' : 'px-4 py-1 hover:bg-lime-800 rounded-md hover:text-white' }>Favorites</button>
+          <button onClick={() => setCurrentSection('Coupons')}  className={currentSection === 'Coupons' ? 'px-4 py-1 bg-lime-800 rounded-md text-white' : 'px-4 py-1 hover:bg-lime-800 rounded-md hover:text-white' }>Coupons</button>
           <button onClick={() => setCurrentSection('Settings')}  className={currentSection === 'Settings' ? 'px-4 py-1 bg-lime-800 rounded-md text-white' : 'px-4 py-1 hover:bg-lime-800 rounded-md hover:text-white' }>Settings</button>
         </div>
 
@@ -344,7 +362,7 @@ const UserInformation = (props) => {
                       key={reservation._id}
                       className={index !== currentReservation.length -1 ? 'bg-white/80 px-4 py-2 text-sm grid grid-cols-2 sm:grid-cols-5 gap-2' : 'bg-white/80 px-4 py-2 text-sm rounded-b-md grid grid-cols-2 sm:grid-cols-5 gap-2'}
                     >
-                      {reservationStatusDistributor(reservation.isConfirmed, reservation.isDenied, reservation.isShowedUp)}
+                      {couponStatusDistributor(reservation.isConfirmed, reservation.isDenied, reservation.isShowedUp)}
                       <p className='hidden text-xs truncate sm:flex sm:items-center'>{reservation.name}</p>
                       <p className='text-xs flex items-center'>{moment(reservation.reserveDate).tz('America/New_York').format('MM/DD LT')}</p>
                       <p className='hidden sm:flex'>{reservation.totalParty} ppl</p>
@@ -429,6 +447,47 @@ const UserInformation = (props) => {
               <p className='text-xs'>No favorite items yet.</p>
             </div>
             }
+          </div>
+        }
+
+        { currentSection === 'Coupons' ? <div>
+            <div className='bg-white/40 rounded-lg p-8 max-w-[40em] flex flex-col gap-2 mb-8'>
+              {props.user.Coupons.length > 0 ? <div
+                >
+                  <div className='flex justify-between items-center pb-2'>
+                    <p className='font-bold'>Coupons</p>
+                  </div>
+                  <div
+                    className='grid grid-cols-3 sm:grid-cols-4 text-xs bg-white px-4 py-2 border-b border-lime-800 rounded-t-md gap-2'
+                  >
+                    <p>Status</p>
+                    <p>Coupon Code</p>
+                    <p>Amount</p>
+                    <p className='hidden sm:flex'>Created</p>
+                  </div>
+                  {props.user.Coupons.map((coupon, index) => {
+                    return <div
+                      key={coupon._id}
+                      className={index !== props.user.Coupons.length -1 ? 'bg-white/80 px-4 py-2 text-sm grid grid-cols-3 sm:grid-cols-4 gap-2' : 'bg-white/80 px-4 py-2 text-sm rounded-b-md grid grid-cols-3 sm:grid-cols-4 gap-2'}
+                    >
+                      {couponStatusDistributor(coupon.isActive, coupon.isPromo, coupon.isUsed)}
+                      <p className='text-xs truncate flex items-center'>{coupon.couponCode}</p>
+                      <p className='text-xs flex items-center'>${coupon.amount.toFixed(2)}</p>
+                      <p className='text-xs hidden sm:flex items-center'>{moment(coupon.createdAt).tz('America/New_York').format('MM/DD LT')}</p>
+                    </div>
+                  })} 
+
+                </div>
+                :
+                <div className='flex justify-center'>
+                  <p className='text-xs'>No coupons yet.</p>
+                </div>
+              }
+            </div>
+          </div>
+          :
+          <div  className='flex justify-center'>
+            <p className='text-xs'>No coupons yet.</p>
           </div>
         }
 
