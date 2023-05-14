@@ -14,8 +14,6 @@ const CheckoutForm = ({clientSecret, orderData}) => {
   const [ email, setEmail ] = useState('')
   const [ paymentRequest, setPaymentRequest ] = useState(null)
 
-  console.log(orderData)
-
   useEffect(() => {
     let isMounted = true
 

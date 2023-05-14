@@ -203,7 +203,6 @@ const ItemList = ({orderData}) => {
   onlineProcessingCalc()
   grandTotalCalc()
 
-  console.log(orderData)
   return (
     <div className="py-2 w-full md:w-[25em]">
       {orderData.items.length > 0 &&

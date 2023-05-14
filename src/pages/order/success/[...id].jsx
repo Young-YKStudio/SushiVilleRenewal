@@ -11,7 +11,6 @@ const SuccessPage = (props) => {
   const dispatch = useDispatch()
 
   const [ isAllSet, setIsAllSet ] = useState(false)
-  console.log(props, 'at success page')
 
   useEffect(() => {
     let isMounted = true

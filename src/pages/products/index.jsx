@@ -6,7 +6,6 @@ import MenuSection from "../landing/menu";
 import { lunchRollSelections } from '../../../data/menu';
 
 const DummyProducts = ({data}) => {
-  // console.log(data, 'at store')
 
   const [ currentSection, setCurrentSection ] = useState('APPETIZER')
   const [ currentSectionItems, setCurrentSectionItems ] = useState();

@@ -76,7 +76,8 @@ const VerticalHeader = ({path}) => {
     >
       {/* Logo */}
       <div className='flex justify-center py-4 border-b border-lime-800'>
-        <a className='font-bold text-2xl' href='/'>{isVerticalMenuNarrow ? 'L' : 'Logo'}</a>
+        {isVerticalMenuNarrow ? <a className='hover:cursor-pointer' href='/'><img src='https://ucarecdn.com/2461ae87-77ae-4e34-b28f-20d0451820d8/logo_sushivill_favicon2.png' /></a> : <a className='max-w-[120px] hover:cursor-pointer' href='/'><img src='https://ucarecdn.com/1a966f1f-4eec-487f-9e2d-8b4d38455b41/logo_sushivill.png' /></a>}
+        {/* <a className='font-bold text-2xl' href='/'>{isVerticalMenuNarrow ? 'L' : 'Logo'}</a> */}
       </div>  
       {/* ToggleButton */}
       <motion.div

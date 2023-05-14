@@ -32,7 +32,6 @@ const OrderPaymentOnline = (props) => {
           }
         } catch (error) {
           dispatch(setLoadingOff())
-          console.log(error)
           toast.error('Something went wrong. Please contact support or try again later.')
         }
       }
@@ -52,8 +51,6 @@ const OrderPaymentOnline = (props) => {
     clientSecret,
     appearance
   }
-
-  console.log(props, clientSecret, 'at parent')
   
   return (
     <section className="pt-20 flex flex-col px-8 pb-8 text-lime-800 bg-yellow-500 min-h-[85vh]">

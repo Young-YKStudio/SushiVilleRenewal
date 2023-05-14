@@ -128,7 +128,6 @@ const Reservation = () => {
         }
       } catch (error) {
         dispatch(setLoadingOn())
-        console.log(error)
         toast.error('Error found when requesting your reservation. Please try again')
       }
     }

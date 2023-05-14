@@ -38,6 +38,20 @@ const HorizontalHeader = ({path}) => {
     setIsAccountOpen(!isAccountOpen)
   }
 
+  const DashBoardButtonDistributor = (role) => {
+    if(role === 'admin' || role === 'employee') {
+      return <NextLink
+        href={`/dashboard`}
+        className='hover:bg-white/90 px-4 py-2 rounded-md flex items-center truncate'
+        onClick={() => setIsMenuOpen(false)}
+      >
+        <MdSpaceDashboard className='w-5 h-5 mr-2'/> Dashboard
+      </NextLink>
+    } else {
+      return null
+    }
+  }
+
   return (
     <>
       <nav className="fixed top-0 z-40 w-full text-lime-800 p-4 flex justify-between bg-white/80 shadow-md">
@@ -115,13 +129,7 @@ const HorizontalHeader = ({path}) => {
                   <p className='truncate'>{session.user.email}</p>
                 </div>
                 {localStorage.userId && 
-                  <NextLink
-                    href={`/dashboard`}
-                    className='hover:bg-white/90 px-4 py-2 rounded-md flex items-center truncate'
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <MdSpaceDashboard className='w-5 h-5 mr-2'/> Dashboard
-                  </NextLink>
+                  DashBoardButtonDistributor(localStorage.userRole)
                 }
                 {links && links.map((link, i) => {
                   if (link.name === 'Cart') {
@@ -192,6 +200,9 @@ const HorizontalHeader = ({path}) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
+            {localStorage.userId && 
+              DashBoardButtonDistributor(localStorage.userRole)
+            }
             {accountLinks && accountLinks.map((link) => {
               return <NextLink
                 key={link.name}

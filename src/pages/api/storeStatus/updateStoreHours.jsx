@@ -5,8 +5,6 @@ export default async function UpdateStoreHours(req, res) {
   if(req.method !== 'PUT') {
     return res.status(303).json({ error: 'reqeust is not PUT' })
   }
-
-  // console.log(req.body, 'at api')
   
   const id = '644e0bec433f7bed65f6e30e'
   

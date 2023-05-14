@@ -11,13 +11,13 @@ const Header = ({path}) => {
   const { data: session } = useSession()
   const dispatch = useDispatch()
 
+  
   useEffect(() => {
     if(session) {
       if(!!session.user.image) {
         dispatch(checkSessionAgain(session.user))
       }
     }
-    
   },[session])
 
   useEffect(() => {
@@ -29,6 +29,12 @@ const Header = ({path}) => {
     }
 
     if(path.startsWith('/reservation')) {
+      if(localStorage.userRole === 'null' || !localStorage.userRole) {
+        Router.push('/account/login')
+      }
+    }    
+
+    if(path.startsWith('/account/user')) {
       if(localStorage.userRole === 'null' || !localStorage.userRole) {
         Router.push('/account/login')
       }

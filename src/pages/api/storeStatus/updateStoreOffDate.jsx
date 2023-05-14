@@ -21,7 +21,6 @@ export default async function UpdateStoreOffDate(req, res) {
   try {
     let foundStatus = await NewStoreStatus.findById({_id: id})
     if (foundStatus.offDays) {
-      console.log('yay', foundStatus.offDays)
       foundStatus.offDays.push(date)
       await foundStatus.save()
     } else {

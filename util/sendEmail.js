@@ -19,8 +19,7 @@ export const sendEmail = async (options) => {
   }
 
   try {
-    let emailDeliver = await transporter.sendMail(mailOptions)
-    console.log(emailDeliver)
+    await transporter.sendMail(mailOptions)
   } catch (error) {
     console.log(error)
   }

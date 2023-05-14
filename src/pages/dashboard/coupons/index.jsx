@@ -13,8 +13,6 @@ function classNames(...classes) {
 
 const DashboardCoupons = (props) => {
 
-  console.log(props)
-
   const dispatch = useDispatch()
   const { isVerticalMenuNarrow } = useSelector((state) => state.cart)
   const [ currentSection, setCurrentSection ] = useState('promo')

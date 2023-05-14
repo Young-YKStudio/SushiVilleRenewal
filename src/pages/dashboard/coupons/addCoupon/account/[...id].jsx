@@ -34,7 +34,6 @@ const AddCouponAccountDashboard = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    console.log('clicked button')
     // validate
     if(couponCode ==='' || !couponCode || amount === 0 || !amount) {
       return toast.warn('Please fill all fields')

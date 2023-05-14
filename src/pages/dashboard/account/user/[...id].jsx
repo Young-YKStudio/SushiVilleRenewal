@@ -210,7 +210,7 @@ const DashboardUserEdit = (props) => {
         toast.error('Error when deleting account. Please contact support or try again later.')
       }
     }
-    // requestToAPI()
+    requestToAPI()
   }
 
   return (

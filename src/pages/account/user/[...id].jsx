@@ -450,7 +450,7 @@ const UserInformation = (props) => {
           </div>
         }
 
-        { currentSection === 'Coupons' ? <div>
+        { currentSection === 'Coupons' && <div>
             <div className='bg-white/40 rounded-lg p-8 max-w-[40em] flex flex-col gap-2 mb-8'>
               {props.user.Coupons.length > 0 ? <div
                 >
@@ -484,10 +484,6 @@ const UserInformation = (props) => {
                 </div>
               }
             </div>
-          </div>
-          :
-          <div  className='flex justify-center'>
-            <p className='text-xs'>No coupons yet.</p>
           </div>
         }
 

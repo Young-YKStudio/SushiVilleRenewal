@@ -46,7 +46,6 @@ const PasswordReset = () => {
       const request = await axios.put('/api/account/passwordreset', submitForm)
       if(request.data) {
         dispatch(setLoadingOff())
-        console.log(request.data, 'success reqeust')
         // modal for succes 
         toast.success('Password has been reset')
         Router.push('/account/login')

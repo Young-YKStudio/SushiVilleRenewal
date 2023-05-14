@@ -10,6 +10,8 @@ import { compare } from 'bcrypt'
 export default NextAuth({
   providers: [
     GoogleProvider({
+      id: 'google',
+      name: 'Google',
       clientId: `${process.env.GOOGLE_CLIENT}`,
       clientSecret: `${process.env.GOOGLE_SECRET}`,
       authorization: {
@@ -71,12 +73,7 @@ export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async redirect({url, baseUrl}) {
-      if (url.startsWith('/')) {
-        return `${baseUrl}${url}`
-      } else if (new URL(url).origin === baseUrl) {
-        return url
-      }
       return baseUrl
-    }
+    },
   }
 })

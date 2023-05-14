@@ -127,7 +127,6 @@ const DashboardSettings = () => {
         }
       } catch (error) {
         dispatch(setLoadingOff())
-        console.log(error)
       }
     }
     getStatus()
