@@ -3,6 +3,8 @@ import axios from 'axios'
 
 export default function Home(props) {
 
+  console.log(props)
+
   return (
     <>
       <main>
@@ -12,7 +14,7 @@ export default function Home(props) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 
   const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
 
