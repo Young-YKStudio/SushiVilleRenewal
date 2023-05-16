@@ -848,9 +848,3 @@ const DashboardSettings = () => {
   );
 }
 export default DashboardSettings;
-
-// if auto,
-// chekck time -> determine store open/close
-// if manual 
-// get server status => determine store open/close
-// 

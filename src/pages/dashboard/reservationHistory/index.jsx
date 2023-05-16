@@ -216,13 +216,5 @@ export async function getServerSideProps() {
   if(request.data.success) {
     data = request.data.reservations
   }
-  if(data) {
-    return {props: {reservations: data}}
-  }
+  return {props: {reservations: data}}
 }
-
-// reserved name, contact, email, customer
-// reserve Date/Time
-// reservation status
-// total Party
-// comments

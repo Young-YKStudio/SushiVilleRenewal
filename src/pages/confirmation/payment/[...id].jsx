@@ -86,7 +86,5 @@ export async function getServerSideProps(context) {
     data = request.data.order
     data2 = request.data.items
   }
-  if(data) {
-    return {props: {id: id, order: data, items: data2 }}
-  }
+  return {props: {id: id, order: data, items: data2 }}
 }

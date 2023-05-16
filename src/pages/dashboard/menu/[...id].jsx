@@ -325,7 +325,5 @@ export async function getServerSideProps(context) {
   if(request.data.success) {
     data = request.data.menu
   }
-  if(data) {
-    return {props: {id: id, menu: data }}
-  }
+  return {props: {id: id, menu: data }}
 }

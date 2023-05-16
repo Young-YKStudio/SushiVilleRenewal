@@ -194,8 +194,3 @@ const Reservation = () => {
   );
 }
 export default Reservation;
-
-// Validate if logged in (from header)
-// set up forms
-// set up buttons
-// set up date modules

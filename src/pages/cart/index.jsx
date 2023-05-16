@@ -391,7 +391,5 @@ export async function getServerSideProps() {
   if(request.data.success) {
     data = request.data.data
   }
-  if(data) {
-    return {props: {supplements: data}}
-  }
+  return {props: {supplements: data}}
 }

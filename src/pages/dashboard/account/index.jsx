@@ -226,7 +226,5 @@ export async function getServerSideProps() {
   if(request.data.success) {
     data = request.data.accounts
   }
-  if(data) {
-    return {props: {accounts: data}}
-  }
+  return {props: {accounts: data}}
 }

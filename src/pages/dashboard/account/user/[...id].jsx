@@ -423,8 +423,7 @@ export async function getServerSideProps(context) {
   if(request.data.success) {
     data = request.data.account
   }
-  if(data) {
-    return {props: {id: id, user: data }}
-  }
+  return {props: {id: id, user: data }}
+
 }
 

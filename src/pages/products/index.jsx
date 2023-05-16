@@ -463,9 +463,7 @@ export async function getServerSideProps() {
   if(request.data.success) {
     data = request.data.menu
   }
-  if(data) {
-    return {props: {data}}
-  }
+  return {props: {data}}
 }
 
 export default DummyProducts;

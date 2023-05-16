@@ -297,7 +297,5 @@ export async function getServerSideProps(context) {
   if(request.data.success) {
     data = request.data.reservation
   }
-  if(data) {
-    return {props: {id: id, reservations: data }}
-  }
+  return {props: {id: id, reservations: data }}
 }

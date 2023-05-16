@@ -499,14 +499,12 @@ export default DashboardCoupons;
 
 export async function getServerSideProps() {
   // call API to get products
-  let promoCoupons = null
-  let accountCoupons = null
+  let promoCoupons = []
+  let accountCoupons = []
   const request = await axios.get(`${process.env.APP_URL}/api/coupon/getAllCoupons`)
   if(request.data.success) {
     promoCoupons = request.data.promoCoupons
     accountCoupons = request.data.accountCoupons
   }
-  if(promoCoupons.length >= 0 && accountCoupons.length >= 0) {
-    return {props: {promoCoupons: promoCoupons, accountCoupons: accountCoupons}}
-  }
+  return {props: {promoCoupons: promoCoupons, accountCoupons: accountCoupons}}
 }

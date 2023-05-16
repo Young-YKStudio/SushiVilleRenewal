@@ -771,9 +771,7 @@ export async function getServerSideProps(context) {
   if(request.data.success) {
     data = request.data.menu
   }
-  if(data) {
-    return {props: {id: id, product: data}}
-  }
+  return {props: {id: id, product: data}}
 }
 
 export default ProductPage ;
