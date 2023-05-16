@@ -28,7 +28,6 @@ const InformationSection = () => {
           className=""
         >
           <p>12pm ~ 9pm</p>
-          <p>12pm ~ 9:30pm on Friday and Saturday</p>
           <p>Closed at Tuesday.</p>
         </div>
       </div>

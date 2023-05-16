@@ -53,7 +53,7 @@ export const NewOrderPayAtResEmail = (username, orderNumber, orderDate, orderTot
           "
         >
           We've received you order and are working on to process it.<br />
-          Please allow us preperation time around 20-30 minutes. <br />
+          Please allow us preperation time around 20-40 minutes. <br />
           <span style="color: gray; font-style: italic; font-size: 0.85em;"
             >(longer time expected on busy hours)</span
           ><br /><br />
@@ -168,9 +168,9 @@ export const NewOrderPayAtResEmail = (username, orderNumber, orderDate, orderTot
           <br />
           Qeustions, comments, and support for Sushiville are available to
           <a
-            href="mailto: service@sushivilleny.com"
+            href="mailto: sushivilleny@gmail.com"
             style="text-decoration: none; color: #dc5a41;"
-            >service@sushivilleny.com</a
+            >sushivilleny@gmail.com</a
           >
         </p>
         <p></p>
@@ -353,9 +353,9 @@ export const NewOrderPayAtResEmailScheduled = (username, orderNumber, orderDate,
           <br />
           Qeustions, comments, and support for Sushiville are available to
           <a
-            href="mailto: service@sushivilleny.com"
+            href="mailto: sushivilleny@gmail.com"
             style="text-decoration: none; color: #dc5a41;"
-            >service@sushivilleny.com</a
+            >sushivilleny@gmail.com</a
           >
         </p>
         <p></p>
@@ -418,7 +418,7 @@ export const NewOrderOnlinePaymentEmail = (username, orderNumber, orderDate, ord
           "
         >
           We've received you order and are working on to process it.<br />
-          Please allow us preperation time around 20-30 minutes. <br />
+          Please allow us preperation time around 20-40 minutes. <br />
           <span style="color: gray; font-style: italic; font-size: 0.85em;"
             >(longer time expected on busy hours)</span
           ><br /><br />
@@ -533,9 +533,9 @@ export const NewOrderOnlinePaymentEmail = (username, orderNumber, orderDate, ord
           <br />
           Qeustions, comments, and support for Sushiville are available to
           <a
-            href="mailto: service@sushivilleny.com"
+            href="mailto: sushivilleny@gmail.com"
             style="text-decoration: none; color: #dc5a41;"
-            >service@sushivilleny.com</a
+            >sushivilleny@gmail.com</a
           >
         </p>
         <p></p>
@@ -718,9 +718,9 @@ export const NewOrderOnlinePaymentEmailScheduled = (username, orderNumber, order
           <br />
           Qeustions, comments, and support for Sushiville are available to
           <a
-            href="mailto: service@sushivilleny.com"
+            href="mailto: sushivilleny@gmail.com"
             style="text-decoration: none; color: #dc5a41;"
-            >service@sushivilleny.com</a
+            >sushivilleny@gmail.com</a
           >
         </p>
         <p></p>
@@ -896,9 +896,9 @@ export const ReadyOrderEmail = (username, orderNumber, orderDate, updateDate, or
           <br />
           Qeustions, comments, and support for Sushiville are available to
           <a
-            href="mailto: service@sushivilleny.com"
+            href="mailto: sushivilleny@gmail.com"
             style="text-decoration: none; color: #dc5a41;"
-            >service@sushivilleny.com</a
+            >sushivilleny@gmail.com</a
           >
         </p>
         <p></p>

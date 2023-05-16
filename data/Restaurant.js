@@ -5,6 +5,6 @@ export const RestaurntData = {
   lat: 41.15567709337682,
   lng: -74.19374803281572,
   contact: '(845) 712 - 5006',
-  email: 'info@sushivilleny.com'
+  email: 'sushivilleny@gmail.com'
 }
 

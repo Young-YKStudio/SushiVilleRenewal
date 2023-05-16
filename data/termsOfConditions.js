@@ -7,7 +7,7 @@ export const ConditionsOfUse = {
     },
     {
       name: 'Customer Service Contact',
-      text: 'For any questions or concerns, feel free to contact us at (845) 712-5006 or info@sushivilleny.com'
+      text: 'For any questions or concerns, feel free to contact us at (845) 712-5006 or sushivilleny@gmail.com'
     }
   ]
 }

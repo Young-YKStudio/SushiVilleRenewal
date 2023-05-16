@@ -3,7 +3,7 @@ import { ConditionsOfUse, PrivacyPolicy, Disclaimer } from "../../../data/termsO
 const PolicyAgreement = () => {
   return (
     <section
-      className="pt-24 bg-yellow-500 text-slate-800 flex flex-row justify-center"
+      className="pt-28 bg-yellow-500 text-slate-800 flex flex-row justify-center"
     >
       <div className="flex flex-col gap-4 px-12 max-w-[1080px]">
         <p className="text-3xl font-bold text-lime-800">Terms of Conditions</p>
@@ -98,7 +98,7 @@ const PolicyAgreement = () => {
         </div>
 
         {/* Disclaimer */}
-        <div className="mb-4">
+        <div className="mb-12">
           <p className="border-b border-lime-800 mb-4 text-2xl text-lime-800">Disclaimer</p>
           <p className="pl-4">{Disclaimer.text}</p>
         </div>

@@ -99,9 +99,9 @@ export const PromoCouponEmail = (couponCode, couponAmount) => {
         <br />
         Qeustions, comments, and support for Sushiville are available to
         <a
-          href="mailto: service@sushivilleny.com"
+          href="mailto: sushivilleny@gmail.com"
           style="text-decoration: none; color: #dc5a41;"
-          >service@sushivilleny.com</a
+          >sushivilleny@gmail.com</a
         >
       </p>
       <p></p>

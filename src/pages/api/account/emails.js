@@ -94,9 +94,9 @@ export const ForgotPasswordEmail = (resetUrl) => {
         <br />
         Qeustions, comments, and support for Sushiville are available to
         <a
-          href="mailto: service@sushivilleny.com"
+          href="mailto: sushivilleny@gmail.com"
           style="text-decoration: none; color: #dc5a41;"
-          >service@sushivilleny.com</a
+          >sushivilleny@gmail.com</a
         >
       </p>
       <p></p>
@@ -201,9 +201,9 @@ export const ResetPasswordEmail = (homeURL) => {
         <br />
         Qeustions, comments, and support for Sushiville are available to
         <a
-          href="mailto: service@sushivilleny.com"
+          href="mailto: sushivilleny@gmail.com"
           style="text-decoration: none; color: #dc5a41;"
-          >service@sushivilleny.com</a
+          >sushivilleny@gmail.com</a
         >
       </p>
     </div>
@@ -330,9 +330,9 @@ export const RegisterEmail = (username, email) => {
           <br />
           Qeustions, comments, and support for Sushiville are available to
           <a
-            href="mailto: service@sushivilleny.com"
+            href="mailto: sushivilleny@gmail.com"
             style="text-decoration: none; color: #dc5a41;"
-            >service@sushivilleny.com</a
+            >sushivilleny@gmail.com</a
           >
         </p>
       </div>

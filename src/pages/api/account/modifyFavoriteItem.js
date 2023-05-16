@@ -50,6 +50,8 @@ export default async function ModifyFavorteItem(req, res) {
     })
   }
 
+  console.log(foundUser)
+
   const addFavorite = async () => {
     // duplicates?
     foundUser.FavoriteItems.push(product)

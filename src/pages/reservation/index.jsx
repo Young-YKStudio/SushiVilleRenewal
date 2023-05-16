@@ -84,6 +84,10 @@ const Reservation = () => {
     if(!totalParty || totalParty === 0 || totalParty === '0') {
       return toast.warn('Please enter your number of party')
     }
+
+    if(totalParty <= 2) {
+      return toast.warn('Minimum party of member is 3 or more to make a reservation')
+    }
     
     if(!email) {
       return toast.warn('Please fill out your email')
@@ -139,8 +143,11 @@ const Reservation = () => {
       <div className="py-8 border-b border-lime-800 mb-8">
         <p className="font-bold text-2xl md:text-3xl md:text-center">Reservation</p>
       </div>
+      <div className='flex justify-center px-8'>
+        <p>We take reservations of 3 or more people.</p>
+      </div>
       <div
-        className='flex justify-center pt-8'
+        className='flex justify-center py-8'
       >
         <form
           className='bg-white/40 rounded-lg p-8 max-w-[40em] grid grid-cols-2 gap-4'

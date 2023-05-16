@@ -67,7 +67,7 @@ const ProductPage = (props) => {
     return () => {
       isMounted = false
     }
-  },[])
+  },[isFavorited])
 
   const qtySetter = (type) => {
     if (type === 'minus') {
@@ -560,7 +560,7 @@ const ProductPage = (props) => {
     
     // login Validation
     if(!localStorage.userId || localStorage.userId === 'null' || localStorage.userId === null) {
-      return Router.push('/account/login')
+      return 
     }
     
     let sendingData = {

@@ -5,6 +5,13 @@ import axios from 'axios'
 const checkSession = async (userData) => {
   const foundaccount = await axios.post('/api/account/findAccount', userData)
   if(foundaccount.data) {
+    if(!foundaccount.username) {
+      let sendingData = {
+        id: foundaccount.data.user._id,
+        username: userData.name
+      }
+      await axios.put('/api/account/customerUpdateAccount', sendingData)
+    }
     let savingData = {
       id: foundaccount.data.user._id,
       name: foundaccount.data.user.username,
@@ -20,6 +27,13 @@ const checkSession = async (userData) => {
 const checkSessionAgain = async (userData) => {
   const foundaccount = await axios.post('/api/account/findAccount', userData)
   if(foundaccount.data) {
+    if(!foundaccount.username) {
+      let sendingData = {
+        id: foundaccount.data.user._id,
+        username: userData.name
+      }
+      await axios.put('/api/account/customerUpdateAccount', sendingData)
+    }
     let savingData = {
       id: foundaccount.data.user._id,
       name: foundaccount.data.user.name,
