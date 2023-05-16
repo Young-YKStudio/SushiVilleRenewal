@@ -1,5 +1,5 @@
 import axios from 'axios'
-import PayAtRestaurantSection from './payAtRestaurant'
+import PayAtRestaurantSection from '../../components/confirmation/payAtRestaurant'
 
 const ConfirmationPage = (props) => {
 

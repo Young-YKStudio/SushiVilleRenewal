@@ -7,8 +7,6 @@ import { toast } from 'react-toastify'
 
 const PayAtRestaurantSection = ({orderData}) => {
 
-  console.log(orderData)
-
   let subtotal = orderData && orderData.order.orderTotal
   let addOnTotal = orderData && orderData.order.addOnTotal
   let taxRate = orderData && orderData.order.taxRate
