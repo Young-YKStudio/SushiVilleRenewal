@@ -21,7 +21,6 @@ export async function getServerSideProps() {
     data = request.data.menu
   }
 
-  if(data) {
-    return {props: {menu: data}}
-  }
+  return {props: {menu: data}}
+
 }
