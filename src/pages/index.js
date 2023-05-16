@@ -1,29 +1,34 @@
 import Landing from './landing/landing'
 import axios from 'axios'
+import { useState, useEffect } from 'react'
 
-export default function Home(props) {
+export default function Home() {
 
-  console.log(props)
+  const [ menu, setMenu ] = useState([])
+
+  useEffect(() => {
+    let isMounted = true
+
+    const requestAPI = async () => {
+      if(isMounted) {
+        try {
+          const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
+          if(request.data.success) {
+            setMenu(request.data.menu)
+          }
+        } catch (error) {
+          console.error('error fetching data', error)
+        }
+      }
+    }
+    requestAPI()
+  }, [])
 
   return (
     <>
       <main>
-        <Landing menu={props.menu} />
+        <Landing menu={menu} />
       </main>
     </>
   )
-}
-
-export async function getStaticProps() {
-
-  try {
-    let menu
-
-    const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
-    menu = request.data.menu
-    return {props: {menu: menu}}
-  } catch (error) {
-    console.error('Error at fetching data', error)
-  }
-
 }
