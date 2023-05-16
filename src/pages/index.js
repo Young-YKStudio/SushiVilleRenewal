@@ -17,9 +17,11 @@ export default function Home(props) {
 export async function getStaticProps() {
 
   try {
+    let menu
+
     const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
-  
-    return {props: {menu: request.data.menu}}
+    menu = request.data.menu
+    return {props: {menu: menu}}
   } catch (error) {
     console.error('Error at fetching data', error)
   }
