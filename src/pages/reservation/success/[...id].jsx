@@ -1,6 +1,6 @@
 import axios from 'axios'
 import GreetingSection from './greeting';
-import InfomationSection from './Infomation';
+import InfomationSection from '../../../components/reservation/success/Infomation';
 
 const SuccessPage = (props) => {
 
