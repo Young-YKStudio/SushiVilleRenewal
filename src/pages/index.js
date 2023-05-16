@@ -13,14 +13,9 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps() {
-  let data
 
   const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
 
-  if(request.data.success) {
-    data = request.data.menu
-  }
-
-  return {props: {menu: data}}
+  return {props: {menu: request.data.menu}}
 
 }
