@@ -62,7 +62,6 @@ export default NextAuth({
   pages: {
     signIn: '/account/login',
   },
-  debug: process.env.NODE_ENV === 'development',
   adapter: MongoDBAdapter(clientPromise),
   session: {
     strategy: 'jwt',

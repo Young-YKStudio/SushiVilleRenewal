@@ -26,7 +26,7 @@ const CheckOutSection = ({grandTotal, grandTotalWithoutOnline, addOnTotal, extra
 
     let isMounted = true
     const getUser = async () => {
-      if(isMounted && localStorage.userId) {
+      if(isMounted) {
         let sendingData = {
           id: localStorage.userId
         }
@@ -53,7 +53,7 @@ const CheckOutSection = ({grandTotal, grandTotalWithoutOnline, addOnTotal, extra
     return () => {
       isMounted = false
     }
-  },[localStorage, callUseEffect])
+  },[callUseEffect])
 
   function formatPhoneNumber(telNum) {
     if (!telNum) return telNum;

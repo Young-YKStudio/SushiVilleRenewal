@@ -3,6 +3,7 @@ import NextLink from 'next/link'
 import Router from 'next/router'
 import { useDispatch } from 'react-redux'
 import { setLoadingOn, setLoadingOff } from '../../../redux/cartSlice'
+import { toast } from 'react-toastify'
 
 const PayAtRestaurantSection = ({orderData}) => {
 
@@ -59,19 +60,19 @@ const PayAtRestaurantSection = ({orderData}) => {
           {/* Order Information - TOP */}
           <div>
             <div className="flex items-center justify-between text-normal mb-2">
-              <p>Order Number: <span className="font-bold ml-2">{orderData.order.orderCount}</span></p>
+              <p>Order Number: <span className="font-bold ml-2">{orderData && orderData.order.orderCount}</span></p>
               <p className="text-red-700">Pay at pickup</p>
             </div>
             <div className="flex flex-row flex-wrap items-center text-sm gap-2 border-b border-lime-800 pb-3 mb-4">
-              <p className=''>{orderData.order.customer.username}</p>
-              <p className="truncate">{orderData.order.customer.email}</p>
-              <p>{orderData.order.customer.contact}</p>
+              <p className=''>{orderData && orderData.order.customer.username}</p>
+              <p className="truncate">{orderData && orderData.order.customer.email}</p>
+              <p>{orderData && orderData.order.customer.contact}</p>
             </div>
           </div>
           <div className='flex flex-col md:flex-row md:justify-between'>
             {/* ordered items - LEFT */}
             <div className='text-sm md:w-1/2 pt-4'>
-              {orderData.items.map((item, index) => {
+              {orderData && orderData.items.map((item, index) => {
                 return <div
                   key={index}
                   className='pb-4'

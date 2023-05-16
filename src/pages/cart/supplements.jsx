@@ -38,7 +38,7 @@ const Supplements = ({supplements}) => {
               </h3>
               <Disclosure.Panel as="div" className="prose prose-sm">
                 <div className="bg-white/40 rounded-md p-8 flex flex-col gap-1 text-lime-800 mb-8">
-                  {supplements.map((item) => {
+                  {supplements && supplements.map((item) => {
                     if(item.category === 'Drink' && item.stock_availability) {
                       // price and add to cart button
                       return <div key={item._id} className="flex flex-row justify-between border-b border-lime-800 pb-1">
@@ -91,7 +91,7 @@ const Supplements = ({supplements}) => {
               </h3>
               <Disclosure.Panel as="div" className="prose prose-sm">
                 <div className="bg-white/40 rounded-md p-8 flex flex-col gap-1 text-lime-800 mb-8">
-                  {supplements.map((item) => {
+                  {supplements && supplements.map((item) => {
                     if(item.category === 'Sauce' && item.stock_availability) {
                       // price and add to cart button
                       return <div key={item._id} className="flex flex-row justify-between border-b border-lime-800 pb-1">
@@ -144,7 +144,7 @@ const Supplements = ({supplements}) => {
               </h3>
               <Disclosure.Panel as="div" className="prose prose-sm">
                 <div className="bg-white/40 rounded-md p-8 flex flex-col gap-1 text-lime-800 mb-8">
-                  {supplements.map((item) => {
+                  {supplements && supplements.map((item) => {
                     if(item.category === 'Bowl Rice' && item.stock_availability) {
                       return <div key={item._id} className="flex flex-row justify-between border-b border-lime-800 pb-1">
                         <div>
