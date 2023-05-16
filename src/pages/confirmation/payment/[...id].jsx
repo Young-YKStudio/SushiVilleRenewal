@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { setLoadingOn, setLoadingOff } from '../../../../redux/cartSlice';
 import { toast } from 'react-toastify';
-import CheckoutForm from './checkOutForm';
-import ItemList from './itemList';
+import CheckoutForm from '../../../components/confirmation/payment/checkOutForm';
+import ItemList from '../../../components/confirmation/payment/itemList';
 
 const stripePromise = loadStripe(process.env.APP_STRIPE_PUB_KEY)
 

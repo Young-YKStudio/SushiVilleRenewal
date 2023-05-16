@@ -1,6 +1,6 @@
 import axios from 'axios'
 import GreetingSection from './greeting';
-import InfomationSection from './information';
+import InfomationSection from '../../../components/order/success/information';
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { setLoadingOn, setLoadingOff } from '../../../../redux/cartSlice';
