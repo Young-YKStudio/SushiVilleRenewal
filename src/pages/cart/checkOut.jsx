@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setLoadingOn, setLoadingOff } from '../../../redux/cartSlice'
+import { setLoadingOn, setLoadingOff, cartReset } from '../../../redux/cartSlice'
 import { toast } from 'react-toastify'
 import { Disclosure, Switch } from '@headlessui/react'
 import NextLink from 'next/link'
@@ -28,7 +28,7 @@ const CheckOutSection = ({grandTotal, grandTotalWithoutOnline, addOnTotal, extra
     const getUser = async () => {
       if(isMounted) {
         let sendingData = {
-          id: localStorage.userId
+          id: localStorage && localStorage.userId
         }
         try {
           dispatch(setLoadingOn())
@@ -179,6 +179,7 @@ const CheckOutSection = ({grandTotal, grandTotalWithoutOnline, addOnTotal, extra
         }
       } catch (error) {
         dispatch(setLoadingOff())
+        console.log(error)
         toast.error('Error found on placing your order. Please try again later.')
       }
     }

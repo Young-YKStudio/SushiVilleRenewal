@@ -7,10 +7,12 @@ import { toast } from 'react-toastify'
 
 const PayAtRestaurantSection = ({orderData}) => {
 
-  let subtotal = orderData.order.orderTotal
-  let addOnTotal = orderData.order.addOnTotal
-  let taxRate = orderData.order.taxRate
-  let extraTotal = orderData.order.supplementTotal
+  console.log(orderData)
+
+  let subtotal = orderData && orderData.order.orderTotal
+  let addOnTotal = orderData && orderData.order.addOnTotal
+  let taxRate = orderData && orderData.order.taxRate
+  let extraTotal = orderData && orderData.order.supplementTotal
   let coupon = orderData.order.coupon ? orderData.order.coupon.amount : 0
   let taxEstimate = (subtotal + addOnTotal + extraTotal - coupon) * taxRate
   let grandTotal = (((subtotal + addOnTotal + extraTotal) - coupon) + (((subtotal + addOnTotal + extraTotal) - coupon) * taxRate))
@@ -19,7 +21,7 @@ const PayAtRestaurantSection = ({orderData}) => {
 
   const confirmButtonHandler = () => {
     let sendingData ={
-      id: orderData.order._id
+      id: orderData && orderData.order._id
     }
     const requestToAPI = async () => {
       try {
