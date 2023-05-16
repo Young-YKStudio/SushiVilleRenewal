@@ -14,10 +14,14 @@ export default function Home(props) {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
 
-  const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
-
-  return {props: {menu: request.data.menu}}
+  try {
+    const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
+  
+    return {props: {menu: request.data.menu}}
+  } catch (error) {
+    console.error('Error at fetching data', error)
+  }
 
 }
