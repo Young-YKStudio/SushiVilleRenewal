@@ -35,11 +35,16 @@ export default function Home(props) {
 }
 
 export async function getStatciProps() {
-  const result = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
-  const data = result.data
-  return {
-    props: {
-      data: data
+  try {
+    // const result = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
+    const result = await axios.get(`https://jsonplaceholder.typicode.com/todos/1`)
+    const data = await result.data.menu.json()
+    return {
+      props: {
+        data: data
+      }
     }
+  } catch (error) {
+    console.log(error, 'what??')
   }
 }
