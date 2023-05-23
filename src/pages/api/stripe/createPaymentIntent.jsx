@@ -1,5 +1,6 @@
 import dbConnect from '../../../../util/DBConnect'
 import NewOrder from '../../../../model/Order'
+import User from '../../../../model/User'
 
 const stripe = require('stripe')(process.env.APP_STRIPE_API_SEC)
 
@@ -22,7 +23,7 @@ export default async function CreatePaymentIntent(req, res) {
   let foundOrder
   
   try {
-    foundOrder = await NewOrder.findOne({_id: orderId })
+    foundOrder = await NewOrder.findOne({_id: orderId }).populate({'path': 'customer', model: User})
   } catch (error) {
     return res.status(400).json({
       success: false,
@@ -38,6 +39,8 @@ export default async function CreatePaymentIntent(req, res) {
   let paymentIntent = await stripe.paymentIntents.create({
     amount: formattedTotal,
     currency: 'usd',
+    description: foundOrder.orderCount,
+    customer: foundOrder.customer
   })
 
   if(!paymentIntent) {
