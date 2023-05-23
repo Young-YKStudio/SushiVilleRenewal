@@ -6,7 +6,7 @@ export default function Home(props) {
 
   const [ menu, setMenu ] = useState([])
 
-  console.log(props, prcess.env.APP_URL)
+  console.log(props, process.env.APP_URL)
   useEffect(() => {
     let isMounted = true
 
