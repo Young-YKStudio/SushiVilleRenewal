@@ -13,7 +13,7 @@ export default function Home(props) {
     const requestAPI = async () => {
       if(isMounted) {
         try {
-          const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`).then((response) => response.json()).then(response => setMenu(response.menu))
+          const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`).then(response => setMenu(response.data.menu))
           // const request = await axios.get(`${process.env.APP_URL}/api/menu/getAllMenu`)
           // console.log(request.json())
           // if(request.data.success) {
