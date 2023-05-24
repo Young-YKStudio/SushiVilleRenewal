@@ -39,8 +39,6 @@ export default async function CreatePaymentIntent(req, res) {
   let paymentIntent = await stripe.paymentIntents.create({
     amount: formattedTotal,
     currency: 'usd',
-    description: foundOrder.orderCount,
-    customer: foundOrder.customer
   })
 
   if(!paymentIntent) {
