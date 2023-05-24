@@ -32,6 +32,7 @@ const OrderPaymentOnline = (props) => {
           }
         } catch (error) {
           dispatch(setLoadingOff())
+          console.log(error)
           toast.error('Something went wrong. Please contact support or try again later.')
         }
       }
