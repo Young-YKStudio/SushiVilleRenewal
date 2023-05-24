@@ -25,7 +25,7 @@ const OrderPaymentOnline = (props) => {
       if(isMounted) {
         try {
           dispatch(setLoadingOn())
-          let request = await axios.post('/api/stripe/createPaymentIntent', sendingData)
+          let request = await axios.put('/api/stripe/createPaymentIntent', sendingData)
           if(request.data.success) {
             dispatch(setLoadingOff())
             setClientSecret(request.data.clientSecret)

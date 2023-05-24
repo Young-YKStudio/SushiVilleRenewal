@@ -5,7 +5,7 @@ import User from '../../../../model/User'
 const stripe = require('stripe')(process.env.APP_STRIPE_API_SEC)
 
 export default async function CreatePaymentIntent(req, res) {
-  if(req.method !== 'POST') {
+  if(req.method !== 'PUT') {
     return res.status(303).json({ error: 'reqeust is not POST' })
   }
   
