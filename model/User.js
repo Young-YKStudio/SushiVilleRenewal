@@ -33,7 +33,6 @@ const userSchema = new Schema(
     },
     id: String,
     address: String,
-    contact: String,
     Orders: [
       {
         type: mongoose.Schema.Types.ObjectId,

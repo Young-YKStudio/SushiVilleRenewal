@@ -4,6 +4,7 @@ import Router from 'next/router';
 import { useState, useEffect } from 'react'
 import { setLoadingOn, setLoadingOff } from '../../../../redux/cartSlice';
 import { toast } from 'react-toastify'
+import moment from 'moment-timezone'
 
 const DashboardOrderView = (props) => {
 
@@ -253,6 +254,8 @@ const DashboardOrderView = (props) => {
     }
   }
 
+  console.log(props)
+
   return (  
     <section
       className={styleDistributor(isVerticalMenuNarrow)}
@@ -270,6 +273,12 @@ const DashboardOrderView = (props) => {
           <p className='text-xs'>Order Number: <span className='text-lg font-bold tracking-wider ml-2'>{props.order.orderCount}</span></p>
           <p className='font-bold px-4 py-1 border-2 border-white rounded-full tracking-wider text-white'>{orderStatus}</p>
         </div>
+        {props.order.isScheduled &&
+          <div className='flex flex-row gap-4'>
+            <p>Order Scheduled:</p>
+            <p className='font-bold'>{moment(props.order.isScheduled).tz('America/New_York').format('LLL')}</p>
+          </div>
+        }
         <div className='text-xl font-bold py-4'>
           <p>Customer Information</p>
         </div>
