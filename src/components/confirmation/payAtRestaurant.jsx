@@ -51,8 +51,7 @@ const PayAtRestaurantSection = ({orderData}) => {
 
       <div className='mx-auto w-full max-w-3xl'>
         <div className='max-w-3xl my-16'>
-          <p className='text-3xl mb-2'>Thank you for placing your order.</p>
-          <p className='flex items-center text-lg'>Please confirm your order before we start cooking!</p>
+          <p className='text-3xl mb-2'>Please confirm your order before we start cooking!</p>
         </div>
 
         {/* Paper */}
